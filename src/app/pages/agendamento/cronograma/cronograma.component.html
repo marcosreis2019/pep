@@ -1,0 +1,58 @@
+<section class="cronograma">
+  <table class="table" *ngIf="!selectedVigencia">
+    <thead>
+      <tr>
+        <th scope="col">Local</th>
+        <th scope="col">Início</th>
+        <th scope="col">Fim</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="vigencia-item" *ngFor="let item of vigencia" (click)="selectVigencia(item)">
+        <td>
+          {{ item.local_razao_social }}
+        </td>
+        <td>{{ formatDate(item.dataInicio) }}</td>
+        <td>{{ formatDate(item.dataFim) }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="selectedVigencia">
+    <div>
+      <div class="vigencia-info">
+        <b>Período:</b>
+        &nbsp;
+        <span>{{ formatDate(selectedVigencia.dataInicio) }}</span>
+        até
+        <span>{{ formatDate(selectedVigencia.dataFim) }}</span>
+        <br />
+        <b>Local:</b>
+        &nbsp;
+        <span>{{ selectedVigencia.local_razao_social }}</span>
+      </div>
+      <div class="vigencia-actions">
+        <button class="btn btn-outline-secondary" (click)="clear()" title="Voltar">
+          Voltar
+        </button>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Dia da semana</th>
+          <th scope="col">Início</th>
+          <th scope="col">Fim</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of sortByDiaDaSemana(selectedVigencia.items)">
+          <td>
+            {{ formatWeekDay(item.dia_da_semana) }}
+          </td>
+          <td>{{ item.hora_inicio }}</td>
+          <td>{{ item.hora_fim }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

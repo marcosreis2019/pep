@@ -1,0 +1,9 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <h3>Contrarreferência</h3>
+  <hr>
+  <calendar formControlName="dataRealizacaoContraReferencia" placeholder="Data de realização*" min="true"></calendar>
+  <textarea type="text" placeholder="Descrição*" class="pep-text" formControlName="textoContraReferencia"></textarea>
+  <div class="btn-group d-flex justify-content-end">
+    <button class="btn-confirm yes" type="submit" [disabled]="form.invalid">Adicionar Contrarreferência</button>
+  </div>
+</form>

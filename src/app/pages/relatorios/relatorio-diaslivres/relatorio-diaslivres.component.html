@@ -1,0 +1,57 @@
+<menu-sidebar></menu-sidebar>
+<div class="main">
+  <div class="left">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container">
+          <a id="ribbon">Relatório</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="d-flex justify-content-center loading" *ngIf="loading">
+      <img src="assets/icons/spinner.svg" alt="" />
+    </div>
+    <form class="form-timeline-filter pep-input-group" *ngIf="!loading" [formGroup]="form">
+      <div class="block">
+        <h1 class="title">Dias livres para agendamento</h1>
+        <div class="inputs">
+          <div class="add-exame">
+            <calendar formControlName="dataInicio" placeholder="Data inicial" required></calendar>
+
+            <calendar formControlName="dataFim" placeholder="Data final" required></calendar>
+
+            <select
+              formControlName="local"
+              [(ngModel)]="localId"
+              [disabled]="!locaisList || (locaisList && locaisList.length <= 0)"
+            >
+              <option [selected]="true">
+                Selecione um local
+              </option>
+              <option [ngValue]="local.id" *ngFor="let local of locaisList">
+                {{ local.razao_social }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btns-group">
+          <button class="btn btn-primary" (click)="generateExcel()">
+            Gerar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ngb-alert class="toast-error" *ngIf="error" type="danger" (close)="resetToast()">
+  {{ error }}
+</ngb-alert>

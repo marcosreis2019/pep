@@ -1,0 +1,113 @@
+$theme: (
+  primary         : #0071fe,
+  success         : #7cd218,
+  success-disabled: #beccae,
+  warning         : #fdd21d,
+  danger          : #fd1d62,
+  gray            : rgb(128, 139, 168),
+  gray2           : #8798AD,
+  // contrast        : rgb(208, 220, 235), // TODO remove
+  contrast        : #F4F9FF,
+  condition       : #F99302,
+  light           : #fff,
+  dark            : #000,
+  soft-gray       : #F7F9FC,
+  border          : #DDE3FF
+);
+
+$backgrounds: (
+  block-conditions: #F4F9FF,
+  block-list      : #fff,
+);
+
+$light-style: (
+  color      : #808ba8,
+  input      : #9199BE,
+  placeholder: #A4AAC5,
+  background : #fff,
+  border     : #DDE3FF
+);
+
+$red-required: (
+  color      : #de3953,
+  input      : #de3953,
+  placeholder: #de3953,
+  background : #de3953,
+  border     : #de3953
+);
+
+$dark-style: (
+  color     : #fff,
+  border    : #fff
+);
+
+$tag-legends: (
+  one  : #18D2A0,
+  two  : #7CD218 ,
+  three: #FDD21D,
+  four : #FD841D,
+  five : #FD1D62,
+);
+
+$borders: (
+  primary: #F4F9FF
+);
+
+$soap: (
+  m: #ffaa7D,
+  s: #FF5F7D,
+  o: #F99302,
+  a: #00A6FE,
+  p: #54BB43
+);
+
+@each $name, $code in $theme {
+  .bg-#{$name + ''} {
+    background-color: $code;
+  }
+  .txt-#{$name + ''} {
+    color: $code;
+  }
+}
+
+@each $name, $code in $tag-legends {
+  .bg-#{$name + ''} {
+    background-color: $code;
+  }
+  .bo-#{$name + ''} {
+    border-color: $code;
+  }
+}
+
+@each $name, $code in $soap {
+  .bg-#{$name + ''} {
+    background-color: $code;
+  }
+  .contrast-#{$name+ ''} {
+    color: $code;
+  }
+}
+
+.fg-white {
+  color: white;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  color: map-get($light-style, color);
+}
+
+.txt-light {
+  color: #fff;
+}
+
+.txt-default {
+  color: map-get($light-style, color );
+}
+
+.bo-default {
+  border-color: map-get($light-style, color);
+}
+
+.bg-default {
+  background-color: map-get($light-style, color);
+}

@@ -1,0 +1,174 @@
+.menu {
+  height: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  color: #fff;
+  font-size: 30px;
+  letter-spacing: 10px;
+  margin: 0 !important;
+  font-family: WorkBold;
+}
+
+.left-info-user {
+  margin-left: -12px !important;
+}
+
+img {
+  box-sizing: border-box;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.bg-red {
+  background: #ff000091 !important;
+  color: #fff !important;
+}
+
+.info-user {
+  color: #3a75bf !important;
+  margin-left: -133px !important;
+}
+
+.min-width-title-user {
+  min-width: 176px !important;
+}
+
+.icon-menu {
+  margin-right: 1px;
+}
+
+.icon-submenu {
+  margin-right: 10px;
+  width: 12px;
+  text-align: right;
+}
+
+.submenu-title {
+  color: #fffefe !important;
+  background-color: #a4aac5a6 !important;
+  padding: 6px !important;
+  text-align: center !important;
+}
+
+.bg-light {
+  background-color: #3a75bf !important;
+  border-bottom: 2px solid #3a75bf !important;
+}
+
+.dropdown-toggle-ellipsis::before {
+  display: inline-block;
+  padding: 0.5rem;
+  font: normal normal normal 14px/1 FontAwesome;
+  content: '\f142';
+}
+
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: #3b8ba5;
+  font-weight: bolder;
+  font-family: WorkBold;
+  user-select: none;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: rgb(175, 204, 207);
+  font-weight: bolder;
+  font-family: WorkBold;
+  user-select: none;
+  cursor: pointer;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: #fff;
+  font-weight: bolder;
+  font-family: WorkBold;
+  user-select: none;
+}
+
+.dropdown-toggle {
+  z-index: 2;
+  display: block;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  position: absolute;
+  margin-left: -30px;
+  color: white !important;
+  background: #fff;
+  border: 2px outset #3a75bf;
+}
+
+.dropdown-item:not(.bg-red) {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  text-align: left;
+  background-color: transparent;
+  border: 0;
+  color: #0660d2d9 !important;
+  font-weight: bold;
+  user-select: none;
+}
+
+.dropdown-item:hover:not(.nav-no-link) {
+  text-align: inherit !important;
+  background-color: #3a75bf !important;
+  color: #fff !important;
+}
+
+@media (min-width: 992px) {
+  .animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    -webkit-transform: transform;
+    -webkit-opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    -webkit-opacity: 1;
+  }
+  0% {
+    -webkit-transform: translateY(1rem);
+    -webkit-opacity: 0;
+  }
+}
+
+.slideIn {
+  -webkit-animation-name: slideIn;
+  animation-name: slideIn;
+}

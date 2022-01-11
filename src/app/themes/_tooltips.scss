@@ -1,0 +1,24 @@
+@import "src/app/themes/colors";
+
+$error  : map-get($theme, danger);
+$success: map-get($theme, success);
+
+.tooltip-error {
+  .tooltip-inner {
+    background-color: $error
+  }
+
+  .arrow::before {
+    border-right-color: $error;
+  }
+}
+
+.tooltip-success {
+  .tooltip-inner {
+    background-color: $success;
+  }
+
+  .arrow::before {
+    border-right-color: $success;
+  }
+}

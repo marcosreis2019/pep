@@ -1,0 +1,226 @@
+<article
+  class="box"
+  #tooltip="ngbTooltip"
+  [ngbTooltip]="tooltipContent"
+  triggers="manual"
+  placement="right"
+  [tooltipClass]="notificationClass"
+>
+  <!-- popover header -->
+  <section class="header">
+    <div class="d-flex header-box" #titleElem *ngIf="!searchEnabled; else searchbar">
+      <div class="title">
+        <h3>{{ descricao }}</h3>
+      </div>
+
+      <div class="d-flex actions" *ngIf="!errorMessage && acoes">
+        <button class="btn-pep" (click)="add()">
+          <label>Adicionar</label>
+          <i>
+            <img src="assets/icons/add.svg" alt="" />
+          </i>
+        </button>
+
+        <button (click)="enableSearch()" class="btn-pep">
+          <label>Buscar</label>
+          <i>
+            <img src="assets/icons/search.svg" alt="" />
+          </i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- popover body -->
+  <section class="content" *ngIf="list; else spinner">
+    <div *ngFor="let item of list | slice: 0:limit">
+      <button
+        class="btn-item"
+        [ngClass]="{ confirmed: item.confirmado }"
+        (click)="openPopover(p1, item)"
+        [autoClose]="'outside'"
+        [ngbPopover]="popContent"
+        triggers="manual"
+        #p1="ngbPopover"
+        placement="right"
+      >
+        <label>{{ item[info.label] }}</label>
+        <img *ngIf="!item.confirmado" src="assets/icons/more.svg" alt="" />
+        <img *ngIf="item.confirmado" src="assets/icons/more-confirmed.svg" alt="" />
+      </button>
+
+      <ng-container *ngIf="!searchEnabled && !errorMessage && list.length === 0">
+        <p class="fs-text">Sem {{ label }} até o momento</p>
+      </ng-container>
+
+      <ng-container *ngIf="searchEnabled && list.length === 0">
+        <p class="fs-text">
+          Nenhum resultado encontrado
+        </p>
+      </ng-container>
+    </div>
+  </section>
+
+  <div *ngIf="errorMessage" class="warning">
+    <img src="assets/icons/warning-2.svg" alt="" class="warning" />
+    <p class="fs-text">{{ errorMessage }}</p>
+    <button class="btn-pep" (click)="reload()">
+      <label>Tentar novamente</label>
+    </button>
+  </div>
+
+  <section class="d-flex justify-content-center footer">
+    <button *ngIf="list && list.length > limit" (click)="showMore()" class="show">
+      <img src="assets/icons/arrow-down-round-color.svg" alt="" />
+    </button>
+    <button *ngIf="list && list.length <= limit && limit !== 5" (click)="showLess()">
+      <img src="assets/icons/arrow-down-up-color.svg" alt="" />
+    </button>
+  </section>
+</article>
+
+<!-- loading spinner -->
+<ng-template #spinner>
+  <div class="d-flex justify-content-center loading">
+    <img src="assets/icons/spinner.svg" alt="" />
+  </div>
+</ng-template>
+
+<!-- barra de pesquisa -->
+<ng-template class="d-flex" #searchbar>
+  <section class="search">
+    <input
+      #searchInp
+      type="text"
+      placeholder="Buscar"
+      [(ngModel)]="key"
+      (ngModelChange)="search(key)"
+      (blur)="disableSearch()"
+      (keyup.enter)="search(key)"
+    />
+    <div class="btn-group">
+      <button *ngIf="key; else cancel" (click)="clear()">
+        <i>
+          <img src="assets/icons/close-2.svg" alt="" />
+        </i>
+      </button>
+      <ng-template #cancel>
+        <button class="btn-pep" (click)="disableSearch()">
+          <i class="fas fa-ban mr-1"></i>
+          Cancelar
+        </button>
+      </ng-template>
+    </div>
+  </section>
+</ng-template>
+
+<!-- notificacoes -->
+<ng-template #tooltipContent>
+  <p *ngIf="notification" class="txt-light">{{ notification }}</p>
+</ng-template>
+
+<!-- popover com detalhes do item selecionado -->
+<ng-template #popContent>
+  <article class="pop-content">
+    <section class="header">
+      <h5>Opções</h5>
+    </section>
+    <hr class="line" />
+
+    <!-- condição de saúde -->
+    <section class="content">
+      <ng-container *ngIf="selectedItem?.condicao">
+        <div class="info">
+          <p class="mb-10">
+            {{ selectedItem.condicao }}
+          </p>
+        </div>
+
+        <div>
+          <label class="custom-check">
+            <span class="check-label txt-default">Foi confirmada?</span>
+            <input
+              type="checkbox"
+              [(ngModel)]="selectedItem.confirmado"
+              (ngModelChange)="confirmCondition(selectedItem)"
+            />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </ng-container>
+
+      <!-- medicamentos -->
+      <ng-container *ngIf="selectedItem?.principio_ativo">
+        <div class="info">
+          <p class="mb-10">
+            {{ selectedItem.principio_ativo }}
+          </p>
+          <p class="mb-10">
+            Dosagem:
+            {{ selectedItem.dosagem }}
+          </p>
+          <p class="mb-10" *ngIf="selectedItem?.uso_continuo">
+            De uso contínuo
+          </p>
+          <p class="mb-10" *ngIf="selectedItem?.obs">
+            Observações:
+            {{ selectedItem?.obs }}
+          </p>
+        </div>
+      </ng-container>
+
+      <!-- alergias -->
+      <ng-container *ngIf="selectedItem?.agente">
+        <div class="info">
+          <p class="mb-10">
+            {{ selectedItem.agente }}
+          </p>
+          <p class="mb-10">
+            {{ selectedItem.tipo }}
+          </p>
+          <p class="mb-10" *ngIf="selectedItem?.notas">
+            Observações:
+            {{ selectedItem?.notas }}
+          </p>
+        </div>
+      </ng-container>
+    </section>
+
+    <!-- footer - buttons cancel / edit / remove -->
+    <section class="btn-pop-group" *ngIf="acoes">
+      <button class="btn-pep btn-choose" (click)="closePopover()">
+        <i class="fas fa-ban mr-1"></i>
+        Cancelar
+      </button>
+      <button
+        class="btn-pep btn-choose"
+        *ngIf="selectedItem?.principio_ativo"
+        (click)="openPopover(p2, selectedItem)"
+        [ngbPopover]="editMedicationForm"
+        [autoClose]="'outside'"
+        triggers="manual"
+        popoverClass="edit-medication-form"
+        #p2="ngbPopover"
+        placement="right"
+      >
+        <i class="fas fa-pencil-alt mr-1"></i>
+        Editar
+      </button>
+      <button class="btn-pep btn-choose remove" (click)="remove(selectedItem)" type="submit">
+        <i class="fas fa-trash-alt mr-1"></i>
+        Remover
+      </button>
+    </section>
+  </article>
+</ng-template>
+
+<!-- popover para editar medicamento -->
+<ng-template #editMedicationForm>
+  <section class="pop-content">
+    <form-medicamento
+      [medication]="selectedItem"
+      (cancel)="closePopover()"
+      (edit)="editMedication($event)"
+    ></form-medicamento>
+  </section>
+</ng-template>

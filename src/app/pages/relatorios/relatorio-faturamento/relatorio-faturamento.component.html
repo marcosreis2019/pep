@@ -1,0 +1,240 @@
+<menu-sidebar></menu-sidebar>
+<div class="main">
+  <div class="left">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container">
+          <a id="ribbon">Relatório</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <form class="pep-input-group" [formGroup]="form">
+      <div class="block">
+        <h1 class="title">Faturamento</h1>
+        <br />
+        <div class="inputs">
+          <div>
+            <div class="row">
+              <div class="col-6">
+                <calendar
+                  type="text"
+                  formControlName="data_inicio"
+                  placeholder="Data inicial"
+                  max="true"
+                  required
+                ></calendar>
+              </div>
+              <div class="col-6">
+                <calendar
+                  type="text"
+                  formControlName="data_fim"
+                  placeholder="Data final"
+                  max="true"
+                  required
+                ></calendar>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="label-float">
+                  <input
+                    formControlName="versao"
+                    type="text"
+                    placeholder=""
+                    maxlength="20"
+                    max="true"
+                    required
+                  />
+                  <label>Versão</label>
+                </div>
+                <max-count [value]="form.get('versao').value?.length" [max]="20"></max-count>
+              </div>
+              <div class="col-md-6">
+                <div class="floating-label">
+                  <select
+                    class="floating-select"
+                    formControlName="op"
+                    required
+                    (change)="onChange()"
+                  >
+                    <option value=""></option>
+                    <option *ngFor="let item of listOperadoras; let i = index" [ngValue]="item">
+                      {{ item.descricao }}
+                    </option>
+                  </select>
+                  <label>Selecione uma operadora</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="label-float">
+                  <input
+                    type="text"
+                    formControlName="ans_operadora"
+                    maxlength="6"
+                    type="text"
+                    placeholder=" "
+                    max="true"
+                    required
+                  />
+                  <label>ANS Operadora</label>
+                </div>
+                <max-count [value]="form.get('ans_operadora').value?.length" [max]="6"></max-count>
+              </div>
+              <div class="col-md-6">
+                <div class="floating-label">
+                  <select class="floating-select" formControlName="classificacao">
+                    <option value="0"></option>
+                    <option
+                      *ngFor="let item of listClassificacao; let i = index"
+                      [ngValue]="item.id"
+                    >
+                      {{ item.descricao }}
+                    </option>
+                  </select>
+                  <label>Selecione uma classificação</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="label-float">
+                  <input
+                    type="text"
+                    formControlName="codigo_procedimento_medico"
+                    maxlength="10"
+                    type="text"
+                    placeholder=" "
+                    max="true"
+                    required
+                  />
+                  <label>Código do Procedimento Médico</label>
+                </div>
+                <max-count
+                  [value]="form.get('codigo_procedimento_medico').value?.length"
+                  [max]="10"
+                ></max-count>
+              </div>
+              <div class="col-6">
+                <div class="label-float">
+                  <input
+                    type="text"
+                    formControlName="valor_procedimento_medico"
+                    maxlength="6"
+                    type="text"
+                    placeholder=" "
+                    max="true"
+                    required
+                  />
+                  <label>Valor do Procedimento Médico</label>
+                </div>
+                <max-count
+                  [value]="form.get('valor_procedimento_medico').value?.length"
+                  [max]="6"
+                ></max-count>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="label-float">
+                  <input
+                    type="text"
+                    formControlName="codigo_procedimento_enfermeiro"
+                    maxlength="10"
+                    type="text"
+                    placeholder=" "
+                    max="true"
+                    required
+                  />
+                  <label>Código do Procedimento Enfermeiro</label>
+                </div>
+                <max-count
+                  [value]="form.get('codigo_procedimento_enfermeiro').value?.length"
+                  [max]="10"
+                ></max-count>
+              </div>
+              <div class="col-6">
+                <div class="label-float">
+                  <input
+                    type="text"
+                    formControlName="valor_procedimento_enfermeiro"
+                    maxlength="6"
+                    type="text"
+                    placeholder=" "
+                    max="true"
+                    required
+                  />
+                  <label>Valor do Procedimento Enfermeiro</label>
+                </div>
+                <max-count
+                  [value]="form.get('valor_procedimento_enfermeiro').value?.length"
+                  [max]="6"
+                ></max-count>
+              </div>
+            </div>
+
+            <div clas="row">
+              <div class="col-12">
+                <input
+                  style="min-width: 100%;"
+                  type="text"
+                  placeholder="Digite o nome do profissional"
+                  [ngbTypeahead]="searchProfissional"
+                  [resultTemplate]="rt"
+                  [inputFormatter]="formatterProfissional"
+                  (selectItem)="selectProfissional($event)"
+                  #instance="ngbTypeahead"
+                />
+
+                <div class="d-flex justify-content-center loading" *ngIf="loadingSearch">
+                  <img src="assets/icons/spinner.svg" alt="" />
+                </div>
+
+                <ng-template #rt let-r="result" let-t="term">
+                  <ngb-highlight [result]="formatterProfissional(r)" [term]="t"></ngb-highlight>
+                </ng-template>
+              </div>
+              <div class="col-12">
+                  <ng-multiselect-dropdown
+                    [disabled]="(!locaisList || (locaisList && locaisList.length <= 0))"
+                    formControlName="locais"
+                    [placeholder]="'Selecione um ou mais locais'"
+                    [data]="locaisList"
+                    [(ngModel)]="selectedItems"
+                    [settings]="dropdownSettings"
+                  >
+                  </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+          <div *ngIf="!loading" class="btns-group">
+            <button
+              [disabled]="!form.valid"
+              class="btn btn-primary"
+              (click)="gerarXmlFaturamento()"
+            >
+              Gerar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ngb-alert class="toast-error" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>

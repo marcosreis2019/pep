@@ -1,0 +1,28 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+p {
+  padding: 5px;
+}
+
+table {
+  * {
+    padding: 5px;
+    border: 1px solid map-get($theme, gray);
+  }
+  th {
+    background: map-get($theme, gray);
+  }
+  width: 100%;
+
+  med-description {
+    width: 60%;
+  }
+  med-ammount {
+    text-align: center;
+    width: 10%;
+  }
+  med-manufactor {
+    width: 30%;
+  }
+}

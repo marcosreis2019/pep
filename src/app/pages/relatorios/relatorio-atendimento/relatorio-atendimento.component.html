@@ -1,0 +1,67 @@
+<menu-sidebar></menu-sidebar>
+<div class="main">
+  <div class="left">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container">
+          <a id="ribbon">Relatório</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="d-flex justify-content-center loading" *ngIf="loading">
+      <img src="assets/icons/spinner.svg" alt="" />
+    </div>
+    <form class="form-timeline-filter pep-input-group" *ngIf="!loading" [formGroup]="form">
+      <div class="block">
+        <h1 class="title">Atendimentos</h1>
+        <div class="inputs">
+          <span style="color: red;">{{ msgDataInvalida }}</span>
+          <div class="add-exame">
+            <h3>Filtros</h3>
+
+            <calendar
+              formControlName="dataInicio"
+              placeholder="Data inicial"
+              max="true"
+              required
+            ></calendar>
+
+            <calendar
+              formControlName="dataFim"
+              placeholder="Data final"
+              max="true"
+              required
+            ></calendar>
+
+            <ng-multiselect-dropdown
+              [disabled]="!locaisList || (locaisList && locaisList.length <= 0)"
+              formControlName="locais"
+              [placeholder]="'Selecione um ou mais locais'"
+              [data]="locaisList"
+              [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings"
+              title="Caso não selecionar locais de atendimento, será considerado todos"
+            ></ng-multiselect-dropdown>
+          </div>
+        </div>
+
+        <div class="btns-group">
+          <button [disabled]="!form.valid" class="btn btn-primary" (click)="generateExcel()">
+            Gerar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ngb-alert class="toast-error" *ngIf="error" type="danger" (close)="resetToast()">
+  {{ error }}
+</ngb-alert>

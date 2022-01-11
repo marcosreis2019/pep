@@ -1,0 +1,174 @@
+options:
+  max-time: 10 #timeout
+definitions: #for documentation, search about "YAML anchors"
+  steps:
+    #build application
+    - step: &build-tst
+        name: Build app for tst
+        image: node:14.4.0
+        caches:
+          - node
+        script:
+          - node --version
+          - npm --version
+          - npm install -g @angular/cli -y
+          - npm install -y
+          - npm run buildtst
+        artifacts:
+          - dist/**
+
+    - step: &build-hml
+        name: Build app for hml
+        image: node:14.4.0
+        caches:
+          - node
+        script:
+          - node --version
+          - npm --version
+          - npm install -g @angular/cli -y
+          - npm install -y
+          - npm run buildhml
+        artifacts:
+          - dist/**
+
+    - step: &build-prod
+        name: Build app for prod
+        image: node:14.4.0
+        caches:
+          - node
+        script:
+          - node --version
+          - npm --version
+          - npm install -g @angular/cli -y
+          - npm install -y
+          - npm run buildprod
+        artifacts:
+          - dist/**
+
+    # Create a docker container
+    - step: &docker-build
+        name: Docker build
+        script:
+          - source ./automation/scripts.sh && docker_build ${BITBUCKET_BRANCH}.${BITBUCKET_BUILD_NUMBER}
+        services:
+          - docker
+
+    #docker build when the test branch receives a merge merge to test branch
+    - step: &merge-to-test
+        name: Merge to test branch
+        script:
+          - source ./automation/scripts.sh && git_merge
+
+    # generate a git tag
+    - step: &create-tag-prod
+        name: Create git tag
+        script:
+          # fetch release version
+          - source ./automation/scripts.sh && get_version
+          # docker login
+          - source ./automation/scripts.sh && docker_build ${VERSION}
+          # generate tag at next deployments
+          - git tag -a ${VERSION} -m "Automatically generated ${VERSION}"
+          - git push origin ${VERSION}
+        services:
+          - docker
+
+    - step: &create-tag-hml
+        name: Create git tag
+        script:
+          # fetch release version
+          - source ./automation/scripts.sh && get_version
+          # docker login
+          - source ./automation/scripts.sh && docker_build ${VERSION}-hml
+          # generate tag at next deployments
+          - git tag -a ${VERSION}-hml -m "Automatically generated ${VERSION}-hml"
+          - git push origin ${VERSION}-hml
+        services:
+          - docker
+
+    # manual deploy, for the tester
+    - step: &deploy
+        name: Deploy in test
+        deployment: test
+        trigger: manual
+        script:
+          - source ./automation/scripts.sh && deploy
+          - cat ./deploy.sh
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              SSH_USER: ${SSH_USER}
+              SERVER: ${SERVER_ADDRESS}
+              MODE: 'script'
+              COMMAND: './deploy.sh'
+
+    - step: &deploy_hml
+        name: Deploy in hml
+        deployment: hml
+        trigger: manual
+        script:
+          - source ./automation/scripts.sh && deploy
+          - cat ./deploy.sh
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              SSH_USER: ${SSH_USER}
+              SERVER: ${SERVER_ADDRESS}
+              MODE: 'script'
+              COMMAND: './deploy.sh'
+
+    - step: &deploy_prod
+        name: Deploy in Prod
+        deployment: Production
+        trigger: manual
+        script:
+          - source ./automation/scripts.sh && deploy_prod
+          - cat ./deploy.sh
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              SSH_USER: ${SSH_USER}
+              SERVER: ${SERVER_ADDRESS}
+              MODE: 'script'
+              COMMAND: './deploy.sh'
+
+    - step: &unit-test
+        name: unit test
+        image: node:14.4.0
+        caches:
+          - node
+        script:
+          - node --version
+          - npm --version
+          - if [ $(ls -1 ../cache/node | wc -l) -eq 0 ]; then npm i; fi
+          - npm run test
+
+pipelines:
+  pull-requests:
+    'PEP-*':
+      - step: *merge-to-test
+
+    'RES-*':
+      - step: *merge-to-test
+
+  branches:
+    'test':
+      - step: *build-tst
+      - step: *docker-build
+      - step: *deploy
+
+    'hml':
+      - step: *build-hml
+      - step: *docker-build
+      - step: *deploy_hml
+
+    'hotfix-hml*':
+      - step: *build-hml
+      - step: *create-tag-hml
+      - step: *deploy_hml
+
+    'master':
+      - step: *build-prod
+      - step: *create-tag-prod
+      - step: *deploy_prod
+
+    'hotfix-prod*':
+      - step: *build-prod
+      - step: *create-tag-prod

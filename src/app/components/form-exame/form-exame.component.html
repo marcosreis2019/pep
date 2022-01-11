@@ -1,0 +1,32 @@
+<form [formGroup]="form">
+  <!-- <h3>Adicionar referência</h3> -->
+
+  <input
+    type="text"
+    placeholder="Digite o exame aqui..."
+    class="pep-input"
+    formControlName="exame"
+    (keyup.enter)="addExame()"
+  />
+
+  <textarea
+    *ngIf="tipoExame === 'imagem'"
+    formControlName="observations"
+    name="exam-notes"
+    id="exam-notes"
+    rows="2"
+    cols="30"
+    tabindex=""
+  ></textarea>
+
+  <div class="btn-group d-flex justify-content-end">
+    <button
+      class="btn btn-primary green"
+      (click)="addExame()"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Adicionar
+    </button>
+  </div>
+</form>

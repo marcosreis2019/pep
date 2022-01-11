@@ -1,0 +1,76 @@
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+input:not([type='textarea']) {
+  min-height: 35px;
+}
+
+input[type='textarea'] {
+  min-height: 70px;
+}
+
+.pep-input {
+  border       : 2px solid map-get($light-style, border);
+  border-radius: 8px;
+  color        : map-get($light-style, input);
+  font-family  : LatoRegular;
+  font-size    : 16px; 
+  margin-bottom: 10px;
+  padding      : 0 10px;
+  width        : 100%;
+  box-sizing: border-box;
+  height: 32px;
+  background-color: map-get($light-style, background);
+  
+  &::placeholder {
+    color: map-get($light-style, placeholder);
+    font-family: LatoRegular;
+  }
+}
+
+.pep-text {
+  border       : 2px solid map-get($light-style, border);
+  border-radius: 8px;
+  color        : map-get($light-style, input);
+  font-family  : LatoRegular;
+  font-size    : 16px; 
+  margin-bottom: 10px;
+  padding      : 0 10px;
+  width        : 100%;
+  box-sizing   : border-box;
+  height       : 90px;
+  background-color: map-get($light-style, background);
+  resize: none;
+  
+  &::placeholder {
+    color: map-get($light-style, placeholder);
+    font-family: LatoThin;
+  }
+}
+
+.pep-input-group {
+  padding: 20px;
+
+  input:not([type='checkbox']), textarea, select {
+    @extend .pep-input;
+  
+    .confirm {
+      label {margin-right: 10px;}  
+    }
+  }
+
+  select {
+    height: 32px;
+    background-color: map-get($light-style, background);
+  }
+
+  textarea {
+    padding-top   : 5px;
+    padding-bottom: 5px;
+    resize        : none;
+  }
+}

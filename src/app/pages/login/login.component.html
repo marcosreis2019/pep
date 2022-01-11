@@ -1,0 +1,59 @@
+<div class="main">
+  <div class="left">
+    <img class="pep-login-img" src="assets/imgs/fg-login.svg" alt="" />
+  </div>
+  <div class="content">
+    <ng-container [ngSwitch]="state">
+      <div *ngSwitchCase="'login'">
+        <form class="block" style="position: relative;" [formGroup]="formLogin">
+          <h1 class="pep-title no-selection">PEP</h1>
+          <p class="pep-subtitle no-selection">Bem vindo, faça login para continuar.</p>
+
+          <div class="inputs">
+            <input id="usuario" type="text" placeholder="Usuário" formControlName="usuario" />
+            <input
+              id="current-password"
+              type="password"
+              placeholder="Senha"
+              formControlName="senha"
+            />
+          </div>
+
+          <div class="inputs mr-5 ml-5">
+            <button class="btn btn-primary" id="login-button" (click)="login()">Login</button>
+          </div>
+          <br />
+          <div class="versao-login">
+            <span class="no-selection">Versão:</span>
+            <versao-pep></versao-pep>
+          </div>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'first'">
+        <form class="block" [formGroup]="formFirst">
+          <h1 class="pep-first-title">PEP</h1>
+          <p>Este é o seu primeiro acesso, cadastre uma nova senha</p>
+
+          <div class="inputs">
+            <input type="password" formControlName="pass" placeholder="Nova senha" />
+            <input
+              type="password"
+              formControlName="confirm"
+              placeholder="Confirme sua nova senha"
+            />
+          </div>
+          <div class="btns-group">
+            <button (click)="changePassword()">Atualizar senha</button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'loading'">
+        <div class="loading">
+          <img src="assets/icons/spinner.svg" alt="" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

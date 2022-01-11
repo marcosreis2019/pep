@@ -1,0 +1,39 @@
+@import 'src/app/themes/blocks';
+@import 'src/app/themes/colors';
+
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  @include block-changeable-header;
+}
+
+.condition {
+  height: 100%;
+}
+
+.changeable {
+  height: 100%;
+  max-height: calc(
+    100% - 80px
+  ); // NOTE responsável por limitar o tamalho deste campo
+}
+
+.changeable-container {
+  display: flex;
+  height: 100%;
+  padding: 10px;
+}
+
+.loading {
+  height         : 100%;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  img {
+    height: 100px;
+  }
+}

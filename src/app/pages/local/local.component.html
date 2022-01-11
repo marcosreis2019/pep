@@ -1,0 +1,246 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left">
+        <h2>Locais</h2>
+      </div>
+      <div class="float-right">
+        <button (click)="reset()" title="Novo local">
+          <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+        </button>
+      </div>
+      <div class="searchbar">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <input
+          type="text"
+          placeholder="Buscar e filtrar local"
+          [(ngModel)]="search"
+          (ngModelChange)="change(search)"
+        />
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of listLocal; let i = index"
+        (click)="selectLocal(item)"
+      >
+        <div class="info">
+          <h3>{{ item.razao_social }}</h3>
+        </div>
+        <div class="secondary-info">
+          <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+          <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+        </div>
+      </div>
+      <img *ngIf="loadingListLocal" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <div class="pep-center content-container">
+    <div class="content">
+      <div class="block">
+        <div class="content-title">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="inputs">
+          <div class="card">
+            <div class="row">
+              <div class="col-6">
+                <label>CNPJ</label>
+                <input id="cnpj" [(ngModel)]="local.cnpj" type="text" maxlength="18" mask="cnpj" />
+              </div>
+              <div class="col-3">
+                <label>Duração da consulta (minutos)</label>
+                <input id="duracao_consulta" [(ngModel)]="local.duracao_consulta" type="number" />
+              </div>
+              <div class="col-3">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="local.ativo" />
+                  Ativo
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label>Razão Social</label>
+                <input
+                  id="razao_social"
+                  [(ngModel)]="local.razao_social"
+                  type="text"
+                  maxlength="100"
+                />
+              </div>
+              <div class="col-6">
+                <label>CNES</label>
+                <input id="cnes" [(ngModel)]="local.cnes" type="number" maxlength="20" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <label>CEP</label>
+                <input id="cep" [(ngModel)]="local.cep" type="text" maxlength="10" mask="cep" />
+              </div>
+              <div class="col-6">
+                <label>Logradouro</label>
+                <input id="logradouro" [(ngModel)]="local.logradouro" type="text" maxlength="250" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label>Número</label>
+                <input id="numero" [(ngModel)]="local.numero" type="number" maxlength="10" />
+              </div>
+              <div class="col-6">
+                <label>Bairro</label>
+                <input id="bairro" [(ngModel)]="local.bairro" type="text" maxlength="80" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <label>Estado</label>
+                <br />
+                <select
+                  class="floating-select padronizacao"
+                  [(ngModel)]="estadoSelected"
+                  (change)="loadCidades()"
+                >
+                  <option value="null">Selecione um Estado</option>
+                  <option *ngFor="let estado of listEstado" [ngValue]="estado">
+                    {{ estado }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label>Cidade</label>
+                <br />
+                <select class="floating-select padronizacao" [(ngModel)]="local.municipio_id">
+                  <option value="null">Selecione uma Cidade</option>
+                  <option *ngFor="let cidade of listCidades" [ngValue]="cidade.id">
+                    {{ cidade.nome }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-6 alinha-combo">
+                <label>Tipos de serviço</label>
+                <br />
+                <ng-multiselect-dropdown
+                  class="ajuste-width"
+                  [placeholder]="'Selecione um ou mais tipos de serviço'"
+                  [data]="listTiposServico"
+                  [(ngModel)]="selectedTiposServico"
+                  [settings]="dropdownSettings"
+                ></ng-multiselect-dropdown>
+              </div>
+
+              <div class="col-6 alinha-combo">
+                <div class="floating-label">
+                  <select class="floating-select" [(ngModel)]="local.tipo_servico_padrao_id">
+                    <option value=""></option>
+                    <option
+                      *ngFor="let item of listTiposServico; let i = index"
+                      [ngValue]="item.key"
+                    >
+                      {{ item.value }}
+                    </option>
+                  </select>
+                  <label>Tipo de serviço padrão</label>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-6 alinha-combo">
+                <label>Operadoras</label>
+                <br />
+                <ng-multiselect-dropdown
+                  class="ajuste-width"
+                  [placeholder]="'Selecione uma ou mais operadoras'"
+                  [data]="listOperadoras"
+                  [(ngModel)]="selectedOperadoras"
+                  [settings]="dropdownSettings"
+                ></ng-multiselect-dropdown>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-6">
+                <div class="floating-label">
+                  <select class="floating-select" [(ngModel)]="local.tipo_id">
+                    <option value=""></option>
+                    <option
+                      *ngFor="let item of listTipoAtendimentos; let i = index"
+                      [ngValue]="item.key"
+                    >
+                      {{ item.value }}
+                    </option>
+                  </select>
+                  <label>Tipo de atendimento padrão</label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="floating-label">
+                  <select class="floating-select" [(ngModel)]="local.classificacao_padrao_id">
+                    <option value=""></option>
+                    <option
+                      *ngFor="let item of listClassificacao; let i = index"
+                      [ngValue]="item.key"
+                    >
+                      {{ item.value }}
+                    </option>
+                  </select>
+                  <label>Classificação padrão</label>
+                </div>
+              </div>
+            </div>
+            <div class="row fone-list" *ngFor="let foneItem of local.fones_list">
+              <div class="col-4">
+                <label>Fone</label>
+                <input
+                  id="fones"
+                  [(ngModel)]="foneItem.numero"
+                  type="text"
+                  maxlength="80"
+                  mask="phone"
+                />
+              </div>
+              <div class="col-2">
+                <button title="remover" class="icon" (click)="removeFone(foneItem)">
+                  <img src="assets/icons/remove.svg" alt="Remover" />
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6" style="text-align: start;">
+                <button title="adicionar" class="btn btn-primary" (click)="addFone()">
+                  <img src="assets/icons/add.svg" alt="Adicionar Fone" />
+                  Adicionar Fone
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group" *ngIf="!loading">
+              <button
+                title="Salvar"
+                [disabled]="disabledBtnSalvar()"
+                class="btn btn-primary"
+                (click)="salvar()"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

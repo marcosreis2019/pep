@@ -1,0 +1,243 @@
+<section class="menu">
+  <div id="page-content-wrapper" style="width: 100%;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <h1 class="title">PEP</h1>
+      <div *ngIf="onboarding" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li *ngIf="currentOnboarding > 0" class="nav-item">
+            <a class="nav-link" (click)="onboardingBack()">
+              <i class="fas fa-angle-double-left"></i>
+              Anterior
+            </a>
+          </li>
+          <li *ngIf="currentOnboarding < 6" class="nav-item">
+            <a class="nav-link" (click)="onboardingNext()">
+              <i class="fas fa-angle-double-right"></i>
+              Próximo
+            </a>
+          </li>
+          <li *ngIf="currentOnboarding == 6" class="nav-item">
+            <a class="nav-link" (click)="onboardingNext()">
+              <i class="fas fa-angle-double-right"></i>
+              Finalizar
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!onboarding" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item" *ngIf="showAgendamentos">
+            <a class="nav-link" (click)="goTo('agendamento')">
+              <i class="fas fa-calendar-alt"></i>
+              Agenda
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="showPacientes">
+            <a class="nav-link" (click)="goTo('home')">
+              <i class="fa fa-users icon-menu" aria-hidden="true"></i>
+              Atendimento
+            </a>
+          </li>
+          <li ngbDropdown class="d-inline-block dropdown" *ngIf="showRelatorios">
+            <a class="nav-link dropdown-toggle" (click)="goTo('')" ngbDropdownToggle>
+              <i class="far fa-file-alt icon-menu"></i>
+              Relatórios
+            </a>
+            <div
+              ngbDropdownMenu
+              class="dropdown-menu mr-15 animate slideIn"
+              aria-labelledby="navbarDropdown"
+            >
+              <a ngbDropdownItem class="nav-link" (click)="toggleRelatorio()">
+                <i class="fas fa-user-md icon-submenu"></i>
+                Atendimento
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="toggleRelatorioAgendamento()"
+                target="_blank"
+              >
+                <i class="far fa-calendar-alt icon-submenu"></i>
+                Agendamentos
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="toggleRelatorioFaturamento()"
+                target="_blank"
+              >
+                <i class="fas fa-dollar-sign icon-submenu"></i>
+                Faturamento
+              </a>
+
+              <div class="dropdown-divider"></div>
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="toggleRelatorioTempoEmEspera()"
+                target="_blank"
+              >
+                <i class="fas fa-clock icon-submenu"></i>
+                Tempo de espera
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="toggleRelatorioDiasLivres()"
+                target="_blank"
+              >
+                <i class="fas fa-calendar icon-submenu"></i>
+                Dias livres
+              </a>
+              <div class="dropdown-divider"></div>
+              <a ngbDropdownItem class="nav-link" (click)="toggleRelatorioExames()" target="_blank">
+                <i class="fas fa-heartbeat icon-submenu"></i>
+                Exames
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="toggleRelatorioAgendamentoEvento()"
+                target="_blank"
+              >
+                <i class="fas fa-wrench icon-submenu"></i>
+                Agendamento X Evento
+              </a>
+            </div>
+          </li>
+          <li *ngIf="isAdmin() || isAgendador()" ngbDropdown class="d-inline-block dropdown">
+            <a class="nav-link dropdown-toggle" (click)="goTo('')" ngbDropdownToggle>
+              <i class="far fa-plus-square icon-menu icon-menu"></i>
+              Cadastro
+            </a>
+            <div
+              ngbDropdownMenu
+              class="dropdown-menu mr-15 animate slideIn"
+              aria-labelledby="navbarDropdown"
+            >
+              <a *ngIf="isAdmin()" ngbDropdownItem class="nav-link" (click)="goTo('tipo_servico')">
+                <i class="fas fa-user-graduate icon-submenu"></i>
+                Tipo Serviço
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a *ngIf="isAdmin()" ngbDropdownItem class="nav-link" (click)="goTo('classificacao')">
+                <i class="fas fa-server icon-submenu"></i>
+                Classificação
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a
+                *ngIf="isAdmin()"
+                ngbDropdownItem
+                class="nav-link"
+                (click)="goTo('especialidades')"
+              >
+                <i class="fas fa-user-check icon-submenu"></i>
+                Especialidade
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a ngbDropdownItem class="nav-link" (click)="goTo('local')" *ngIf="isAdmin()">
+                <i class="far fa-building icon-submenu"></i>
+                Locais
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a ngbDropdownItem *ngIf="isAdmin()" class="nav-link" (click)="goTo('operadoras')">
+                <i class="fas fa-user-md icon-submenu"></i>
+                Operadora
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a ngbDropdownItem *ngIf="isAdmin()" class="nav-link" (click)="goTo('usuarios')">
+                <i class="fas fa-user-md icon-submenu"></i>
+                Usuários
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a ngbDropdownItem *ngIf="isAdmin()" class="nav-link" (click)="goTo('cronograma')">
+                <i class="far fa-calendar-alt icon-submenu"></i>
+                Cronograma
+              </a>
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+
+              <a
+                ngbDropdownItem
+                class="nav-link"
+                (click)="goTo('paciente')"
+                *ngIf="isAdmin() || isAgendador()"
+              >
+                <i class="fas fa-user icon-submenu"></i>
+                Paciente
+              </a>
+
+              <div *ngIf="isAdmin()" class="dropdown-divider"></div>
+              <a ngbDropdownItem *ngIf="isAdmin()" class="nav-link" (click)="goTo('termos')">
+                <i class="fas fa-user-md icon-submenu"></i>
+                Termos
+              </a>
+            </div>
+          </li>
+          <li ngbDropdown class="d-inline-block dropdown">
+            <a class="nav-link dropdown-toggle " (click)="goTo('')" ngbDropdownToggle>
+              <img
+                _ngcontent-xvf-c4=""
+                class="bo-one"
+                ng-reflect-ng-class="bo-one"
+                src="./../../../assets/imgs/avatar.svg"
+              />
+            </a>
+            <div
+              ngbDropdownMenu
+              class="dropdown-menu mr-15 animate slideIn info-user"
+              aria-labelledby="navbarDropdown"
+            >
+              <a ngbDropdownItem class="nav-no-link ">
+                <span>
+                  <i class="fas fa-user"></i>
+                  Nome: {{ nome }}
+                </span>
+                <br *ngIf="isMedico()" />
+                <span *ngIf="isMedico()">
+                  <i class="fas fa-university"></i>
+                  {{ conselhoProfissional }}
+                </span>
+                <br />
+                <span *ngIf="isMedico()">
+                  <i class="fas fa-university"></i>
+                  {{ numeroConselho }} /
+                  {{ ufConselho }}
+                </span>
+                <br *ngIf="isMedico() && isCRM()" />
+                <span *ngIf="isMedico() && isCRM()">
+                  Memed: {{ memedAtivo ? 'Ativo' : 'Inativo' }}
+                </span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a ngbDropdownItem class="submenu-title" [disabled]="true" href="#">
+                Versão:
+                <versao-pep></versao-pep>
+              </a>
+              <div class="dropdown-divider"></div>
+              <div class="bg-red">
+                <a ngbDropdownItem class="nav-link bg-red" (click)="logoff()">
+                  <i class="fas fa-sign-out-alt icon-submenu"></i>
+                  Sair
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="profissional-perfil">
+        <span></span>
+      </div>
+    </nav>
+  </div>
+</section>

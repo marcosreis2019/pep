@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10" viewBox="0 0 10 10">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="12" height="12" transform="translate(0.025 0.287)" fill="#a4aac5" stroke="#a4aac5" stroke-width="0.5"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="11" height="11" transform="translate(-0.177 -0.203)" fill="#a4aac5" stroke="#a4aac5" stroke-width="0.5"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <rect id="Rectangle_3" data-name="Rectangle 3" width="10" height="10" transform="translate(-0.177 -0.203)" fill="#a4aac5" stroke="#a4aac5" stroke-width="0.5"/>
+    </clipPath>
+    <clipPath id="clip-custom_1">
+      <rect width="10" height="10"/>
+    </clipPath>
+  </defs>
+  <g id="custom_1" data-name="custom – 1" clip-path="url(#clip-custom_1)">
+    <rect width="10" height="10" fill="#fff"/>
+    <g id="custom_1-2" data-name="custom – 1" transform="translate(-1.025 -1.287)" clip-path="url(#clip-path)">
+      <g id="custom_1-3" data-name="custom – 1" transform="translate(1.203 1.49)" clip-path="url(#clip-path-2)">
+        <g id="custom_1-4" data-name="custom – 1" transform="translate(0 0)" clip-path="url(#clip-path-3)">
+          <g id="close" transform="translate(0.489 0.401)">
+            <g id="Group_4" data-name="Group 4" transform="translate(0 0)">
+              <g id="Group_3" data-name="Group 3">
+                <path id="Path_4" data-name="Path 4" d="M8.259.1a.337.337,0,0,0-.478,0L.1,7.781a.338.338,0,1,0,.478.478L8.259.576a.337.337,0,0,0,0-.478Z" transform="translate(0 0)" fill="#a4aac5" stroke="#a4aac5" stroke-width="0.5"/>
+              </g>
+            </g>
+            <g id="Group_6" data-name="Group 6" transform="translate(0 0)">
+              <g id="Group_5" data-name="Group 5" transform="translate(0 0)">
+                <path id="Path_5" data-name="Path 5" d="M8.259,7.782.576.1A.338.338,0,1,0,.1.577L7.781,8.26a.338.338,0,1,0,.478-.478Z" transform="translate(0 -0.001)" fill="#a4aac5" stroke="#a4aac5" stroke-width="0.5"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

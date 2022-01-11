@@ -1,0 +1,168 @@
+<article class="wrapper a4-paper flex columns">
+  <header>
+    <button class="btn btn-success btn-print" (click)="print()">Imprimir</button>
+  </header>
+
+  <section class="content">
+    <ng-container *ngIf="relatorio">
+      <div class="container">
+        <div class="row">
+          <div class="col col-12">
+            <p>
+              <b>{{ relatorio.paciente.label }}</b>
+              {{ relatorio.paciente?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.cpf.label }}</b>
+              {{ relatorio.cpf?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.sexo.label }}</b>
+              {{ relatorio.sexo.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.idade.label }}</b>
+              {{ relatorio.idade?.value }}
+            </p>
+          </div>
+          <div class="col col-6">
+            <p>
+              <b>{{ relatorio.endereco.label }}</b>
+              {{ relatorio.endereco?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.bairro.label }}</b>
+              {{ relatorio.bairro?.value }}
+            </p>
+          </div>
+          <div class="col col-6">
+            <p>
+              <b>{{ relatorio.email.label }}</b>
+              {{ relatorio.email?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.cep.label }}</b>
+              {{ relatorio.cep?.value }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <p>
+              <b>{{ relatorio.tipoServico.label }}</b>
+              {{ relatorio.tipoServico.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.profissional.label }}</b>
+              {{ relatorio.profissional?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.conselho.label }}</b>
+              {{ relatorio.conselho?.value }}
+            </p>
+            <p>
+              <b>{{ relatorio.local.label }}</b>
+              {{ relatorio.local?.value }} - {{ relatorio.cidade?.value }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>
+              <b>{{ relatorio.subjetivo.label }}</b>
+              {{ relatorio.subjetivo?.value }}
+            </p>
+            <br />
+            <ng-container *ngIf="relatorio.subjetivo.estruturados.length">
+              <p><b>Subjetivo Estruturado</b></p>
+            </ng-container>
+            <p *ngFor="let item of relatorio.subjetivo.estruturados">
+              <b>{{ item.label }}</b>
+              <br />
+              - {{ item.value }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <p>
+              <b>{{ relatorio.objetivo.label }}</b>
+              {{ relatorio.objetivo?.value }}
+            </p>
+            <br />
+            <ng-container *ngIf="relatorio.objetivo.estruturados.length">
+              <p><b>Objetivo Estruturado</b></p>
+            </ng-container>
+            <p *ngFor="let item of relatorio.objetivo.estruturados">
+              <b>{{ item.label }}</b>
+              <br />
+              - {{ item.value }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <p>
+              <b>CID Principal</b>
+              <br />
+              {{ relatorio.avaliacao.cidPrincipal.codigo }}:
+              {{ relatorio.avaliacao.cidPrincipal.descricao }}
+              {{ relatorio.avaliacao.cidPrincipal.confirmado ? '(Confirmado)' : '(Suspeito)' }}
+            </p>
+            <p>{{ relatorio.avaliacao.value }}</p>
+          </div>
+          <div class="col-12" *ngIf="relatorio.avaliacao?.cidSecundariosConfirmados?.length > 0">
+            <br />
+            <p><b>CIDs Secundários (Confirmados)</b></p>
+            <p
+              *ngFor="let cidSecundarioConfirmado of relatorio.avaliacao.cidSecundariosConfirmados"
+            >
+              {{ cidSecundarioConfirmado.codigo }}: {{ cidSecundarioConfirmado.descricao }}
+            </p>
+          </div>
+          <div class="col-12" *ngIf="relatorio.avaliacao?.cidSecundariosSuspeitos?.length > 0">
+            <br />
+            <p><b>CIDs Secundários (Suspeitos)</b></p>
+            <p *ngFor="let cidSecundarioSuspeito of relatorio.avaliacao.cidSecundariosSuspeitos">
+              {{ cidSecundarioSuspeito.codigo }}: {{ cidSecundarioSuspeito.descricao }}
+              <br />
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>
+              <b>{{ relatorio.plano.label }}</b>
+              {{ relatorio.plano?.value }}
+            </p>
+            <br />
+            <ng-container *ngIf="relatorio.plano.estruturados.length">
+              <p><b>Metas</b></p>
+            </ng-container>
+            <p *ngFor="let item of relatorio.plano.estruturados">
+              - {{ item.label }}
+              <br />
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center footer">
+            <hr class="assn" />
+            <p>
+              <b>{{ relatorio.profissional?.value }}</b>
+            </p>
+            <p>
+              <b>{{ relatorio.conselho.label }} {{ relatorio.conselho.value }}</b>
+            </p>
+            <p>
+              <b>{{ today | date: 'dd/MM/yy HH:mm' }}</b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </section>
+</article>

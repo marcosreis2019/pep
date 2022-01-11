@@ -1,0 +1,39 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { BlockTimelineComponent } from './block-timeline.component'
+import { NgbTooltipModule, NgbAlertModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
+import { PepStoreModule } from '../../../_store/store.module'
+import { RouterTestingModule } from '@angular/router/testing'
+import { HttpClientModule } from '@angular/common/http'
+
+describe('BlockTimelineComponent', () => {
+  let component: BlockTimelineComponent
+  let fixture: ComponentFixture<BlockTimelineComponent>
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [BlockTimelineComponent],
+      imports: [
+        NgbPopoverModule,
+        HttpClientModule,
+        RouterTestingModule,
+        PepStoreModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      providers: [],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+    }).compileComponents()
+  }))
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BlockTimelineComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+})

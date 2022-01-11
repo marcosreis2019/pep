@@ -1,0 +1,248 @@
+<article class="history">
+  <!-- <ng-container *ngIf="isLoaded$ | async; else loading"> -->
+  <ng-container>
+    <div class="modal-header">
+      <h3 class="modal-title">Histórico de Referências</h3>
+      <button e type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- modal body -->
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-5">
+          <!-- barra de pesquisa -->
+          <section class="search">
+            <input
+              type="text"
+              placeholder="Buscar por Especialidade"
+              [(ngModel)]="key"
+              (ngModelChange)="setEspeciality(key)"
+              (keyup.enter)="doSearchFilter(false)"
+            />
+            <div class="btn-group">
+              <button *ngIf="key" (click)="clear()">
+                <i>
+                  <img src="assets/icons/close-2.svg" alt="" />
+                </i>
+              </button>
+            </div>
+          </section>
+        </div>
+        <div class="col-3">
+          <!-- barra de pesquisa -->
+          <section class="search">
+            <button
+              class="btn-pep"
+              [autoClose]="'outside'"
+              [ngbPopover]="buscarDatasPopOverForm"
+              #p1="ngbPopover"
+            >
+              Buscar por Data
+              <i>
+                <img src="assets/icons/add.svg" style="float: right;" alt="" />
+              </i>
+            </button>
+          </section>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary btn-search-ref yes mt-1" (click)="doSearchFilter(false)">
+            Buscar
+          </button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary btn-search-ref bg-red mt-1 yes m-left" (click)="doClearFilter()">
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="filterActived">
+        <br />
+        <div class="active-filter">
+          <span *ngIf="filter.especialidade">
+            <b>Especialidade:</b>
+            {{ filter.especialidade ? filter.especialidade : '' }}
+          </span>
+          <span *ngIf="filter.dataRealizacao">
+            <b>Data:</b>
+            {{ filter.dataRealizacao ? filter.dataRealizacao : '' }}
+          </span>
+          <span *ngIf="filter.dataRealizacaoInicio">
+            <b>Data Inicio:</b>
+            {{ filter.dataRealizacaoInicio ? filter.dataRealizacaoInicio : '' }}
+          </span>
+          <span *ngIf="filter.dataRealizacaoFim">
+            <b>Data Fim:</b>
+            {{ filter.dataRealizacaoFim ? filter.dataRealizacaoFim : '' }}
+          </span>
+        </div>
+      </div>
+      <br />
+
+      <div *ngIf="refs; else noRefs" class="history-table">
+        <section class="h-title">
+          <div class="row">
+            <div>Profissional</div>
+            <div>Especialidade</div>
+            <div>Referência</div>
+            <div>Contrarreferência</div>
+            <div>Imprimir</div>
+          </div>
+        </section>
+        <section class="h-content">
+          <div
+            class="row"
+            *ngFor="let item of refs | slice: calcSliceInit():calcSliceEnd(); let i = index"
+          >
+            <!-- item retracted -->
+            <section class="item" [ngClass]="{ 'item-hide': activeItem === i }">
+              <div class="cursor-pointer" (click)="toggleItemDetails(i, item)">
+                <span>{{item.profissionalReferenciado?.length > 20 ? item.profissionalReferenciado.substr(0, 20) + '...' : item.profissionalReferenciado}}</span>
+              </div>
+              <div class="cursor-pointer" (click)="toggleItemDetails(i, item)">
+                <span>{{ item.especialidade.descricao}}</span>
+              </div>
+              <div class="cursor-pointer" (click)="toggleItemDetails(i, item)">
+                <span>{{ item.dataCriacao | date: 'shortDate' }}</span>
+              </div>
+              <div class="cursor-pointer" (click)="toggleItemDetails(i, item)">
+                <span *ngIf="item.dataRealizacaoContraReferencia" class="cursor-pointer">
+                  {{ item.dataRealizacaoContraReferencia | date: 'shortDate' }}
+                </span>
+                <!-- button only shows if there is no xref -->
+                <button
+                  *ngIf="!item.dataRealizacaoContraReferencia"
+                  class="btn-icon-only"
+                  (click)="toggleItemDetails(i, item); toggleAddXRefForm($event)"
+                >
+                  <img src="assets/icons/add.svg" alt="" />
+                </button>
+              </div>
+              <!-- --------------- -->
+              <!-- Print button retracted item -->
+              <div class="center" (click)="printRef(item)">
+                <button class="btn-icon-only">
+                  <img
+                    src="assets/icons/print-24x24.png"
+                    alt="Imprimir"
+                    title="Imprimir esta referência"
+                  />
+                </button>
+              </div>
+              <!-- --------------- -->
+            </section>
+
+            <!-- expanded item details -->
+            <section class="details cursor-pointer" [ngClass]="{ 'item-show': activeItem === i }">
+              <!-- referencia detalhes -->
+              <div class="item-ref cursor-pointer" (click)="toggleItemDetails(i, item)">
+                <referencia [data]="item"></referencia>
+              </div>
+              <!-- contrareferência detalhes -->
+              <div
+                class="item-xref cursor-pointer"
+                [ngClass]="{ center: !item.dataRealizacaoContraReferencia }"
+                (click)="!isAddingXRef ? toggleItemDetails(i, item) : ''"
+              >
+                <referencia-contra
+                  *ngIf="item.dataRealizacaoContraReferencia"
+                  [data]="item"
+                ></referencia-contra>
+                <div *ngIf="!item.dataRealizacaoContraReferencia && !isAddingXRef; else addXRef">
+                  <button class="btn btn-primary green text-light" (click)="toggleAddXRefForm($event)">
+                    Adicionar
+                  </button>
+                </div>
+
+                <ng-container
+                  *ngIf="success$ | async as success"
+                  [ngTemplateOutlet]="successMsg"
+                  [ngTemplateOutletContext]="{ msg: success }"
+                ></ng-container>
+
+                <ng-container
+                  *ngIf="error$ | async as error"
+                  [ngTemplateOutlet]="errorMsg"
+                  [ngTemplateOutletContext]="{ msg: error }"
+                ></ng-container>
+              </div>
+
+              <!-- print button expanded item -->
+              <div class="center">
+                <button class="btn-icon-only" (click)="printRef(item)">
+                  <img
+                    src="assets/icons/print-48x48.png"
+                    alt="Imprimir"
+                    title="Imprimir esta referência"
+                  />
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+        <br />
+        <ngb-pagination
+          class="center"
+          [collectionSize]="refs.length"
+          [(page)]="pgConfig.page"
+          [pageSize]="pgConfig.size"
+          [maxSize]="80"
+          (pageChange)="loadMore($event)"
+          [rotate]="true"
+          [ellipses]="false"
+          [boundaryLinks]="false"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </ng-container>
+</article>
+
+<!-- popover para editar medicamento -->
+<ng-template #buscarDatasPopOverForm>
+  <article class="pop-content">
+    <section class="content">
+      <form-data (cancel)="cancelarPopover()" (add)="addBuscaFiltroHistorio($event)"></form-data>
+    </section>
+  </article>
+</ng-template>
+
+<!-- add xref form -->
+<ng-template #addXRef>
+  <div
+    class="add-xref"
+    *ngIf="
+      !(success$ | async) &&
+      isAddingXRef &&
+      refSelected &&
+      !refSelected.dataRealizacaoContraReferencia
+    "
+  >
+    <div class="child-content">
+      <form-referencias-contra (event)="addContraReferencia($event)"></form-referencias-contra>
+    </div>
+
+    <ng-container
+      *ngIf="isLoading$ | async"
+      [ngTemplateOutlet]="loading"
+      [ngTemplateOutletContext]="{
+        msg: 'Registrando Contra Referencia...'
+      }"
+    ></ng-container>
+  </div>
+</ng-template>
+<!-- end form-xref -->
+
+<ng-template #loading let-message="msg">
+  <div class="d-flex justify-content-center loading">
+    <img src="assets/icons/spinner.svg" alt="Loading..." />
+    <p>{{ message }}</p>
+  </div>
+</ng-template>
+
+<ng-template #noRefs>
+  <div *ngIf="!refs && !(isLoading$ | async); else loading" class="history-empty">
+    <p>Nenhuma referência registrada até o momento</p>
+  </div>
+</ng-template>

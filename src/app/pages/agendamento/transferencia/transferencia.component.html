@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-12">
+    <span class="filtro-agenda-label mt-2">Profissional Destino:</span>
+    &nbsp;
+    <span>{{ profissionalDestino.nome }}</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <span class="filtro-agenda-label mt-2">Local:</span>
+    &nbsp;
+    <span>{{ local.razao_social }}</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <span class="filtro-agenda-label mt-2">Profissional Origem:</span>
+    <select [(ngModel)]="profissionalOrigem">
+      <option [selected]="!profissionalOrigem" disabled="true">
+        Selecione um profissional de origem
+      </option>
+      <option [ngValue]="profissional.id" *ngFor="let profissional of profissionalList">
+        {{ profissional.nome }}
+      </option>
+    </select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <span class="filtro-agenda-label mt-2">Data Inicio:</span>
+    &nbsp;
+    <calendar [(ngModel)]="dataInicio"></calendar>
+  </div>
+
+  <div class="col-6">
+    Horário:
+    <br />
+    <input type="time" [(ngModel)]="horaInicio" />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <span class="filtro-agenda-label mt-2">Data Fim:</span>
+    &nbsp;
+    <calendar [(ngModel)]="dataFim"></calendar>
+  </div>
+  <div class="col-6">
+    Horário:
+    <br />
+    <input type="time" [(ngModel)]="horaFim" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-12" style="align-items: flex-end;">
+    <button class="btn btn-primary btn-share" (click)="transferir()" title="Transferir">
+      <i class="fas fa-share-square "></i>
+      Transferir
+    </button>
+  </div>
+</div>

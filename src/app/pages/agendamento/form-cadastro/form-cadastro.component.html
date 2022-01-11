@@ -1,0 +1,191 @@
+<section class="form-cadastro">
+  <div class="row">
+    <div class="col-2" *ngIf="!isBlockedType()">
+      Tipo Serviço*:
+    </div>
+    <div class="col-4" *ngIf="!isBlockedType()">
+      <select [(ngModel)]="tipoServicoSelected" (ngModelChange)="setTipoServico()">
+        <option [selected]="!agendamento.tipo_servico" disabled="true">
+          Selecione um tipo
+        </option>
+        <option [ngValue]="tipo" *ngFor="let tipo of listTipoServico">
+          {{ tipo.descricao }} ({{ tipo.tempo_atendimento }}Min)
+        </option>
+      </select>
+    </div>
+    <div class="col-2">
+      Local*:
+    </div>
+    <div class="col-4">
+      {{ localSelected.razao_social }}
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-2">
+      Hora Início*:
+    </div>
+    <div class="col-4">
+      <input type="time" [(ngModel)]="agendamento.start" />
+    </div>
+
+    <div class="col-2">
+      Hora Fim*:
+    </div>
+    <div class="col-4">
+      <input type="time" [(ngModel)]="agendamento.end" />
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="!isBlockedType()">
+    <div class="col-2">
+      Paciente*:
+    </div>
+    <div class="col-3">
+      <div>
+        <input
+          style="min-width: 100%;"
+          type="text"
+          placeholder="Digite o nome do paciente"
+          [ngbTypeahead]="search"
+          [resultTemplate]="rt"
+          [inputFormatter]="formatter"
+          (selectItem)="selectPaciente($event)"
+          #instance="ngbTypeahead"
+        />
+
+        <div class="d-flex align-end loading" *ngIf="loadingSearch">
+          <img src="assets/icons/spinner.svg" alt="" />
+        </div>
+
+        <ng-template #rt let-res="result" let-t="term">
+          <ngb-highlight [result]="formatterToShow(res)" [term]="t"></ngb-highlight>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-1">
+      <button
+        title="Cadastrar um novo paciente"
+        class="btn btn-danger btn-acoes btn-add-paciente"
+        (click)="openModalCadastroPaciente()"
+      >
+        <i class="fas fa-user-plus"></i>
+      </button>
+    </div>
+    <div class="col-6 dadosPaciente-size" *ngIf="dataNasc">
+      Data Nasc.:
+      <span class="info-paciente-cadastro-data-nasc">{{ dataNasc }}</span>
+      <br />
+      Matrícula:
+      <span class="info-paciente-cadastro-matricula">{{ matricula }}</span>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="!isBlockedType()">
+    <div class="col-2">
+      E-mail:
+    </div>
+    <div class="col-4">
+      <input type="text" class="full-width" [(ngModel)]="agendamento.email" />
+    </div>
+
+    <div class="col-2 tel-size">
+      Tel Paciente(SMS):
+    </div>
+    <div class="col-4">
+      <input
+        type="text"
+        mask="phone"
+        class="full-width"
+        max="15"
+        maxlength="15"
+        [(ngModel)]="agendamento.telefone"
+      />
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-2">
+      Tipo*:
+    </div>
+    <div class="col-4">
+      <select [(ngModel)]="agendamento.agendamento_tipo_id">
+        <option [selected]="!agendamento.agendamento_tipo_id" disabled="true">
+          Selecione um tipo de Agendamento
+        </option>
+        <option [ngValue]="tipo.id" *ngFor="let tipo of listTipoAgendamento">
+          {{ tipo.descricao }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-2" *ngIf="!isBlockedType()">
+      Classificação*:
+    </div>
+    <div class="col-4" *ngIf="!isBlockedType()">
+      <select [(ngModel)]="agendamento.classificacao">
+        <option [selected]="!agendamento.classificacao" disabled="true">
+          Selecione uma classificação
+        </option>
+        <option [ngValue]="class.id" *ngFor="let class of listClassificacao">
+          {{ class.descricao }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-2">
+      Motivo*:
+    </div>
+    <div class="col-4">
+      <textarea
+        class="full-width"
+        [placeholder]="'Informe o motivo do atendimento'"
+        [(ngModel)]="agendamento.motivo"
+      ></textarea>
+    </div>
+    <div class="col-2" *ngIf="!isBlockedType()">
+      Valor Pago:
+    </div>
+
+    <div class="col-4" *ngIf="!isBlockedType()">
+      <div class="row">
+        <div class="col-1">
+          <input type="checkbox" [(ngModel)]="agendamento.pago" />
+        </div>
+        <div class="col-11 text-pag-realizado">
+          Sim
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-2">
+      Reagendamento:
+    </div>
+    <div class="col-4" *ngIf="!isBlockedType()">
+      <div class="row">
+        <div class="col-1">
+          <input type="checkbox" [(ngModel)]="agendamento.reagendamento" />
+        </div>
+        <div class="col-11 text-pag-realizado">
+          Sim
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #modalCadastroPacienteEvent let-close="close">
+  <section class="modal-header">
+    <h5 class="modal-title">Novo Paciente</h5>
+    <button e type="button" class="close" aria-label="Close" (click)="this.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </section>
+  <section class="modal-body">
+    <cadastro-paciente modal="true" [enableSearch]="false"></cadastro-paciente>
+  </section>
+</ng-template>

@@ -1,0 +1,29 @@
+.actions {
+  align-items: flex-end;
+  text-align: end;
+}
+
+.card {
+  padding: 10px;
+  margin-bottom: 5px;
+}
+table {
+  width: 100%;
+  tr {
+    td {
+      padding: 2px;
+    }
+  }
+}
+.modal-header {
+  flex: 1;
+}
+.modal-title {
+  width: 100%;
+  text-align: center;
+}
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}

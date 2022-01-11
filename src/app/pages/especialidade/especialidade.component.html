@@ -1,0 +1,98 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left">
+        <h2>Especialidades</h2>
+      </div>
+      <div class="float-right">
+        <button (click)="reset()" title="Nova especialidade">
+          <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+        </button>
+      </div>
+      <div class="searchbar">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <input
+          type="text"
+          placeholder="Buscar e filtrar especialidade"
+          [(ngModel)]="search"
+          (ngModelChange)="change(search)"
+        />
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of listEspecialidade; let i = index"
+        (click)="setEspecialidade(item)"
+      >
+        <div class="info">
+          <h3>{{ item.descricao }}</h3>
+        </div>
+        <div class="secondary-info">
+          <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+          <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+        </div>
+      </div>
+      <img *ngIf="loadingListEspecialidade" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <div class="pep-center content-container">
+    <div class="content">
+      <div class="block">
+        <div class="content-title">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="inputs">
+          <div class="card">
+            <div class="row">
+              <div class="col-6">
+                <label>Descrição</label>
+                <input
+                  id="descricao"
+                  [(ngModel)]="especialidade.descricao"
+                  type="text"
+                  maxlength="80"
+                  max="true"
+                />
+              </div>
+              <div class="col-2">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="especialidade.ativo" />
+                  Ativo
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label class="label-tipo-servico">Tipos de serviço</label>
+                <br />
+                <ng-multiselect-dropdown
+                  [placeholder]="'Selecione um ou mais tipos de serviço'"
+                  [data]="listTiposServico"
+                  [(ngModel)]="selectedTiposServico"
+                  [settings]="dropdownSettings"
+                ></ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group" *ngIf="!loading">
+              <button
+                title="Salvar"
+                [disabled]="isEmpty(especialidade?.descricao) || especialidade.ativo == null"
+                class="btn btn-primary"
+                (click)="salvar()"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

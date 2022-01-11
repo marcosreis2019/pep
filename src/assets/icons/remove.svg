@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <clipPath id="clip-remove">
+      <rect width="30" height="30"/>
+    </clipPath>
+  </defs>
+  <g id="remove" clip-path="url(#clip-remove)">
+    <rect width="30" height="30" fill="#fff"/>
+    <g id="remove-2" data-name="remove" transform="translate(2.5 6)">
+      <path id="Path_5" data-name="Path 5" d="M28.8,26.591a.3.3,0,0,0,.3-.3V16.3a.3.3,0,1,0-.605,0v9.986A.3.3,0,0,0,28.8,26.591Z" transform="translate(-16.04 -11.158)" fill="#fd1d62"/>
+      <path id="Path_6" data-name="Path 6" d="M18.8,26.591a.3.3,0,0,0,.3-.3V16.3a.3.3,0,1,0-.605,0v9.986A.3.3,0,0,0,18.8,26.591Z" transform="translate(-9.066 -11.158)" fill="#fd1d62"/>
+      <path id="Path_7" data-name="Path 7" d="M38.8,26.591a.3.3,0,0,0,.3-.3V16.3a.3.3,0,1,0-.605,0v9.986A.3.3,0,0,0,38.8,26.591Z" transform="translate(-23.014 -11.158)" fill="#fd1d62"/>
+      <path id="Path_8" data-name="Path 8" d="M19.723,1.816h-4.25A2.4,2.4,0,0,0,14.924.39,1.28,1.28,0,0,0,13.973,0H10.947A1.28,1.28,0,0,0,10,.39a2.4,2.4,0,0,0-.549,1.426H5.8a.3.3,0,1,0,0,.605H6.42L7,16.347a1.468,1.468,0,0,0,1.485,1.507H17.04a1.466,1.466,0,0,0,1.485-1.5l.58-13.933h.618a.3.3,0,0,0,0-.605Zm-9.293-1a.686.686,0,0,1,.517-.206h3.026a.686.686,0,0,1,.517.206,1.781,1.781,0,0,1,.375,1h-4.81A1.783,1.783,0,0,1,10.43.811Zm7.49,15.523a.878.878,0,0,1-.88.914H8.485a.889.889,0,0,1-.88-.921L7.026,2.421H18.5Z" fill="#fd1d62"/>
+    </g>
+  </g>
+</svg>

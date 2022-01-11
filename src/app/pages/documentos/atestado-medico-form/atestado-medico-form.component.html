@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center loading" *ngIf="loading">
+  <img src="assets/icons/spinner.svg" alt="" />
+</div>
+<div class="row document-title" *ngIf="!loading">
+  <div class="col-md-9">
+    <h2>{{ documentType.descricao }}</h2>
+  </div>
+  <div class="col-md-3">
+    <div class="btn-group actions">
+      <button type="button" class="btn btn-confirm" (click)="save()">Salvar e visualizar</button>
+    </div>
+  </div>
+</div>
+<p class="atestado-medico" *ngIf="!loading">
+  Atesto que o Sr(a)
+  <span>
+    <input
+      type="text"
+      name="name"
+      value=""
+      class="input-name"
+      [(ngModel)]="documento.beneficiario_nome"
+      [readonly]="!nameChanged"
+    />
+  </span>
+  &nbsp;
+  <span>
+    <input
+      type="checkbox"
+      [(ngModel)]="nameChanged"
+      (change)="changeName()"
+    />
+    Alterar nome?
+  </span>
+  <br />
+  encontra-se sobre meus cuidados profissionais necessitando de afastamento de suas atividades
+  <br />
+  pelo período de
+  <span>
+    <input
+      type="number"
+      name="periodo"
+      value=""
+      class="input-periodo"
+      [(ngModel)]="documento.periodo_quantidade"
+    />
+  </span>
+  &nbsp;
+  <span>
+    <select
+      name="periodo-unidade"
+      class="input-periodo-unidade"
+      [(ngModel)]="documento.periodo_unidades_id"
+    >
+      <option [ngValue]="item.id" *ngFor="let item of periodoUnidades">
+        {{ item.value }}
+      </option>
+    </select>
+  </span>
+  <br />
+  CID&nbsp;&nbsp;
+  <span>
+    <input type="text" name="cid" value="" class="input-cid" [(ngModel)]="documento.cid" />
+  </span>
+  <br />
+  Observações
+  <br />
+  <textarea
+    name="observacoes"
+    rows="6"
+    cols="30"
+    tabindex=""
+    [(ngModel)]="documento.observacao"
+  ></textarea>
+  <br />
+  <app-rodape-medico></app-rodape-medico>
+</p>
+<ngb-alert
+  class="toast-error"
+  type="danger"
+  (close)="resetToast()"
+  *ngIf="(error$ | async)?.msg as msg"
+>
+  {{ msg }}
+</ngb-alert>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-custom_1">
+      <rect width="40" height="40"/>
+    </clipPath>
+  </defs>
+  <g id="custom_1" data-name="custom – 1" clip-path="url(#clip-custom_1)">
+    <g id="arrow-back" transform="translate(1 -37.674)">
+      <g id="Group_1" data-name="Group 1" transform="translate(0 41.674)">
+        <path id="Path_1" data-name="Path 1" d="M35.864,54.475l.059.013H10.5l7.994-8.011a2.1,2.1,0,0,0,0-2.951l-1.244-1.244a2.081,2.081,0,0,0-2.937,0l-13.7,13.7a2.095,2.095,0,0,0,0,2.947l13.7,13.7a2.082,2.082,0,0,0,2.937,0l1.244-1.244a2.058,2.058,0,0,0,.606-1.468,2,2,0,0,0-.606-1.441l-8.084-8.056H35.892A2.154,2.154,0,0,0,38,58.29V56.53A2.112,2.112,0,0,0,35.864,54.475Z" transform="translate(0 -41.674)" fill="#808ba8"/>
+      </g>
+    </g>
+  </g>
+</svg>

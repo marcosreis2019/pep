@@ -1,0 +1,47 @@
+<form class="pep-input-group" [formGroup]="form">
+  <h5>Buscar por:</h5>
+
+  <calendar
+    *ngIf="!showDataRange"
+    formControlName="especific_date"
+    placeholder="Data"
+    (ngModelChange)="send()"
+  ></calendar>
+
+  <calendar
+    *ngIf="showDataRange"
+    placeholder="Inicio"
+    formControlName="date_start"
+    (ngModelChange)="send()"
+  ></calendar>
+
+  <calendar
+    *ngIf="showDataRange"
+    placeholder="Fim"
+    formControlName="date_end"
+    (ngModelChange)="send()"
+  ></calendar>
+
+  <!-- TODO adicioonar verificação de data máxima de date mínima -->
+  <div class="btn-pop-group" *ngIf="!showDataRange">
+    <button class="btn-pep btn-custom" (click)="filterByPeriods()">
+      Últimos 7 dias
+    </button>
+  </div>
+
+  <div class="btn-pop-group" *ngIf="!showDataRange">
+    <button class="btn-pep btn-custom" (click)="filterByPeriods(false)">
+      Últimos 30 dias
+    </button>
+  </div>
+
+  <div class="btn-pop-group" *ngIf="!showDataRange">
+    <button class="btn-pep btn-custom btn-orange" (click)="showDatasRange(true)">
+      Datas Customizadas
+    </button>
+  </div>
+
+  <div class="btn-pop-group" *ngIf="showDataRange">
+    <button class="btn-pep btn-custom" (click)="showDatasRange(false)">Voltar</button>
+  </div>
+</form>

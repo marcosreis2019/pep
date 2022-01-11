@@ -1,0 +1,35 @@
+@import 'src/app/themes/borders';
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+.description {
+  @include font-size(2.5rem);
+  font-family: MontserratRegular;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
+  margin: 0 20px 0 10px;
+  cursor: pointer;
+}
+
+.cid-atendimento {
+  display: flex;
+
+  div.input {
+    flex: 1;
+
+    .cid {
+      width: 90%;
+      min-width: 250px;
+      margin-bottom: 10px;
+      border: 0.5px solid lightgray;
+      border-radius: 10px;
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@import '../../../node_modules/rfs/scss';
+
+$lato: 'src/assets/fonts/Lato';
+$mont: 'src/assets/fonts/Montserrat';
+$work: 'src/assets/fonts/Worksans';
+
+$fonts: (
+  LatoBlack  : $lato + '/Lato-Black.ttf',
+  LatoBold   : $lato + '/Lato-Bold.ttf',
+  LatoLight  : $lato + '/Lato-Light.ttf',
+  LatoRegular: $lato + '/Lato-Regular.ttf',
+  LatoThin   : $lato + '/Lato-Thin.ttf',
+
+  MontserratBlack  : $mont + '/Montserrat-Black.ttf',
+  MontserratBold   : $mont + '/Montserrat-Bold.ttf',
+  MontserratLight  : $mont + '/Montserrat-Light.ttf',
+  MontserratMedium : $mont + '/Montserrat-Medium.ttf',
+  MontserratRegular: $mont + '/Montserrat-Regular.ttf',
+  MontserratThin   : $mont + '/Montserrat-Thin.ttf',
+
+  WorkBlack  : $work + '/WorkSans-Black.ttf',
+  WorkBold   : $work + '/WorkSans-Bold.ttf',
+  WorkLight  : $work + '/WorkSans-Light.ttf',
+  WorkMedium : $work + '/WorkSans-Medium.ttf',
+  WorkRegular: $work + '/WorkSans-Regular.ttf',
+  WorkThin   : $work + '/WorkSans-Thin.ttf'
+);
+
+@each $name, $path in $fonts {
+  @font-face {
+    font-family: $name;
+    src: url($path);
+  }
+}
+
+* {
+  font-family: WorkRegular;
+}
+
+h3 {
+  font-family: WorkRegular;
+  font-size: 16px;
+}
+
+p {
+  margin: 0;
+}
+
+b {
+  font-family: LatoBold;
+}
+
+.fs-text {
+  @include font-size(0.725rem);
+}
+
+.fs-14 {
+  font-size: 14px;
+}

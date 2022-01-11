@@ -1,0 +1,129 @@
+@import 'src/app/themes/colors';
+
+.btn-pep {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+  padding: 4px 8px;
+  margin: 0;
+  margin-left: 8px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-family: MontserratRegular;
+  color: map-get($light-style, color);
+  border-radius: 15px;
+  min-height: 30px;
+
+  label {
+    margin: 0;
+  }
+
+  i {
+    margin-left: 4px;
+  }
+}
+
+.btn-modal-pep {
+  display: flex;
+  justify-content: space-between;
+  float: right;
+  height: fit-content;
+  width: fit-content;
+  padding: 4px 8px;
+  margin: 10px;
+  font-size: 1rem;
+  font-family: MontserratRegular;
+  color: map-get($light-style, color);
+  border: 1px solid map-get($light-style, color);
+  border-radius: 10px;
+  min-height: 30px;
+
+  label {
+    margin: 0;
+  }
+
+  i {
+    margin-left: 4px;
+  }
+}
+
+// RESET
+button {
+  background: none;
+  border: none;
+
+  label {
+    cursor: pointer;
+  }
+}
+
+.btn-pop-group {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-group {
+  padding: 20px 0;
+}
+
+.btn-close {
+  font-family: WorkThin;
+  font-size: 30px;
+  @extend .txt-light;
+}
+
+.btn-plan {
+  @extend .bg-p;
+  margin-right: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btn-confirm {
+  @extend .bg-success;
+  @extend .txt-light;
+  min-width: 82px;
+  min-height: 30px;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+
+  &.yes {
+    @extend .bg-success;
+    border: none;
+    color: map-get($dark-style, color);
+
+    &:disabled {
+      background-color: map-get($theme, success-disabled);
+    }
+  }
+}
+
+.btn-choose {
+  width: 60%;
+  display: flex;
+  border: 1px solid map-get($light-style, border);
+  justify-content: center;
+  font-family: LatoBold;
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &.yes {
+    @extend .bg-success;
+    border: none;
+    color: map-get($dark-style, color);
+
+    &:disabled {
+      background-color: map-get($theme, success-disabled);
+    }
+  }
+
+  &.remove {
+    @extend .bg-danger;
+    color: #fff;
+    border: none;
+  }
+}

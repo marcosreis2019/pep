@@ -1,0 +1,20 @@
+<p>
+  <b>Data</b>
+  : {{ data?.dataValidade | date: 'shortDate' }}
+</p>
+<p>
+  <b>Profissional</b>
+  :
+  <span *ngIf="profissionalReferenciado; else semProfissional">
+    {{ profissionalReferenciado?.pessoa?.nome }}
+  </span>
+</p>
+<p *ngIf="especialidade !== ''">
+  <b>Especialidade</b>
+  : {{ especialidade }}
+</p>
+<p>
+  <b>Descrição:</b>
+  {{ data?.descricao }}
+</p>
+<ng-template #semProfissional><span>Nenhum Profissional Especificado</span></ng-template>

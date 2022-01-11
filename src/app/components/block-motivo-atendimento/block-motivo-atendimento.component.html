@@ -1,0 +1,47 @@
+<form [formGroup]="form" class="cid-atendimento">
+  <div class="row">
+    <div class="input col-md-6">
+      <input
+        class="cid"
+        type="text"
+        placeholder="CID do atendimento"
+        formControlName="CID"
+        [ngbTypeahead]="search"
+        [resultTemplate]="rt"
+        [inputFormatter]="formatter"
+        (focus)="focus$.next($event.target.value)"
+        (click)="click$.next($event.target.value)"
+        (selectItem)="saveCIDAtendimento($event)"
+        [(ngModel)]="value"
+        #instance="ngbTypeahead"
+      />
+    </div>
+    <div class="md-3" *ngIf="selectedCID">
+      <label class="custom-check mt-1">
+        <span class="check-label txt-default">Confirmado?</span>
+        <input
+          type="checkbox"
+          formControlName="CIDconfirmado"
+          [(ngModel)]="cidPrincipalConfirmado"
+          (ngModelChange)="saveCIDAtendimento(null)"
+        />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="col-2 mb-3">
+      <button class="btn btn-primary" (click)="toggleRefCids()">
+        +
+        <b>CID</b>
+        s
+      </button>
+    </div>
+  </div>
+</form>
+
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="formatterToShow(r)" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ng-template #refCIDs let-modal>
+  <modal-cids (close)="closeModalCids()"></modal-cids>
+</ng-template>

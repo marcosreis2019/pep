@@ -1,0 +1,54 @@
+<section class="historico max-height">
+  <div class="acoes-bar">
+    <span class="info-data">
+      Exibindo do dia: {{ dateStart | date: 'dd/MM/yyyy' }} até {{ dateEnd | date: 'dd/MM/yyyy' }}
+    </span>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Status</th>
+        <th scope="col">Profissional</th>
+        <th scope="col">Serviço</th>
+        <th scope="col">Clínica</th>
+        <th scope="col">Data</th>
+        <th scope="col">Hora</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="listAgendamentos">
+      <tr class="vigencia-item" *ngFor="let agendamento of listAgendamentos">
+        <td>
+          {{ agendamento.agendamento_tipo_descricao }}
+        </td>
+        <td>
+          {{ agendamento.status_descricao }}
+        </td>
+        <td>
+          {{ agendamento.profissional_nome }}
+        </td>
+        <td>
+          {{ agendamento.tipo_servico_descricao }}
+        </td>
+        <td>
+          {{ agendamento.local_nome }}
+        </td>
+        <td>
+          {{ agendamento.data_inicio | date: 'dd/MM/yyyy' }}
+        </td>
+        <td>
+          {{ agendamento.data_inicio | date: 'HH:mm' }}
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!listAgendamentos">
+      <tr class="vigencia-item">
+        <td colspan="7">Histórico do paciente não encontrado!</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center loading" *ngIf="loading">
+    <img src="assets/icons/spinner.svg" alt="" />
+  </div>
+</section>

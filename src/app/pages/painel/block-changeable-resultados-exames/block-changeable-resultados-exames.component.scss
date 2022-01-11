@@ -1,0 +1,278 @@
+@iimport 'src/app/themes/colors';
+@import 'src/app/themes/buttons';
+@import 'src/app/themes/fonts';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  min-height: 80px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+h3.block-title {
+  font-family: WorkBold;
+  font-size: 18px;
+  margin: 0;
+}
+
+.condition::-webkit-scrollbar {
+  display: none;
+}
+
+.condition {
+  overflow: scroll;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  max-height: fit-content;
+  overflow: visible;
+  transition: overflow 2s linear;
+}
+
+.changeable {
+  height: 100%;
+  max-height: calc(100% - 80px); // NOTE responsável por limitar o tamalho deste campo
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.form-item {
+  background-color: #f7f9fc;
+  margin-bottom: 10px;
+  border-radius: 9px;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.changeable::-webkit-scrollbar {
+  display: none;
+}
+
+.perfect-scrollbar {
+  position: relative; // without this the scrollbar WILL NOT LOAD!
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.block-exame-laboratorial {
+  padding: 20px;
+  width: 100%;
+  border-right: 2px solid darkgray;
+  align-self: flex-start;
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+.block-exame-imagem {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.form-exame {
+  margin-top: 20px;
+}
+.lista-exames {
+  flex-direction: column;
+}
+.exame {
+  background: #ffffff;
+  transition: height 200ms linear;
+  word-wrap: break-word;
+  text-align: left;
+  line-height: 1.5em;
+  margin: 6px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.exame-descricao {
+  flex: 1;
+  display: inline-block;
+  align-self: flex-start;
+  padding: 7px;
+}
+.details {
+  height: 0 !important;
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+  transition: overflow 2000ms linear;
+  border: 1px solid map-get($theme, border);
+  background: #eee;
+}
+
+.highlight {
+  background: #f5f5f5;
+}
+.btn-close {
+  display: inline-block;
+  align-self: flex-end !important;
+  float: right;
+  background: inherit;
+  padding: 5px 5px !important;
+  > img {
+    width: 20px;
+    fill: red;
+    stroke: yellow;
+    align-self: flex-end;
+  }
+}
+.btn-plan {
+  @extend .txt-light;
+  padding: 9px 12px !important;
+  font-size: 15px;
+  margin: 0 10px;
+  opacity: 1 !important;
+}
+.print-btn {
+  margin: 50px;
+  align-self: flex-end;
+  justify-content: flex-end;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  i > img {
+    width: 20px;
+    margin-left: 10px;
+  }
+}
+
+.content {
+  display: flex;
+  max-height: fit-content;
+  overflow: visible;
+  transition: overflow 2s linear;
+}
+
+.add-exames-form {
+  margin-top: 40px;
+}
+.add-exame {
+  padding-top: 25px;
+}
+.add-xref {
+  padding-top: 25px;
+}
+.right {
+  width: 40%;
+  padding: 0 20px;
+}
+
+.history {
+  width: 100%;
+
+  .history-table {
+    padding: 0 16px;
+
+    .h-title {
+      .row {
+        > div {
+          /* @extend %table-item; */
+          color: map-get($theme, gray);
+          background: map-get($theme, soft-gray);
+          border-bottom: 2px solid map-get($theme, border);
+        }
+      }
+    }
+  }
+}
+
+.history-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.loading,
+.sending {
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 10%;
+  }
+}
+
+.hidden {
+  display: none;
+  height: 0 !important;
+}
+
+.visible {
+  height: fit-content !important;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.txt-center {
+  text-align: center;
+}
+
+.exam-observations {
+  width: 100%;
+}
+.exame-result-text {
+  width: 100%;
+  flex: 1;
+  margin-top: 10px;
+}
+
+// override na classe global dos temas
+.btn {
+  margin: 10px;
+}
+
+.invalid-value {
+  outline: 0;
+  border: none;
+  box-shadow: 0 0 3px 6px rgba(255, 0, 0, 0.3);
+}
+// inputs type validation
+// input:invalid {
+//   background-color: tomato;
+// }
+input[type='number']:out-of-range {
+  background-color: yellow;
+}
+input[type='number']:invalid {
+  background-color: orange;
+}
+
+// input:invalid:focus {
+//   outline: 0;
+//   border: none;
+//   box-shadow: 0 0 3px 6px rgba(255, 0, 0, 0.3);
+// }
+
+.submit-button-container {
+    display: inline-block;
+    font-size: 22px;
+    padding: 10px;
+}
+.form-invalid-tooltip {
+  width: 110%;
+  padding: 25px;
+  position: relative;
+  left: 20px;
+  // margin-left: 25px;
+}

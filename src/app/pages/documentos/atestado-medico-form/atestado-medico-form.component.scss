@@ -1,0 +1,52 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+@import 'src/app/themes/buttons';
+
+.document-title {
+  vertical-align: top;
+  width: 99%;
+  .actions {
+    padding-top: 0px;
+  }
+}
+h2 {
+  font-size: 24px !important;
+}
+.atestado-medico {
+  color: #000;
+  input {
+    margin-bottom: 5px;
+  }
+  .input-name {
+    text-align: center;
+    width: 400px;
+  }
+  .input-periodo {
+    text-align: center;
+    width: 80px;
+  }
+  .input-periodo-unidade {
+    text-align: center;
+    width: 150px;
+    height: 35px;
+  }
+  .input-periodo-cid {
+    text-align: center;
+    width: 250px;
+  }
+  .textarea-observacoes {
+    text-align: center;
+    width: 250px;
+  }
+  textarea {
+    width: 95%;
+  }
+}
+.toast-error {
+  opacity: 1;
+  z-index: 10000;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 20px 20px 0 0;
+}

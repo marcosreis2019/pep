@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
+
+  <g id="custom_1">
+    <g id="plus" transform="translate(0.3 0.3)">
+      <g id="Group_1" data-name="Group 1" transform="translate(0)">
+        <path id="Path_1" data-name="Path 1" d="M10.954,5.254H6.145V.445a.445.445,0,0,0-.891,0v4.81H.445a.445.445,0,0,0,0,.891h4.81v4.809a.445.445,0,1,0,.891,0V6.145h4.809a.445.445,0,1,0,0-.891Z" transform="translate(0 0.001)" fill="#a4aac5"/>
+      </g>
+    </g>
+  </g>
+</svg>

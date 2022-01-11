@@ -1,0 +1,28 @@
+.scroller::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: #f5f5f5;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #808ba8;
+}
+
+.scroller-vertical::-webkit-scrollbar {
+  background-color: #f5f5f5;
+}
+
+// Webkit browsers
+.noscrollbar::-webkit-scrollbar {
+  display: none;
+}
+.noscrollbar {
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE
+}

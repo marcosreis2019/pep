@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'src/app/themes/main';
+
+/* angular-cli file: src/styles.css */
+@import '../node_modules/angular-calendar/scss/angular-calendar.scss';
+.cal-month-view {
+  .cal-day-cell {
+    min-height: 0px !important;
+  }
+  .cal-day-number {
+    font-size: 1em;
+  }
+  .cal-day-cell.cal-today .cal-day-number {
+    font-size: 1.6em;
+  }
+}
+.cal-header {
+  font-size: 0.9em;
+}
+
+.toast-container--top-right {
+  right: 1em;
+  top: 4em !important;
+}
+
+.toast {
+  opacity: 1 !important;
+}

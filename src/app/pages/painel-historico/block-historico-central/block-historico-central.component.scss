@@ -1,0 +1,52 @@
+@import 'src/app/themes/borders';
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+.card {
+  width: auto;
+  border: 1px solid #3a75bf;
+  border-radius: 10px;
+  margin-top: 10px;
+
+  .title-atendimento {
+    font-size: 18pt !important;
+  }
+
+  .card-header {
+    background-color: #3a75bf !important;
+    color: #fff;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  .card-body {
+    color: darkgrey;
+  }
+}
+
+.descricao {
+  margin: 10px;
+  margin-left: 35px;
+  span {
+    color: darkgrey;
+    padding: 4px;
+    margin: 5px;
+  }
+}
+
+.cid-area {
+  border: 1px dashed #dfdfdf;
+  margin: 5px;
+}
+
+.cid-title {
+  color: #3a75bf;
+  font-weight: bold;
+  margin: 2px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.cid-descricao {
+  margin-left: 2px;
+  color: darkgrey;
+}

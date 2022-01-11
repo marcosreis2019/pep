@@ -1,0 +1,99 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left mt-1">
+        <h2>Termos</h2>
+      </div>
+      <div class="float-right mb-1">
+        <button (click)="reset()" title="Novo Termo">
+          <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+        </button>
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of listTermo; let i = index"
+        (click)="setTermo(item)"
+      >
+        <div class="info">
+          <h3>{{ item.processo }}</h3>
+          <span>
+            data:
+            {{
+              item.created_at && item.created_at.Time
+                ? (item.created_at.Time | date: 'dd/MM/yyyy')
+                : 'Data não encontrada'
+            }}
+          </span>
+        </div>
+        <div class="secondary-info">
+          <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+          <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+        </div>
+      </div>
+      <img *ngIf="loadingList" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <div class="pep-center content-container">
+    <div class="content">
+      <div class="block">
+        <div class="content-title">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="inputs">
+          <div class="card">
+            <br />
+            <div class="row">
+              <div class="col-6">
+                <select class="floating-select" [(ngModel)]="termo.processo">
+                  <option value=""></option>
+                  <option *ngFor="let item of listProcessos; let i = index" [ngValue]="item">
+                    {{ item }}
+                  </option>
+                </select>
+                <label for="descricao">Processo</label>
+              </div>
+              <div class="col-3">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="termo.ativo" />
+                  Ativo
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label for="descricao">Texto</label>
+                <br />
+                <textarea
+                  placeholder="Texto do Termo"
+                  name="texto"
+                  id="texto"
+                  rows="10"
+                  cols="80"
+                  [(ngModel)]="termo.texto"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group" *ngIf="!loading">
+              <button
+                title="Salvar"
+                [disabled]="termo.texto == ''"
+                class="btn btn-primary"
+                (click)="salvar()"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

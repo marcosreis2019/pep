@@ -1,0 +1,22 @@
+@mixin block-changeable-header {
+  display: flex;
+  justify-content: space-between;
+
+  min-height: 80px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+
+  h3 {
+    font-family: WorkBold;
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
+@mixin block-changeable-content {
+  height: calc(100vh - 300px);
+  overflow: scroll;
+}

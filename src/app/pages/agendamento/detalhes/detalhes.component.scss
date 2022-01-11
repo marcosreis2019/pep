@@ -1,0 +1,73 @@
+.title-line {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.title-event-detail {
+  font-size: large;
+  background-color: #0273b2b0;
+  color: #fff;
+  font-weight: bolder;
+}
+
+.content-event-detail {
+  font-size: large;
+  background-color: #fff;
+}
+
+.card-event-detail {
+  border-color: #0273b2b0;
+}
+
+.tipo-atendimento-txt {
+  background: #ffff008c;
+  border-radius: 7px;
+  padding: 4px;
+  font-weight: bolder;
+}
+
+.bg-green {
+  background-color: #326732ad;
+}
+
+.bg-red {
+  background-color: #ff0000ba;
+}
+
+.tel-size {
+  font-size: 9pt;
+}
+
+.row-paciente {
+  border-bottom: 2px solid #dee2e6 !important;
+  margin-top: -17px !important;
+  background: #d3d3d36b !important;
+  padding: 15px !important;
+  margin-bottom: 2px;
+}
+
+.btn-level-modal {
+  font-size: 0.8vw;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-weight: inherit;
+  position: absolute;
+  right: 25px;
+  padding: 2px 8px;
+  background: none !important;
+  border: 2px solid #ffffff !important;
+}
+
+.btn-status-modal {
+  font-size: 0.8vw;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-weight: inherit;
+  position: absolute;
+  right: 25px;
+  padding: 2px 8px;
+  background: none;
+  border: 1px solid #ffffff;
+}

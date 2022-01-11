@@ -1,0 +1,56 @@
+<ng-container>
+  <menu-sidebar></menu-sidebar>
+  <article class="main">
+    <section class="pep-left">
+      <div class="pep-title">
+        <div class="float-left">
+          <h2>Usuários</h2>
+        </div>
+        <div class="float-right">
+          <button (click)="addUsuario()" title="Novo usuário">
+            <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+          </button>
+        </div>
+        <div class="searchbar">
+          <img src="assets/icons/search-blue.svg" alt="" />
+          <input
+            type="text"
+            placeholder="Buscar e filtrar usuários"
+            [(ngModel)]="search"
+            (ngModelChange)="change(search)"
+          />
+        </div>
+      </div>
+      <div class="list">
+        <div
+          class="item"
+          style="position: relative;"
+          *ngFor="let item of usuarioList; let i = index"
+          (click)="selectUsuario(item, i)"
+          [ngClass]="{ selected: i === selectedIndex }"
+        >
+          <div class="info">
+            <h3>{{ item.login }}</h3>
+            <span>{{ item.nome }}</span>
+          </div>
+          <div class="secondary-info">
+            <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+            <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+          </div>
+        </div>
+        <img *ngIf="loadingList" src="assets/icons/spinner.svg" alt="Loading..." />
+      </div>
+    </section>
+
+    <section class="pep-center">
+      <app-usuario-info
+        *ngIf="selectedUsuario && !loading"
+        [(usuario)]="selectedUsuario"
+        (saveUsuario)="saveUsuario($event)"
+      ></app-usuario-info>
+      <div *ngIf="loading" class="loading">
+        <img src="assets/icons/spinner.svg" alt="" />
+      </div>
+    </section>
+  </article>
+</ng-container>

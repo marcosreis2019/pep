@@ -1,0 +1,392 @@
+<div class="card">
+  <table>
+    <tr>
+      <td width="20%">Status</td>
+      <td>
+        <select [(ngModel)]="profissional.ativo">
+          <option *ngFor="let ativo of listAtivo" [ngValue]="ativo.key">
+            {{ ativo.value }}
+          </option>
+        </select>
+      </td>
+      <td>
+        MPI
+      </td>
+      <td>
+        <span>
+          <input
+            [disabled]="true"
+            type="text"
+            name="mpi"
+            value=""
+            class="input-name"
+            [(ngModel)]="profissional.pessoa.mpi"
+          />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Nome
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="nome"
+            value=""
+            class="input-name"
+            [(ngModel)]="profissional.pessoa.nome"
+          />
+        </span>
+      </td>
+      <td>
+        Sobrenome
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="nome"
+            value=""
+            class="input-name"
+            [(ngModel)]="profissional.pessoa.sobrenome"
+          />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Homepage
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.homePage">
+            <option *ngFor="let homePage of listHomePage" [ngValue]="homePage.key">
+              {{ homePage.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+      <td>
+        Email
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="email"
+            value=""
+            class="input-name"
+            [(ngModel)]="profissional.email"
+          />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        CPF
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="cpf"
+            mask="cpf"
+            value=""
+            class="input-name"
+            maxlength="15"
+            [(ngModel)]="profissional.pessoa.cpf"
+          />
+        </span>
+      </td>
+      <td>
+        Data Nascimento
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="data_nascimento"
+            value=""
+            class="input-name"
+            mask="date"
+            [(ngModel)]="dataNascimento"
+          />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Sexo
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.pessoa.sexo">
+            <option *ngFor="let sexo of listSexo" [ngValue]="sexo.key">
+              {{ sexo.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+      <td>
+        Gênero
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.pessoa.genero">
+            <option *ngFor="let sexo of listSexo" [ngValue]="sexo.key">
+              {{ sexo.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Estado civil
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.pessoa.estado_civil">
+            <option *ngFor="let estadoCivil of listEstadoCivil" [ngValue]="estadoCivil.key">
+              {{ estadoCivil.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+      <td>
+        Grau instrução
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.pessoa.grau_instrucao">
+            <option *ngFor="let grau of listGrauInstrucao" [ngValue]="grau.key">
+              {{ grau.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Conselho
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.conselhoProfissional">
+            <option *ngFor="let conselho of listConselho" [ngValue]="conselho.key">
+              {{ conselho.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+      <td>
+        Numero conselho
+      </td>
+      <td>
+        <span>
+          <input
+            type="text"
+            name="numeroConselho"
+            value=""
+            class="input-name"
+            [(ngModel)]="profissional.numeroConselho"
+          />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Uf Conselho
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.ufConselho" (change)="loadCidades()">
+            <option [ngValue]="''">
+              Selecione...
+            </option>
+            <option *ngFor="let uf of listUf" [ngValue]="uf">
+              {{ uf }}
+            </option>
+          </select>
+        </span>
+      </td>
+      <td>
+        Cidade
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.memedCidadeId">
+            <option [ngValue]="0" *ngIf="profissional.ufConselho && listCidadesCombo.length == 0">
+              Carregando...
+            </option>
+            <option [ngValue]="0" *ngIf="!profissional.ufConselho || listCidadesCombo.length > 0">
+              Selecione...
+            </option>
+            <option *ngFor="let cidade of listCidadesCombo" [ngValue]="cidade.key">
+              {{ cidade.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <br />
+  <table>
+    <tr>
+      <td width="25px">
+        Locais
+      </td>
+      <td>
+        <span>
+          <ng-multiselect-dropdown
+            [placeholder]="'Selecione um ou mais locais'"
+            [data]="locaisList"
+            [(ngModel)]="selectedLocais"
+            [settings]="dropdownSettings"
+          ></ng-multiselect-dropdown>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Local Padrão
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.localPadraoId">
+            <option *ngFor="let local of locaisList" [ngValue]="local.key">
+              {{ local.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Especialidades
+      </td>
+      <td>
+        <span>
+          <ng-multiselect-dropdown
+            [placeholder]="'Selecione uma ou mais especialidades'"
+            [data]="especialidadesList"
+            [(ngModel)]="selectedEspecialidades"
+            [settings]="dropdownSettings"
+          ></ng-multiselect-dropdown>
+        </span>
+      </td>
+    </tr>
+    <tr *ngIf="isCRM()">
+      <td>
+        Especialidade
+        <br />
+        do Memed
+      </td>
+      <td>
+        <span>
+          <select [(ngModel)]="profissional.memedEspecialidadeId">
+            <option [ngValue]="0">
+              Selecione...
+            </option>
+            <option
+              *ngFor="let especialidade of especialidadesMemedList"
+              [ngValue]="especialidade.key"
+            >
+              {{ especialidade.value }}
+            </option>
+          </select>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <br />
+  <div class="actions">
+    <button class="btn btn-secondary" *ngIf="isCRM()" (click)="showMemedInfo()">
+      Informações do Memed
+    </button>
+    &nbsp;
+    <button *ngIf="!loading" class="btn btn-primary" (click)="save()">
+      Salvar
+    </button>
+    <div *ngIf="loading">
+      <img width="100px" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #modalMemedInfo
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalMemedInfo"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Informações do MEMED
+    </h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td width="190px"><b>Nome:</b></td>
+        <td>{{ infoMemed.nome_completo }}</td>
+      </tr>
+      <tr>
+        <td><b>Sexo:</b></td>
+        <td>{{ infoMemed.sexo }}</td>
+      </tr>
+      <tr>
+        <td><b>Data de nascimento:</b></td>
+        <td>{{ infoMemed.data_nascimento }}</td>
+      </tr>
+      <tr>
+        <td><b>CPF:</b></td>
+        <td>{{ infoMemed.cpf }}</td>
+      </tr>
+      <tr>
+        <td><b>CRM:</b></td>
+        <td>{{ infoMemed.crm }}</td>
+      </tr>
+      <tr>
+        <td><b>Uf:</b></td>
+        <td>{{ infoMemed.uf }}</td>
+      </tr>
+      <tr>
+        <td><b>Cidade:</b></td>
+        <td>{{ infoMemed.cidade }}</td>
+      </tr>
+      <tr>
+        <td><b>Endereço:</b></td>
+        <td>{{ infoMemed.endereco }}</td>
+      </tr>
+      <tr>
+        <td><b>Especialidade:</b></td>
+        <td>{{ infoMemed.especialidade }}</td>
+      </tr>
+      <tr>
+        <td><b>E-mail:</b></td>
+        <td>{{ infoMemed.email }}</td>
+      </tr>
+      <tr>
+        <td><b>Telefone:</b></td>
+        <td>{{ infoMemed.telefone }}</td>
+      </tr>
+      <tr>
+        <td><b>Ambiente:</b></td>
+        <td>{{ infoMemed.ambiente }}</td>
+      </tr>
+      <tr>
+        <td><b>Status:</b></td>
+        <td>{{ infoMemed.status }}</td>
+      </tr>
+    </table>
+  </div>
+</ng-template>

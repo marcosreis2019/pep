@@ -1,0 +1,14 @@
+<div class="not-found">
+  <ng-container [ngSwitch]="type">
+    <p *ngSwitchCase="'user'">
+      Usuário não encontrado! <br>
+      <span>Que tal tentar com outro MPI?</span>
+    </p>
+
+    <p *ngSwitchCase="'pro'">
+      Problemas na identificação do profissional! <br>
+      <span>não encotramos nenhuma identificação para o profissional e/ou local de atendimento!</span>
+    </p>
+  </ng-container>
+  
+</div>

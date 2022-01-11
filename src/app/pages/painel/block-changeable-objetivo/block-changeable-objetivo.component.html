@@ -1,0 +1,41 @@
+<div class="condition">
+  <div class="header bg-o">
+    <h3 class="txt-light">Objetivo</h3>
+
+    <!-- <button class="btn-close" (click)="close()">
+      <i><img src="assets/icons/close.svg" alt=""/></i>
+    </button> -->
+  </div>
+
+  <div class="changeable">
+    <ng-container *ngIf="$loading | async; else contentOrError">
+      <div class="loading">
+        <img src="assets/icons/spinner.svg" alt="" />
+      </div>
+    </ng-container>
+
+    <ng-template #contentOrError>
+      <ng-container *ngIf="$completed | async; else forms">
+        <form-completed></form-completed>
+      </ng-container>
+
+      <ng-template #forms>
+        <ng-container *ngIf="$error | async as error; else form">
+          <p>{{ error.toString() }}</p>
+        </ng-container>
+
+        <ng-template class="changeable-container" #form>
+          <dynamic-form-genarator
+            [$inputs]="$inputs"
+            [parent]="soapItem"
+            (export)="toExport($event)"
+          ></dynamic-form-genarator>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+
+    <ng-template #noFormFound>
+      Não existem formulários para o campo Subjetivo deste paciente.
+    </ng-template>
+  </div>
+</div>

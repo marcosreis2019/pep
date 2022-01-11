@@ -1,0 +1,59 @@
+:host {
+  width: 100%;
+}
+
+.dynamic-form {
+  height: 100%;
+  display: flex;
+  width: 100%;
+  /* position: relative; */
+}
+
+.perfect-scrollbar {
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.dynamic-form-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ul {
+    width: 90px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+  }
+  ul > li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #dde3ff;
+
+    &.active {
+      background-color: #0071fe;
+    }
+  }
+
+  button:disabled {
+    opacity: 0.6;
+  }
+}
+
+.content-fixed {
+  height: 50px;
+}
+
+.content-grow {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  overflow-y: scroll;
+  max-height: calc(
+    100% - 50px
+  ); // NOTE 50px é a altura no header do component pai (ou seja, conduta/meta)
+  scrollbar-width: none;
+}

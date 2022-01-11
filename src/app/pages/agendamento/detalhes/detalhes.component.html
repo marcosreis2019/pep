@@ -1,0 +1,222 @@
+<section>
+  <div class="card card-event-detail" *ngIf="!isBlockedTypeItem(agendamento)">
+    <div
+      [ngClass]="
+        'nivel-' +
+        agendamento.paciente.nivelComplexidade?.codigoNivel +
+        ' card-header title-event-detail'
+      "
+    >
+      Paciente
+      <button class="custom-btn btn-level-modal ml-2">
+        <i class="fas fa-heart"></i>
+        Nível {{ agendamento.paciente.nivelComplexidade?.codigoNivel }}
+      </button>
+    </div>
+    <div class="card-body content-event-detail">
+      <div class="row">
+        <div class="w-auto min-width-50">
+          <p class="card-text mb-1">
+            <b>Nome:</b>
+            {{ formatText(agendamento.paciente.nomeCompleto) }}
+          </p>
+          <p class="card-text mb-1">
+            <b>Data Nasc:</b>
+            {{ agendamento.paciente.dataNascimento | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="card-text mb-1">
+            <b>Sexo:</b>
+            {{ formatText(agendamento.paciente.genero) }}
+          </p>
+        </div>
+        <div>
+          <p class="card-text mb-1">
+            <b>Telefone:</b>
+            {{ agendamento.telefone }}
+          </p>
+          <p class="card-text mb-1">
+            <b>Matrícula:</b>
+            {{ agendamento.paciente.matricula }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="w-auto min-width-50">
+          <p class="card-text mb-1">
+            <b>Email:</b>
+            {{ agendamento.email }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br *ngIf="!isBlockedTypeItem(agendamento)" />
+
+  <div class="card card-event-detail" *ngIf="!isBlockedTypeItem(agendamento)">
+    <div class="card-header title-event-detail">
+      Agendamento
+      <button class="custom-btn btn-status-modal border-status" [ngStyle]="getStatusStyle()">
+        <i [ngClass]="getStatusIcon()" aria-hidden="true"></i>
+        {{ getStatusDescricao() }}
+      </button>
+    </div>
+    <div class="card-body content-event-detail">
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Tipo:</b>
+            <b class="tipo-atendimento-txt">{{ getTipo() }}</b>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Motivo:</b>
+            {{ agendamento.motivo }}
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Tipo Serviço:</b>
+            {{ agendamento.descricaoTipoServico }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Classificação:</b>
+            {{ agendamento.descricaoClassificacao }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Local:</b>
+            {{ agendamento.localDescricao }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Status pagamento:</b>
+            {{ labelPago(agendamento.pago) }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Reagendamento:</b>
+            {{ labelReagendamento(agendamento.reagendamento) }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-event-detail" *ngIf="isBlockedTypeItem(agendamento)">
+    <div class="card-header title-event-detail">
+      Agendamento
+    </div>
+    <div class="card-body content-event-detail">
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Tipo:</b>
+            {{ getTipo() }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-2">
+          <p class="card-text mb-1">
+            <b>Motivo:</b>
+            {{ agendamento.motivo }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card card-event-detail">
+        <div class="card-header title-event-detail bg-green">
+          Início
+        </div>
+        <div class="card-body content-event-detail">
+          <p class="card-text">
+            {{ agendamento.dataInicio | date: 'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="card card-event-detail">
+        <div class="card-header title-event-detail bg-red">
+          Fim
+        </div>
+        <div class="card-body content-event-detail">
+          <p class="card-text">
+            {{ agendamento.dataFim | date: 'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="row" *ngIf="agendamento?.linkPaciente">
+    <div class="col-6">
+      <div class="card card-event-detail">
+        <div class="card-header title-event-detail">
+          Vídeo Chamada ( Link do Paciente )
+        </div>
+        <div class="card-body content-event-detail">
+          <p class="card-text">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="copyLink(agendamento.linkPaciente)"
+            >
+              Copiar Link do Paciente
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6" *ngIf="agendamento.linkProfissional">
+      <div class="card card-event-detail">
+        <div class="card-header title-event-detail">
+          Vídeo Chamada ( Profissional )
+        </div>
+        <div class="card-body content-event-detail">
+          <p class="card-text">
+            <a
+              type="button"
+              class="btn btn-outline-secondary"
+              href="{{ agendamento.linkProfissional }}"
+              target="_blank"
+            >
+              Iniciar Video Chamada
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

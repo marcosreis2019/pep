@@ -1,0 +1,42 @@
+<div class="calendar">
+  <input
+    [placeholder]="placeholder"
+    name="dp"
+    ngbDatepicker
+    #d="ngbDatepicker"
+    firstDayOfWeek="7"
+    placement="bottom-right"
+    [dayTemplate]="customDay"
+    [markDisabled]="isDisabled"
+    mask="date"
+    readonly
+    [(ngModel)]="valueCalendar"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    (ngModelChange)="modify(valueCalendar)"
+  />
+
+  <button (click)="d.toggle()" type="button">
+    <img src="assets/icons/calendar.svg" class="calender-icon" alt="" />
+  </button>
+</div>
+
+<ng-template
+  #customDay
+  let-date
+  let-currentMonth="currentMonth"
+  let-selected="selected"
+  let-disabled="disabled"
+  let-focused="focused"
+>
+  <span
+    class="custom-day"
+    [class.weekend]="isWeekend(date)"
+    [class.focused]="focused"
+    [class.bg-primary]="selected"
+    [class.hidden]="isDisabled(date.month, currentMonth)"
+    [class.text-muted]="disabled"
+  >
+    {{ date.day }}
+  </span>
+</ng-template>

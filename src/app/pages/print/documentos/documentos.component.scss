@@ -1,0 +1,212 @@
+/* attempt to make the page title and number disappear from the pring preview */
+@page {
+  size: auto;
+  margin: 0mm;
+}
+
+@media print {
+  .btn-save,
+  .btn-print,
+  .btn-ass-digital,
+  .cidade,
+  .tooltip,
+  .bs-tooltip-top,
+  .data,
+  .hide-pdf {
+    display: none !important;
+  }
+
+  .logo-atestado {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  #documentoMedico {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen {
+  .cidade-print,
+  .data-print {
+    display: none;
+  }
+  input[type='text'] {
+    height: 10px;
+    border: 0.5px solid lightgray;
+    border-radius: 25px;
+    padding: 2px 10px;
+    line-height: 8px;
+  }
+  #documentoMedico {
+    border: 2px solid #d3d3d3b5;
+    border-style: dashed;
+    padding: 2cm;
+  }
+}
+
+.modal-title {
+  font-size: 1.4rem;
+}
+/* Flex stuff -------------- */
+.container {
+  display: flex;
+  margin: 0;
+}
+.rows {
+  flex-direction: row;
+}
+.columns {
+  flex-direction: column;
+}
+.stretch {
+  align-items: stretch;
+}
+
+.flex-start {
+  align-items: flex-start;
+}
+
+.flex-end {
+  align-items: flex-end;
+}
+
+.center {
+  align-items: center;
+}
+
+.baseline {
+  align-items: baseline;
+}
+
+/* ------------------------- */
+article.wrapper {
+  width: 100vw;
+  height: 100vw;
+  margin: 0;
+  font-size: 12px;
+}
+.actions {
+  width: 210mm;
+  margin: 10px auto 10px auto;
+  position: relative;
+  .btn-print {
+    width: 147px;
+    margin-right: 10px;
+    background-color: #2cd3ac;
+    color: #fff;
+  }
+  .btn-ass-digital {
+    color: #fff;
+    margin-right: 10px;
+    background-color: #f99302;
+  }
+  .btn-save {
+    color: #fff;
+    margin-right: 10px;
+    background-color: #0071fe;
+  }
+}
+.sign-modal {
+  width: 600px;
+  margin: 0 auto;
+}
+.document {
+  width: 210mm;
+  height: 315mm !important;
+  margin: 0 auto;
+  /* margin: 2cm 5cm; */
+  position: relative;
+}
+.document * {
+  font-size: 1em;
+  color: black;
+}
+.document img {
+  width: 40%;
+  height: auto;
+}
+.logo-atestado {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+}
+.title {
+  margin-top: 15px;
+  font-size: 20px !important;
+  font-weight: bolder;
+  text-align: center;
+}
+.content {
+  font-size: 15px;
+  color: black;
+}
+.cidade-e-data {
+  float: right;
+  position: relative;
+  margin-right: 0px;
+  margin-top: 80px;
+}
+.cidade {
+  width: 200px;
+  text-align: center;
+}
+.data {
+  width: 120px;
+  text-align: center;
+}
+.signature-line {
+  color: black;
+  width: 320px;
+  margin-left: 0px;
+  margin-top: 200px;
+}
+.signature-line-text {
+  margin-top: 5px;
+}
+.professional {
+  margin-top: 90px;
+}
+.dados-conselho {
+  margin-top: 3px;
+  .conselho {
+    padding-right: 5px;
+  }
+  .numero-conselho {
+    padding-left: 5px;
+  }
+}
+.numero-conselho {
+  margin-top: 3px;
+}
+.carimbo {
+  margin-top: 15px;
+}
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  /* margin: auto; */
+}
+.footer p {
+  text-align: center;
+}
+.hide {
+  display: none !important;
+}
+.show {
+  display: initial !important;
+}
+.print-toast {
+  opacity: 1;
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 20px 20px 0 0;
+  z-index: 1100;
+}

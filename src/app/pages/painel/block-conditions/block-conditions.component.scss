@@ -1,0 +1,57 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/borders';
+@import 'src/app/themes/fonts';
+
+@mixin flex-col($min, $default) {
+  display: flex;
+  flex-direction: column;
+  min-width: $min;
+  width: $default;
+}
+
+:host {
+  width: 100%;
+}
+
+.scrollbar-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative; // without this on the parent the scrollbar WILL NOT LOAD!
+  display: flex;
+}
+
+.perfect-scrollbar {
+  @include border-top-radius(14px);
+  width: inherit;
+  flex: 1;
+  width: inherit;
+  position: static; // needed to fix overflow issue with form popover on conditions
+}
+
+.block-conditions-info {
+  @include border-top-radius(14px);
+  width: 100%;
+  padding: 18px 26px 0;
+  overflow-y: scroll;
+  flex: 1;
+  scrollbar-width: none; /* trick to hide scrollbar to use ngx-scrollbar */
+  height: 98%;
+  background-color: map-get($theme, light);
+
+  h2 {
+    @include font-size(1.45rem);
+    font-family: LatoBold;
+    background-color: map-get($theme, light);
+  }
+
+  .round {
+    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 9px;
+    color: white;
+  }
+}

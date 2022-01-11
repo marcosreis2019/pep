@@ -1,0 +1,15 @@
+<form class="pep-input-group" [formGroup]="form">
+  <h5>Adicionar Alergia</h5>
+  <div>
+    <select formControlName="tipo">
+      <option *ngFor="let tipo of tipos; let i = index" [value]="tipo.value" [disabled]="i === 0">{{ tipo.label }}</option>
+    </select>
+  </div>
+  <input type="text" placeholder="Agente*" formControlName="agente">
+  <textarea type="text" placeholder="Observações" formControlName="notas"></textarea>
+
+  <div class="btn-pop-group">
+    <button class="btn-pep btn-choose" (click)="cancelForm()"><i class="fas fa-ban mr-1"></i> Cancelar</button>
+    <button class="btn-pep btn-choose yes" [disabled]="form.invalid" (click)="send()">Adicionar</button>
+  </div>
+</form>

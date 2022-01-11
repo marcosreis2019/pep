@@ -1,0 +1,94 @@
+<div class="main">
+  <div class="left">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container" class="no-menu">
+          <a id="ribbon">Documento</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="block" *ngIf="isInfo()">
+      <div class="title">
+        <h2 *ngIf="err" style="color: red;">{{err}}</h2>
+        <h1 *ngIf="!err && document.downloadUrl" class="title">Informações</h1>
+      </div>
+      <br/>
+      <p *ngIf="!err && document.downloadUrl">
+        O documento contém {{document.signature._signers.length}} assinaturas.
+      </p>
+      <div *ngFor="let signer of document.signature._signers">
+        <b>{{signer._certificate._subjectName._commonName}}</b>&nbsp;
+        <i *ngIf="isValid(signer)" style="color: green;" class="fas fa-check-circle"></i>
+        <i *ngIf="!isValid(signer)" style="color: red;" class="fas fa-exclamation-circle"></i>
+        <p>Data da assinatura: {{formatDate(signer._signingTime)}}</p>
+        <ul>
+          <li>
+            Sujeito: {{signer._certificate._subjectName._commonName}}
+          </li>
+          <li>
+            Email: {{signer._certificate._emailAddress}}
+          </li>
+          <li>
+            Informações ICP-Brasil
+            <ul>
+              <li>
+                Tipo de certificado: {{signer._certificate._pkiBrazil._certificateType}}
+              </li>
+              <li>
+                Responsavel: {{signer._certificate._pkiBrazil._responsavel}}
+              </li>
+              <li *ngIf="signer._certificate._pkiBrazil._cpf">
+                CPF: {{signer._certificate._pkiBrazil._cpf}}
+              </li>
+              <li *ngIf="signer._certificate._pkiBrazil._rgNumero">
+                RG: {{signer._certificate._pkiBrazil._rgNumero}} {{signer._certificate._pkiBrazil._rgEmissor}} {{signer._certificate._pkiBrazil._rgEmissorUF}}
+              </li>
+              <li *ngIf="signer._certificate._pkiBrazil._companyName">
+                Empresa: {{signer._certificate._pkiBrazil._companyName}}
+              </li>
+              <li *ngIf="signer._certificate._pkiBrazil._cnpj">
+                CNPJ: {{signer._certificate._pkiBrazil._cnpj}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a [href]="document.downloadUrl" target="_blank">Download do documento</a>
+          </li>
+          <li>
+            <a [href]="getPrintUrl()" target="_blank">Versão para impressão do documento</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block" *ngIf="isUpload()">
+      <div class="title">
+        <h2 *ngIf="err" style="color: red;">{{err}}</h2>
+        <h1 *ngIf="!err" class="title">Selecione um documento para validação</h1>
+      </div>
+      <br/>
+      <form class="document-form">
+        <input
+          class="pep-input"
+          type="file"
+          (change)="fileChange($event)"
+          placeholder="Selecione um arquivo..."
+          accept=".pdf">
+      </form>
+    </div>
+    <div class="block" *ngIf="loading">
+      <div class="d-flex justify-content-center loading">
+        <img src="assets/icons/spinner.svg" alt="Loading..." />
+      </div>
+    </div>
+  </div>
+</div>

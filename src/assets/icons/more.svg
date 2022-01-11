@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <clipPath id="clip-more">
+      <rect width="30" height="30"/>
+    </clipPath>
+  </defs>
+  <g id="more" clip-path="url(#clip-more)">
+    <rect width="30" height="30" fill="#fff"/>
+    <g id="_001-menu" data-name="001-menu" transform="translate(3.999 -181.321)">
+      <path id="Path_9" data-name="Path 9" d="M391.564,194.173a2.869,2.869,0,1,1-4.057,0,2.869,2.869,0,0,1,4.057,0" transform="translate(-369.451 0)" fill="#dde3ff"/>
+      <path id="Path_10" data-name="Path 10" d="M198.231,194.173a2.869,2.869,0,1,1-4.057,0,2.869,2.869,0,0,1,4.057,0" transform="translate(-184.726 0)" fill="#dde3ff"/>
+      <path id="Path_11" data-name="Path 11" d="M4.9,194.173a2.869,2.869,0,1,1-4.057,0,2.869,2.869,0,0,1,4.057,0" transform="translate(0 0)" fill="#dde3ff"/>
+    </g>
+  </g>
+</svg>

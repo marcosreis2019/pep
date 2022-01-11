@@ -1,0 +1,100 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h90 {
+  height: 90%;
+}
+
+.green {
+  background-color: #4ea226 !important;
+}
+
+.locais-title {
+  display: flex;
+  user-select: none;
+  flex-direction: column;
+  align-items: end;
+  justify-content: end;
+  margin-left: -302px;
+  height: 100px;
+  width: 100%;
+  margin-top: 97px;
+}
+
+.locais-logo {
+  margin-top: 75%;
+  user-select: none;
+}
+
+.title-h2 {
+  font-size: 26px !important;
+}
+
+.categoria-bg {
+  background: #f7f9fc;
+  padding: 33px;
+}
+
+.btn-plan:disabled {
+  background-color: #a7a7a7;
+}
+
+.btn-plan:disabled:hover {
+  background-color: #a7a7a7;
+}
+
+.btn-plan {
+  @extend .txt-light;
+  padding: 9px 12px !important;
+  margin-right: 5px;
+  min-width: 71px;
+  border-radius: 22px !important;
+  font-size: 13px !important;
+}
+
+.btn-plan:hover {
+  background-color: #348826;
+}
+
+button.info-painel {
+  font-size: calc(0.6vw - 1px) !important;
+  color: #7d869c;
+  border: none;
+  border-radius: 25px;
+  margin-left: 7px;
+  padding: 2px 8px;
+  background: none !important;
+  border: 1px solid #7d869c !important;
+
+  i {
+    margin-right: 8px;
+  }
+}
+
+button:disabled {
+  cursor: not-allowed !important;
+  background-color: lightgray !important;
+  color: gray !important;
+}
+
+a {
+  .disable {
+    cursor: not-allowed !important;
+  }
+}

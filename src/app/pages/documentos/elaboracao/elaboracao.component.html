@@ -1,0 +1,68 @@
+<ng-container>
+  <menu-sidebar
+    [showLocal]="false"
+    [showPacientes]="false"
+    [showAgendamentos]="false"
+    [showRelatorios]="false"
+    [showOpcoes]="false"
+  ></menu-sidebar>
+  <article class="main">
+    <section class="pep-left">
+      <div class="pep-title">
+        <h2>
+          Elaboração de documentos
+          <br />
+          <span>Atendimento {{ sequencial }}</span>
+          <br />
+          <span>{{ beneficiarioNome }}</span>
+        </h2>
+      </div>
+      <div class="pep-content">
+        <h3>Tipo de documento</h3>
+        <ul class="modelo-list">
+          <li *ngFor="let modelo of modelos">
+            <span>{{ modelo.modelo_descricao }}</span>
+            <ul>
+              <li *ngFor="let tipo of modelo.tipos">
+                <div class="pep-radio-group">
+                  <input
+                    name="inlineDefaultRadiosExample"
+                    class="pep-radio"
+                    type="radio"
+                    [value]="tipo"
+                    [(ngModel)]="selectedType"
+                  />
+                  <label class="pep-label">{{ tipo.descricao }}</label>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pep-center">
+      <app-atestado-medico-form
+        *ngIf="isAtestado()"
+        [documentType]="selectedType"
+      ></app-atestado-medico-form>
+      <app-relatorio-medico-form
+        *ngIf="isRelatorioMedico()"
+        [documentType]="selectedType"
+      ></app-relatorio-medico-form>
+      <app-solicitacao-exames-form
+        *ngIf="isSolicitacaoExames()"
+        [documentType]="selectedType"
+      ></app-solicitacao-exames-form>
+    </section>
+  </article>
+</ng-container>
+
+<ngb-alert
+  class="toast-error"
+  type="danger"
+  (close)="resetToast()"
+  *ngIf="(error$ | async)?.msg as msg"
+>
+  {{ msg }}
+</ngb-alert>

@@ -1,0 +1,91 @@
+
+  #ribbon-container {
+    position: absolute;
+    user-select: none;
+    top: 15%;
+    right: 69.2%;
+    overflow: visible;
+    font-size: 30px;
+    line-height: 18px;
+  }
+  
+  .no-menu {
+    top: 10% !important;
+  }
+  
+  #ribbon-container:before {
+    content:"";
+    height: 0;
+    width: 0;
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    border-top: 29px solid rgba(0,0,0,.3); /* These 4 border properties create the first part of our drop-shadow */
+    border-bottom: 29px solid rgba(0,0,0,.3); 
+    border-right: 29px solid rgba(0,0,0,.3);
+    border-left: 29px solid transparent;
+  }
+  
+  #ribbon-container:after { /* This adds the second part of our dropshadow */
+    content:"";
+    height: 3px;
+    background: rgba(0,0,0,.3);
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 58px;
+    right:3px;
+  }
+  
+  #ribbon-container a {
+    display: block;
+    padding: 20px;
+    position: relative;
+    background: #4a9db7;
+    overflow: visible;
+    font-family: WorkBold !important;
+    height: 58px;
+    margin-left: 29px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  #ribbon-container a:after { /* this creates the "folded" part of our ribbon */
+    content:""; 
+    height: 0;
+    width: 0;
+    display:block;
+    position:absolute;
+    bottom:-15px;
+    right:0;
+    border-top: 15px solid #004a70; 
+    border-right: 15px solid transparent;
+  }
+  
+  #ribbon-container a:before { /* this creates the "forked" part of our ribbon */
+    content:"";
+    height: 0;
+    width: 0;
+    display:block;
+    position:absolute;
+    top:0;
+    left:-29px;
+    border-top: 29px solid #4a9db7; 
+    border-bottom: 29px solid #4a9db7; 
+    border-right: 29px solid transparent;
+    border-left: 29px solid transparent;
+  }
+
+
+.titleRelatorio {
+    color: #0071fe;
+    font-size: 2.7vw;
+    letter-spacing: 14px;
+    margin: 0 !important;
+    background: aliceblue;
+    font-family: WorkBold;
+    padding: 16px;
+    padding-top: 30px;
+    padding-left: 9.9em;
+  }

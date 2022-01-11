@@ -1,0 +1,27 @@
+@import 'src/app/themes/colors';
+
+.not-found {
+  position       : absolute;
+  top            : 0; 
+  bottom         : 0;
+  background     : #fff;
+  width          : 100%;
+  height         : 100%;
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+
+  p {
+    @extend .txt-primary;
+    font-family: LatoBlack;
+    font-size  : 300%;
+    text-align : center;
+    position: relative;
+    top: -100px;
+
+    span {
+      font: LatoMedium;
+      font-size: 80%;
+    }
+  }
+}

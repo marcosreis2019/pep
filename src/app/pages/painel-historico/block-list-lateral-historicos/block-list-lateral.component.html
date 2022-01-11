@@ -1,0 +1,51 @@
+<div class="condition">
+  <div class="header bg-s">
+    <div class="row">
+      <div class="col-6">
+        <button class="btn btn-primary select-all" (click)="selecionarTodos()">
+          Selecionar Todos
+        </button>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-primary select-all" (click)="limpar()">
+          Limpar Seleção
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="area-list">
+    <div *ngFor="let historico of list">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <input
+                type="checkbox"
+                [checked]="historico.selected"
+                [(ngModel)]="historico.selected"
+                class="mt-2"
+                (change)="selectHistorico(historico)"
+              />
+            </div>
+            <div class="col-10">
+              <div class="row">
+                <span>{{ historico?.dataInicio | date: 'dd/MM/yyyy' }}</span>
+                &nbsp; {{ historico?.profissional.pessoa.nomeAbreviado }}
+              </div>
+
+              <div class="row">
+                &nbsp; {{ historico?.tipo_servico?.descricao }}
+              </div>
+
+              <div class="row">
+                <span>Clínica:</span>
+                &nbsp; {{ historico.localAtendimento.razao_social }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

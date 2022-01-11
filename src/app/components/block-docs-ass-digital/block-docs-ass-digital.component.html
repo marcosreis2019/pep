@@ -1,0 +1,214 @@
+<div class="exames categoria-bg">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="title-h2">Documentos assinados digitalmente</h2>
+    </div>
+
+    <div class="col-2"></div>
+    <div class="col-2">
+      <button class="btn btn-primary bg-secondary" (click)="openModalDocAssinados()">
+        Histórico
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #docsAssinados let-modal class="modal-70">
+  <section class="modal-header">
+    <h2 class="modal-title">Documentos assinados digitalmente</h2>
+    <button e type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </section>
+
+  <!-- modal body -->
+  <section class="modal-body history">
+    <div
+      *ngIf="!listDocsAssinados || (listDocsAssinados && listDocsAssinados.length <= 0)"
+      class="history-table"
+    >
+      <section class="h-title">
+        <div class="row">
+          <div class="sm-col">Selecionar</div>
+          <div class="xg-col">Proofissional</div>
+          <div class="md-col">Data Solicitação</div>
+          <div class="md-col">Ações</div>
+        </div>
+      </section>
+      <section class="h-content mt-5" style="text-align: center;">
+        <p>Nenhum documento assinado até o momento</p>
+      </section>
+    </div>
+
+    <div *ngIf="listDocsAssinados && listDocsAssinados.length" class="history-table">
+      <section class="h-title">
+        <div class="row">
+          <div class="sm-col">Selecionar</div>
+          <div class="xg-col">Pofissional</div>
+          <div class="md-col">Data Solic</div>
+          <div class="md-col">Ações</div>
+        </div>
+      </section>
+      <section class="h-content max-height-scroll">
+        <div class="row" *ngFor="let item of listDocsAssinados; let i = index">
+          <div class="item cursor">
+            <!-- checkbox para selecionar docs -->
+            <div class="sm-col">
+              <input value="{{ item }}" type="checkbox" (change)="toggleDocToSendArray(item)" />
+            </div>
+
+            <div class="xg-col">
+              <span>{{ item.profissional_nome }}</span>
+            </div>
+
+            <!-- coluna data -->
+            <div class="md-col">
+              {{ item.created_at ? (item.created_at | date: 'dd/MM/yyyy') : 'Data não encontrada' }}
+            </div>
+
+            <div class="md-col">
+              <!-- botao download -->
+              <div class="download-btn">
+                <a class="btn-icon-only" [href]="getDownloadLink(item)" type="download">
+                  <i><img class="icon-sm" src="assets/icons/download.png" alt="" /></i>
+                </a>
+              </div>
+
+              <!-- botao deletar doc -->
+              <div class="delete-btn">
+                <a
+                  [ngClass]="{ hidden: activeItem === i, visible: activeItem !== i }"
+                  (click)="toggleDocDelete(i)"
+                  type="submit"
+                >
+                  <i><img class="icon-sm" src="assets/icons/remove.svg" alt="" /></i>
+                </a>
+                <!-- botões para confirmar deletar documento da lista -->
+                <span
+                  [ngClass]="{ hidden: activeItem !== i, visible: activeItem === i }"
+                  class="confirm-delete-span"
+                >
+                  <button class="btn-small btn-danger" (click)="deleteDoc(i, item)">
+                    Excluir?
+                  </button>
+                  <button class="btn-small btn-gray" (click)="toggleDocDelete(i)">
+                    Cancelar
+                  </button>
+                </span>
+              </div>
+              <!-- -- -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="btns-sms-email">
+        <button
+          [disabled]="arrayOfDocsToSend.length == 0"
+          type="button"
+          class="btn btn-warning btn-sms-email clickable"
+          (click)="openSendSMS()"
+        >
+          Enviar Sms
+        </button>
+        <button
+          [disabled]="arrayOfDocsToSend.length == 0"
+          type="button"
+          class="btn btn-primary btn-sms-email clickable"
+          (click)="openSendEmail()"
+        >
+          Enviar Email
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<ngb-alert class="toast-error" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>
+
+<ngb-alert class="print-toast" *ngIf="success" type="success" (click)="resetToast()">
+  {{ success }}
+</ngb-alert>
+
+<ng-template #sendEmailModal let-modal>
+  <ng-container>
+    <section class="modal-header">
+      <h2 class="modal-title">Enviar email</h2>
+      <button type="button" class="close" aria-label="Close" (click)="closeAllModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </section>
+    <section [formGroup]="form" class="modal-body">
+      <div>
+        <b>Destinatário:</b>
+      </div>
+      <div>
+        <input type="text" name="email" placeholder="Email" formControlName="email" />
+      </div>
+      <br />
+      <div>
+        <b>Corpo do Email:</b>
+      </div>
+      <div [innerHTML]="message"></div>
+    </section>
+    <section class="modal-action">
+      <button type="button" class="btn-modal-pep" aria-label="Salvar" (click)="sendEmail()">
+        <span aria-hidden="true">Enviar</span>
+      </button>
+    </section>
+  </ng-container>
+</ng-template>
+
+<ng-template #sendSmsModal let-modal>
+  <ng-container>
+    <section class="modal-header">
+      <h2 class="modal-title">Enviar sms</h2>
+      <button e type="button" class="close" aria-label="Close" (click)="closeAllModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </section>
+    <section [formGroup]="form" class="modal-body">
+      <div>
+        <b>Número do telefone do beneficiário:</b>
+        {{ phone }}
+      </div>
+      <br />
+      <div>
+        <b>Destinatário:</b>
+      </div>
+      <input
+        type="text"
+        name="phone"
+        mask="phone"
+        maxlength="15"
+        placeholder="Telefone"
+        formControlName="phone"
+      />
+      <br />
+      <br />
+      <div>
+        <b>Corpo do Sms:</b>
+      </div>
+      <div [innerHTML]="message"></div>
+    </section>
+    <section class="modal-action">
+      <button type="button" class="btn-modal-pep" aria-label="Salvar" (click)="sendSms()">
+        <span aria-hidden="true">Enviar</span>
+      </button>
+    </section>
+  </ng-container>
+</ng-template>
+
+<ng-template #loadingModal let-modal>
+  <ng-container>
+    <div class="d-flex justify-content-center loading">
+      <img src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </ng-container>
+</ng-template>
+
+<ngb-alert class="print-toast" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>

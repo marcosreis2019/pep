@@ -1,0 +1,141 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+:host {
+  display: flex;
+  height: fit-content;
+  flex: 1;
+}
+
+.soap-item {
+  background: #fff;
+  padding: 20px 12px;
+  margin-bottom: 4px;
+
+  flex: 1;
+  .header {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .btn-plan {
+    @extend .txt-light;
+    padding: 9px 12px !important;
+    font-size: 15px;
+    margin: 0 10px;
+    opacity: 1 !important;
+  }
+
+  .content {
+    width: 100%;
+    padding: 0 20px 0 30px;
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      height: 80px;
+      button {
+        padding: 2px 6px;
+        @extend .txt-light;
+        opacity: 0.5;
+        transition: all 400ms linear;
+      }
+    }
+  }
+
+  .description {
+    @include font-size(2rem);
+    font-family: MontserratRegular;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #fff;
+    margin: 0 20px 0 10px;
+    cursor: pointer;
+  }
+
+  div.input {
+    width: 100%;
+    border: 0.5px solid map-get($backgrounds, block-conditions);
+
+    textarea {
+      @extend .txt-gray;
+      font-family: WorkRegular;
+      min-height: 100px;
+      width: 100%;
+      resize: none;
+      border: 1px solid #808ba840 !important;
+      border-radius: 7px;
+      font-size: 14px;
+      border: 0;
+
+      &::placeholder {
+        @extend .txt-gray;
+      }
+    }
+
+    span {
+      @extend .txt-gray;
+      font-family: MontserratRegular;
+      font-size: 10px;
+      margin-left: 10px;
+      margin-bottom: 5px;
+    }
+  }
+
+  div.retorno {
+    width: 40%;
+  }
+}
+
+button.focused {
+  padding: 9px 12px !important;
+  font-size: 15px;
+  margin: 0 10px;
+  // padding: 10px 20px !important;
+  opacity: 1 !important;
+}
+
+.not-focused {
+  .description {
+    opacity: 0.5;
+  }
+}
+
+// RETURN
+.return {
+  width: 100%;
+}
+
+// DOCS
+.document {
+  .doc-options {
+    display: flex;
+    flex-wrap: wrap;
+
+    .doc-plan {
+      background-image: url('src/assets/imgs/bg_doc.png');
+      font-size: 13px;
+      font-family: WorkMedium;
+      color: map-get($theme, gray);
+      margin-right: 10px;
+      margin-top: 10px;
+      box-sizing: border-box;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 110px;
+      height: 160px;
+      -webkit-box-shadow: 2px 3px 1px 1px rgba(0, 0, 0, 0.2);
+      -moz-box-shadow: 2px 3px 1px 1px rgba(0, 0, 0, 0.2);
+      box-shadow: 2px 3px 1px 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+}

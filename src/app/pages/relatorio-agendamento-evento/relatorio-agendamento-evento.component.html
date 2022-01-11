@@ -1,0 +1,49 @@
+<menu-sidebar></menu-sidebar>
+<div class="main">
+  <div class="left">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container">
+          <a id="ribbon">Relatório</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <form class="form-timeline-filter pep-input-group" [formGroup]="form">
+      <div class="block">
+        <h1 class="title">Agendamento X Evento</h1>
+        <div class="inputs">
+          <div class="add-exame">
+            <h3>Filtros</h3>
+            <calendar formControlName="dataInicio" placeholder="Data inicial" required></calendar>
+            <calendar formControlName="dataFim" placeholder="Data final" required></calendar>
+            <label class="custom-check">
+              <span class="check-label txt-default">Executar atualização do sequencial?</span>
+              <input type="checkbox" formControlName="update" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center loading" *ngIf="loading">
+          <img src="assets/icons/spinner.svg" alt="" />
+        </div>
+        <div class="btns-group" *ngIf="!loading">
+          <button class="btn btn-primary" (click)="generateExcel()">
+            Gerar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ngb-alert class="toast-error" *ngIf="error" type="danger" (close)="resetToast()">
+  {{ error }}
+</ngb-alert>

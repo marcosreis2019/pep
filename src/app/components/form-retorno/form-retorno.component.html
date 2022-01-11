@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="save()" *ngIf="editable; else hasValue">
+  <div class="row">
+    <div class="col-6">
+      <input
+        type="number"
+        min="0"
+        placeholder="Dígito*"
+        class="pep-input"
+        formControlName="digito"
+      />
+    </div>
+    <div class="col-6">
+      <select class="pep-input" formControlName="tempo">
+        <option [selected]="!data" disabled="true">Qual período?*</option>
+        <option *ngFor="let item of periods; let i = index" [ngValue]="item.value">
+          {{ item.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-3">
+      <label class="custom-check">
+        <span class="check-label txt-default">Com exames?</span>
+        <input type="checkbox" formControlName="com_exames" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="col-3">
+      <button class="btn-plan yes" [disabled]="form.invalid" type="submit">
+        Salvar
+      </button>
+    </div>
+  </div>
+</form>
+
+<ng-template #hasValue>
+  <p>{{ data?.digito }} {{ this.period }}{{ data?.com_exames ? ', com exames' : '' }}</p>
+
+  <div class="btn-group d-flex justify-content-end">
+    <button class="btn-plan yes" (click)="edit()">
+      <i class="fas fa-pencil-alt mr-1"></i>
+      Editar
+    </button>
+  </div>
+
+  <ngb-alert [dismissible]="false" type="info" class="fs-14">
+    <b>Nota!</b>
+    Esta informação só será gravada ao final desta consulta
+  </ngb-alert>
+</ng-template>

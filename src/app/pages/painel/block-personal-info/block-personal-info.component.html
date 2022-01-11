@@ -1,0 +1,169 @@
+<div
+  class="block-personal-info"
+  *ngIf="beneficiario$ | async as beneficiario; else loadingOrErrorBenef"
+>
+  <div class="content">
+    <div
+      class="level-info"
+      [ngbPopover]="popContent"
+      #p1="ngbPopover"
+      placement="bottom-left"
+      triggers="mouseenter:mouseleave"
+    >
+      <img [src]="beneficiario?.gender?.picture" [ngClass]="beneficiario?.css?.border" />
+      <button class="txt-light level" [ngClass]="beneficiario?.css?.background">
+        <label>
+          <i class="fas fa-heart"></i>
+          Nível {{ beneficiario?.css?.level }}
+        </label>
+      </button>
+    </div>
+
+    <ng-template #popContent>
+      <div class="level">
+        <div class="description">
+          <h2>Nível do paciente</h2>
+          <ul class="list">
+            <li><img src="assets/icons/arrow-up-color.svg" /></li>
+            <li *ngFor="let item of ['one', 'two', 'three', 'four', 'five']; let i = index">
+              <span class="round bg-{{ item }} fs-10">{{ i + 1 }}</span>
+            </li>
+            <li><img src="assets/icons/arrow-down-color.svg" /></li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="text-info">
+      <div class="sequential-number txt-gray">
+        <span>
+          Atendimento&nbsp;
+          <b>{{ sequential }}</b>
+        </span>
+      </div>
+      <h3 class="txt-dark">{{ beneficiario?.name }}</h3>
+
+      <div class="description">
+        <span class="txt-gray2">
+          <ng-container *ngIf="beneficiario.gender.type">
+            {{ beneficiario.gender?.type }},
+          </ng-container>
+          <button class="custom-btn info-painel">
+            <i class="fas fa-birthday-cake"></i>
+            {{ beneficiario?.born | age }}
+          </button>
+
+          <button class="custom-btn info-painel" *ngIf="beneficiario.descricaoOperadora">
+            <i class="fas fa-building"></i>
+            {{ beneficiario?.descricaoOperadora }}
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="btn-group">
+      <button class="txt-light bg-primary" (click)="videoChamada()">
+        <label>
+          <i class="fas fa-video mr-1"></i>
+          Vídeo Chamada
+        </label>
+        <i>
+          <img src="assets/icons/arrow-down.svg" alt="" *ngIf="!videoEnabled" />
+          <img src="assets/icons/arrow-up.svg" alt="" *ngIf="videoEnabled" />
+        </i>
+      </button>
+      <button class="txt-light bg-primary" *ngIf="!familyEnabled" (click)="enableFamily()">
+        <label>
+          <i class="fas fa-plus mr-1"></i>
+          Ver mais
+        </label>
+        <i>
+          <img src="assets/icons/arrow-down.svg" alt="" />
+        </i>
+      </button>
+      <button class="txt-light bg-primary" *ngIf="familyEnabled" (click)="disableFamily()">
+        <label>
+          <i class="fas fa-minus mr-1"></i>
+          Ver menos
+        </label>
+        <i>
+          <img src="assets/icons/arrow-up.svg" alt="" />
+        </i>
+      </button>
+    </div>
+  </div>
+
+  <div class="footer" *ngIf="videoEnabled">
+    <ng-container>
+      <p class="email" *ngIf="!linkCreated">
+        <input
+          type="text"
+          class="pep-input bg-light"
+          [(ngModel)]="fonePaciente"
+          placeholder="Telefone com DDD"
+        />
+        <input
+          type="text"
+          class="pep-input bg-light"
+          [(ngModel)]="emailPaciente"
+          placeholder="E-mail"
+        />
+        <button class="txt-light bg-primary" (click)="getConsultorio()">
+          <label>Enviar</label>
+        </button>
+      </p>
+      <p *ngIf="canalPaciente.status_code == 2021">
+        <label>Todas as salas estão ocupadas para o período desejado!</label>
+      </p>
+      <p *ngIf="linkCreated" class="email">
+        <a href="{{ linkMedico }}" class="videoConf" target="blank">
+          Entrar na Video Conferencia
+        </a>
+      </p>
+      <p *ngIf="linkCreated">
+        <button class="text-light bg-primary" (click)="copyLink()">Copiar Link do Paciente</button>
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="footer" *ngIf="familyEnabled">
+    <ng-container>
+      <p>
+        Matrícula:
+        <span>{{ beneficiario.matricula }}</span>
+      </p>
+      <p>
+        Data Nasc:
+        <span>{{ beneficiario.born | date: 'dd/MM/yyyy' }}</span>
+      </p>
+      <p>
+        Sexo:
+        <span>{{ beneficiario.genero }}</span>
+      </p>
+      <p>
+        <span *ngIf="motherName">Nome da mãe:</span>
+        {{ motherName }}
+      </p>
+      <div *ngIf="familia$ | async as family">
+        <p><span>Família:</span></p>
+        <p *ngFor="let relative of family">
+          {{ relative.name }}
+          <span *ngIf="relative.ref">({{ relative.ref }})</span>
+        </p>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loadingOrErrorBenef>
+  <ng-container *ngIf="errorBenef$ | async as error; else loadingBenef">
+    {{ error }}
+  </ng-container>
+  <ng-template #loadingBenef>
+    <div class="d-flex justify-content-center loading">
+      <img src="assets/icons/spinner.svg" alt="" />
+    </div>
+  </ng-template>
+</ng-template>

@@ -1,0 +1,128 @@
+<article class="history">
+  <!-- <ng-container *ngIf="isLoaded$ | async; else loading"> -->
+  <ng-container>
+    <div class="modal-header">
+      <h3 class="modal-title">Adicionar CIDs Secundários</h3>
+      <button e type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <!-- modal body -->
+    <div class="modal-body">
+      
+      <!-- CIDs Confirmados -->
+      <div class="row">
+        <div class="col-10">
+          <section class="search ml-1">
+            <input
+              class="cid"
+              type="text"
+              placeholder="Pesquisar CID confirmado"
+              [ngbTypeahead]="search"
+              [resultTemplate]="rt"
+              [inputFormatter]="formatter"
+              (focus)="focus$.next($event.target.value.descricao)"
+              (click)="click$.next($event.target.value)"
+              [(ngModel)]="valuePesquisaConfirmado"
+              (ngModelChange)="setCidSecundarioConfirmado(valuePesquisaConfirmado)"
+              #instance="ngbTypeahead"
+            />
+            <div class="d-flex justify-content-center loading" *ngIf="loadingSearch">
+              <img src="assets/icons/spinner.svg" alt="" />
+            </div>
+
+            <ng-template #rt let-r="result" let-t="term">
+              <ngb-highlight [result]="formatter(r)" [term]="t"></ngb-highlight>
+            </ng-template>
+          </section>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary btn-search-ref yes mb-1" (click)="setCIDsSecundariosConfirmados()">
+            Adicionar
+          </button>
+        </div>
+      </div>
+
+      <div class="cids-quadro row">
+          <div
+            class="cid-item-confirmado"
+            *ngFor="let cid of listCIDsSecundariosConfirmados; let i = index"
+          >
+            <div class="row">
+              <div class="col-md-8">
+                <span>{{cid.descricao}}</span>
+              </div>
+              <div class="col-md-3">
+                <button
+                  class="btn-icon-only"
+                  (click)="removeCIDsSecundariosConfirmados(cid)"
+                >
+                  <img src="assets/icons/remove.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <!-- CIDs Suspeitos-->
+      <div class="row mt-3">
+        <div class="col-10">
+          <section class="search ml-1">
+            <input
+              class="cid"
+              type="text"
+              placeholder="Pesquisar CID suspeito"
+              [ngbTypeahead]="search"
+              [resultTemplate]="rt"
+              [inputFormatter]="formatter"
+              (focus)="focus$.next($event.target.value)"
+              (click)="click$.next($event.target.value)"
+              [(ngModel)]="valuePesquisaSuspeito"
+              (ngModelChange)="setCidSecundarioSuspeito(valuePesquisaSuspeito)"
+              #instance="ngbTypeahead"
+            />
+            <div class="btn-group">
+              <button *ngIf="key" (click)="clear()">
+                <i>
+                  <img src="assets/icons/close-2.svg" alt="" />
+                </i>
+              </button>
+            </div>
+          </section>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary btn-search-ref yes mb-1" (click)="setCIDsSecundariosSuspeitos()">
+            Adicionar
+          </button>
+        </div>
+      </div>
+
+      <div class="cids-quadro row">
+          <div
+            class="cid-item-suspeito"
+            *ngFor="let cid of listCIDsSecundariosSuspeitos; let i = index"
+          >
+            <div class="row">
+              <div class="col-md-8">
+                <span>{{cid.descricao}}</span>
+              </div>
+              <div class="col-md-3">
+                <button
+                  class="btn-icon-only"
+                  (click)="removeCIDsSecundariosSuspeitos(cid)"
+                >
+                  <img src="assets/icons/remove.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <button class="btn btn-primary btn-voltar mt-2" (click)="dismiss()">
+        Voltar
+      </button>
+
+    </div>
+  </ng-container>
+</article>

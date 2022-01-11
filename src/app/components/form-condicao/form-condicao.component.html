@@ -1,0 +1,36 @@
+<form class="pep-input-group" [formGroup]="form" (ngSubmit)="send()">
+  <h5>Adicionar condição</h5>
+  <!-- <input type="text" placeholder="Qual a condição?*" formControlName="condicao"> -->
+  <input 
+    type="text" 
+    placeholder="Pesquise pela condição ou CID" 
+    formControlName="CID" 
+    [ngbTypeahead]="search" 
+    [resultTemplate]="rt" 
+    [inputFormatter]="formatter"
+    (focus)="focus$.next($event.target.value)"
+    (click)="click$.next($event.target.value)"
+    (selectItem)="selectCID($event)"
+    (blur)="checkSelectedCID()"
+    #instance="ngbTypeahead"
+  >
+
+  <label class="custom-check">
+    <span class="check-label txt-default">Foi confirmada?</span>
+    <input type="checkbox" formControlName="confirmado">
+    <span class="checkmark"></span>
+  </label>
+
+  <div class="btn-pop-group">
+    <button class="btn-pep btn-choose" (click)="cancelForm()"><i class="fas fa-ban mr-1"></i> Cancelar</button>
+    <button class="btn-pep btn-choose yes" [disabled]="form.invalid" type="submit">Adicionar</button>
+  </div>
+</form>
+
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="formatterToShow(r)" [term]="t"></ngb-highlight>
+</ng-template>
+
+<!-- <ng-container *ngIf="msgAlert">
+  <ngb-alert type="warning">{{ msgAlert }}</ngb-alert>
+</ng-container> -->

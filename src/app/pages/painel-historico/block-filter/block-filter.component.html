@@ -1,0 +1,36 @@
+<div class="time-container">
+  <h2 class="title-filter">Histórico de Atendimento</h2>
+  <div class="sup">
+    <div class="right">
+      <div class="row">
+        <div class="col-6">
+          <calendar
+              [(ngModel)]="dataInicio"
+              placeholder="Data inicial"
+              max="true"
+            ></calendar>
+        </div>
+        <div class="col-6">
+          <calendar
+            [(ngModel)]="dataFim"
+            placeholder="Data final"
+            max="true"
+          ></calendar>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10 input">
+          <input
+            type="text"
+            [(ngModel)]="nameProfissional"
+            placeholder="Nome do Profissional"
+            style="width: 100%;"
+          />
+        </div>
+        <div class="col-2">
+          <button (click)="filter()" class="btn btn-primary">Filtrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

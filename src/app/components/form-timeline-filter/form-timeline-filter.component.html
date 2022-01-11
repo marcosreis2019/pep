@@ -1,0 +1,35 @@
+<form
+  class="form-timeline-filter pep-input-group"
+  [formGroup]="form"
+  (ngSubmit)="emit()"
+>
+  <calendar
+    formControlName="dataInicio"
+    placeholder="Data inicial"
+    max="true"
+  ></calendar>
+  <calendar
+    formControlName="dataFim"
+    placeholder="Data final"
+    max="true"
+  ></calendar>
+
+  <input
+    formControlName="nameProfissional"
+    placeholder="Nome do Profissional"
+  />
+
+  <input formControlName="nameSpecialty" placeholder="Nome da Especialidade" />
+
+  <select formControlName="tipo">
+    <!-- TODO passar valeus para um enum alimentado pelos serviços -->
+    <option value="null">Tipo do evento</option>
+    <option value="CONSULTA">Consulta</option>
+    <option value="TELEMONITORAMENTO">Telemonitoramento</option>
+    <option value="VISITA">Visita domiciliar</option>
+  </select>
+
+  <div class="btn-pop-group">
+    <button class="btn-pep btn-choose yes">Aplicar</button>
+  </div>
+</form>

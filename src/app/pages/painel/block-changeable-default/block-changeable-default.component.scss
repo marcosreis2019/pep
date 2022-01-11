@@ -1,0 +1,72 @@
+@import 'src/app/themes/colors';
+
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.condition {
+  height: 100%;
+}
+
+.header {
+  @include flex;
+
+  button.switcher {
+    @extend .txt-condition;
+    @include flex;
+    width: 50%;
+    height: 80px;
+    padding: 2%;
+    font-size: 18px;
+    font-family: WorkBold;
+
+    label {
+      font-family: WorkBold;
+      margin: 0;
+    }
+
+    .icon {
+      @extend .bg-condition;
+      @include flex;
+
+      width: 50px;
+      height: 50px;
+      margin-left: 8%;
+      border-radius: 50%;
+
+      img {
+        font-size: 20px;
+      }
+    }
+
+    &.actived {
+      @extend .txt-light;
+      @extend .bg-condition;
+    }
+  }
+}
+
+.circle {
+  height: 60px;
+  width: 60px;
+}
+
+.goal {
+  height: 30px;
+  width: 30px;
+}
+
+.changeable {
+  height: 100%;
+  max-height: calc(
+    100% - 80px
+  ); // NOTE responsável por limitar o tamalho deste campo
+}
+
+.changeable-container {
+  display: flex;
+  height: 100%;
+  padding: 10px;
+}

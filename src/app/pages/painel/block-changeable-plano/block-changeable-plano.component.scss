@@ -1,0 +1,77 @@
+@import 'src/app/themes/blocks';
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+.header {
+  @include block-changeable-header;
+}
+
+.content {
+  @include block-changeable-content;
+
+  scrollbar-width: none;
+  // padding: 20px;
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 100px;
+  }
+}
+
+.section {
+  h2 {
+    font-family: WorkMedium;
+    font-size: 14px;
+    margin: 0;
+  }
+  padding: 10px 20px;
+}
+
+.meta {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  .title {
+    color: #808ba8;
+    font-size: 12px;
+  }
+}
+
+.aux {
+  font-size: 10px;
+  width: 70%;
+}
+
+.options {
+  display: flex;
+  width: 100%;
+  border-bottom: 0.5px solid gainsboro;
+  justify-content: flex-end;
+  img {
+    width: 25px;
+  }
+}
+
+.new {
+  padding: 10px 20px;
+
+  .add {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.empty {
+  padding: 10px 16px;
+  margin-top: 20px;
+  margin-bottom: 20%;
+}

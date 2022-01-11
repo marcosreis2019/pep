@@ -1,0 +1,346 @@
+<div class="cadastro-paciente">
+  <div class="left" *ngIf="!modal">
+    <div class="cp_card">
+      <div class="cp_ribbon08 locais-title">
+        <div id="ribbon-container" class="paciente-left-content">
+          <a id="ribbon">Paciente</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="locais-logo">
+        <img src="assets/imgs/fg-login.svg" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="block">
+      <h1 class="title" *ngIf="!modal">Pacientes</h1>
+      <img width="250px" *ngIf="loadingAll" [src]="imgLoading" alt="Loading..." />
+      <div class="inputs" *ngIf="!loadingAll">
+        <br *ngIf="!modal" />
+        <div *ngIf="!showInfo">
+          <div class="row">
+            <div class="col-6">
+              <input
+                [(ngModel)]="seachCpf"
+                type="text"
+                placeholder="Buscar por CPF do beneficiário"
+                mask="cpf"
+                maxlength="14"
+                max="true"
+              />
+              <label>CPF</label>
+            </div>
+            <div class="col-3">
+              <img width="50px" *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+              <button class="btn btn-primary" *ngIf="!loading" (click)="searchBeneficiario()">
+                Buscar
+              </button>
+              &nbsp;
+              <button class="btn btn-primary" *ngIf="!loading" (click)="addBeneficiario()">
+                Novo
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div>
+                <input
+                  type="text"
+                  [value]="searchNome"
+                  placeholder="Buscar por nome do beneficiário"
+                  [ngbTypeahead]="search"
+                  [resultTemplate]="rt"
+                  [inputFormatter]="formatter"
+                  (selectItem)="selectPaciente($event)"
+                  #instance="ngbTypeahead"
+                />
+
+                <div class="d-flex align-end loading" *ngIf="loadingSearch">
+                  <img src="assets/icons/spinner.svg" alt="" />
+                </div>
+
+                <ng-template #rt let-res="result" let-t="term">
+                  <ngb-highlight [result]="formatterToShow(res)" [term]="t"></ngb-highlight>
+                </ng-template>
+                <label>Nome</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="showInfo">
+          <div class="row">
+            <div class="col-6">
+              <input
+                [(ngModel)]="paciente.cpf"
+                type="text"
+                (ngModelChange)="onChangeVerificaBtnSalvar()"
+                placeholder="CPF"
+                mask="cpf"
+                maxlength="14"
+                max="true"
+              />
+              <label class="required">CPF</label>
+            </div>
+            <div class="col-6">
+              <input
+                [(ngModel)]="paciente.nome"
+                type="text"
+                (blur)="checkSobrenome()"
+                (ngModelChange)="onChangeVerificaBtnSalvar()"
+                placeholder="Nome"
+              />
+              <label class="required">Nome</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="floating-label">
+                <select
+                  class="floating-select"
+                  (change)="onChangeVerificaBtnSalvar()"
+                  [(ngModel)]="paciente.codigoOperadora"
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let item of listOperadoras; let i = index"
+                    [ngValue]="item.codigoOperadora"
+                  >
+                    {{ item.descricao }}
+                  </option>
+                </select>
+                <label class="required">Selecione uma operadora</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="floating-label">
+                <select
+                  class="floating-select"
+                  [(ngModel)]="paciente.sexo"
+                  (change)="onChangeVerificaBtnSalvar()"
+                >
+                  <option value=""></option>
+                  <option *ngFor="let sexo of listSexo; let i = index" [ngValue]="sexo.key">
+                    {{ sexo.value }}
+                  </option>
+                </select>
+                <label class="required">Selecione um Sexo</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 calendar-data-nascimento">
+              <input
+                [(ngModel)]="paciente.dataNascimento"
+                type="date"
+                placeholder="dd-mm-yyyy"
+                (ngModelChange)="onChangeVerificaBtnSalvar()"
+                required
+              />
+              <label class="required">Data de nascimento</label>
+            </div>
+            <div class="col-md-6">
+              <div class="floating-label select-container">
+                <select
+                  class="floating-select"
+                  [(ngModel)]="paciente.estadoCivil"
+                  (change)="onChangeVerificaBtnSalvar()"
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let estadoCivil of listEstadoCivil; let i = index"
+                    [ngValue]="estadoCivil.key"
+                  >
+                    {{ estadoCivil.value }}
+                  </option>
+                </select>
+                <label class="required">Selecione um Estado Civil</label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4" *ngFor="let endereco of listaEnderecos; let i = index">
+            <div class="content-list">
+              <span class="endereco-title">Endereço {{ i > 0 ? i + 1 : '' }}</span>
+              <div class="btn-acoes">
+                <button
+                  *ngIf="i > 0"
+                  class="btn btn-danger mr-1 border-acoes"
+                  (click)="removeEndereco(endereco)"
+                >
+                  <i class="far fa-trash-alt"></i>
+                </button>
+
+                <button *ngIf="i > 0" class="btn btn-primary border-acoes" (click)="addEndereco()">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+
+              <div class="row mt-20">
+                <div class="col-3">
+                  <div class="">
+                    <input
+                      type="text"
+                      [(ngModel)]="endereco.cep"
+                      mask="cep"
+                      (blur)="consultaCep(endereco.cep)"
+                      maxlength="10"
+                    />
+                    <label class="required">CEP</label>
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="">
+                    <input
+                      type="text"
+                      [(ngModel)]="endereco.logradouro"
+                      maxlength="250"
+                      (ngModelChange)="onChangeVerificaBtnSalvar()"
+                      required
+                    />
+                    <label class="required">Logradouro</label>
+                  </div>
+                </div>
+
+                <div class="col-2 mt-3">
+                  <select
+                    class="floating-select"
+                    [(ngModel)]="endereco.uf"
+                    (change)="changeEstado()">
+                    <option value="null">Selecione um Estado</option>
+                    <option *ngFor="let estado of listEstado; let i = index" [ngValue]="estado">
+                      {{ estado }}
+                    </option>
+                  </select>
+                  <label class="required">Estado</label>
+                </div>
+
+                <div class="col-3">
+                  <input
+                    style="min-width: 100%;"
+                    type="text"
+                    [disabled]="!estadoSelected || listCidades?.length == 0"
+                    placeholder="Pesquise uma cidade..."
+                    [ngbTypeahead]="searchCidade"
+                    [resultTemplate]="rt"
+                    [(ngModel)]="endereco.localidade"
+                    (ngModelChange)="onChangeVerificaBtnSalvar()"
+                    [inputFormatter]="formatterCidade"
+                    (selectItem)="selectCidade($event, i)"
+                    #instance="ngbTypeahead"
+                    (blur)="selectCidade($event, i)"
+                    (focus)="focusCidade(i)"
+                  />
+                  <label class="required">Cidade</label>
+
+                  <div class="d-flex justify-content-center loading" *ngIf="loadingSearch">
+                    <img src="assets/icons/spinner.svg" alt="" />
+                  </div>
+
+                  <ng-template #rt let-r="result" let-t="term">
+                    <ngb-highlight [result]="formatterCidade(r)" [term]="t"></ngb-highlight>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="row mt-4" *ngFor="let telefone of listaTelefones; let i = index">
+                <div class="content-list">
+                  <span class="endereco-title">Telefone {{ i > 0 ? i + 1 : '' }}</span>
+                  <div class="btn-acoes">
+                    <button
+                      *ngIf="i > 0"
+                      class="btn btn-danger mr-1 border-acoes"
+                      (click)="removeTelefone(telefone)"
+                    >
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+
+                    <button
+                      *ngIf="i > 0"
+                      class="btn btn-primary border-acoes"
+                      (click)="addTelefone()"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="">
+                        <input
+                          type="text"
+                          [(ngModel)]="telefone.telefone"
+                          maxlength="15"
+                          mask="phone"
+                          (ngModelChange)="onChangeVerificaBtnSalvar()"
+                        />
+                        <label class="required">Telefone</label>
+                      </div>
+                      <max-count [value]="telefone.telefone?.length" [max]="15"></max-count>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <!-- EMAILS -->
+              <div class="row mt-4" *ngFor="let email of listaEmails; let i = index">
+                <div class="content-list">
+                  <span class="endereco-title">Email {{ i > 0 ? i + 1 : '' }}</span>
+                  <div class="btn-acoes">
+                    <button
+                      *ngIf="i > 0"
+                      class="btn btn-danger mr-1 border-acoes"
+                      (click)="removeEmail(email)"
+                    >
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+
+                    <button *ngIf="i > 0" class="btn btn-primary border-acoes" (click)="addEmail()">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="">
+                        <input
+                          type="text"
+                          [(ngModel)]="email.email"
+                          maxlength="80"
+                          (ngModelChange)="onChangeVerificaBtnSalvar()"
+                        />
+                        <label class="required">Email</label>
+                      </div>
+                      <max-count [value]="email.email?.length" [max]="80"></max-count>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group" *ngIf="!loading && showInfo">
+              <button *ngIf="enableSearch" title="Voltar" class="btn mr-4" (click)="close()">
+                Voltar
+              </button>
+              <button
+                title="Salvar"
+                class="btn btn-primary"
+                (click)="salvar()"
+                [disabled]="formInvalid"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div
+  [class]="data.addClass"
+  [ngClass]="{ 'form-col': data.typeInput !== 'input' }"
+>
+  <div class="row">
+    <b
+      [ngClass]="
+        data.required ? 'dyn-label label-required-' + parent : 'dyn-label'
+      "
+      *ngIf="data.label"
+    >
+      {{ data.label }}
+    </b>
+    <span *ngIf="data.required" class="required">*</span>
+  </div>
+
+  <div
+    [ngSwitch]="data.typeInput"
+    [ngClass]="{ w100: data.typeInput !== 'input' }"
+  >
+    <ng-container *ngSwitchCase="'input'">
+      <input
+        [type]="data.typeData"
+        [placeholder]="data.plcholder"
+        [(ngModel)]="value"
+        (ngModelChange)="modify(value)"
+      />
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'textarea'">
+      <textarea
+        *ngIf="data.typeInput === 'textarea'"
+        [placeholder]="data.plcholder"
+        [(ngModel)]="value"
+        (ngModelChange)="modify(value)"
+      ></textarea>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'check'">
+      <input
+        [type]="data.typeData"
+        [placeholder]="data.plcholder"
+        [(ngModel)]="value"
+        (ngModelChange)="modify(value)"
+      />
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'radio'">
+      <ng-container *ngFor="let item of data.options">
+        <input
+          [name]="data.id"
+          type="radio"
+          [placeholder]="data.plcholder"
+          [(ngModel)]="value"
+          (ngModelChange)="modify(value)"
+          [value]="item.value"
+        />
+        <label class="radio-label" for="{{ data.id }}">{{ item.label }}</label>
+        <br />
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'select'">
+      <select [(ngModel)]="value" (ngModelChange)="modify(value)">
+        <option [selected]="!value" disabled="true">Selecione um</option>
+        <option [ngValue]="item.value" *ngFor="let item of data.options">
+          {{ item.label }}
+        </option>
+      </select>
+    </ng-container>
+
+    <div *ngSwitchCase="'select-check'" class="w100">
+      <select-check
+        addClass="select-check-button"
+        placeholder="Selecione um ou mais"
+        [options]="data.options"
+        (export)="changeValue($event)"
+        [forceCloseWhen$]="forceCloseSelectCheck$"
+      ></select-check>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<section>
+  <div class="pep-title">
+    <h2>{{ title }}</h2>
+  </div>
+  <div class="card">
+    <table>
+      <tr>
+        <td>
+          Login
+        </td>
+        <td>
+          <span>
+            <input
+              [disabled]="usuario.id"
+              type="text"
+              name="nome"
+              value=""
+              class="input-name"
+              [(ngModel)]="usuario.login"
+            />
+          </span>
+        </td>
+        <td>Status</td>
+        <td>
+          <select [(ngModel)]="usuario.ativo">
+            <option *ngFor="let ativo of listAtivo" [ngValue]="ativo.key">
+              {{ ativo.value }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td *ngIf="!usuario.id">
+          Senha
+        </td>
+        <td *ngIf="!usuario.id">
+          <span>
+            <input
+              type="text"
+              name="senha"
+              value=""
+              class="input-name"
+              [(ngModel)]="usuario.senha"
+            />
+          </span>
+        </td>
+        <td>
+          Trocar senha
+          <br />
+          no proximo login?
+        </td>
+        <td>
+          <select [(ngModel)]="usuario.primeiro_login">
+            <option *ngFor="let obj of listSimNao" [ngValue]="obj.key">
+              {{ obj.value }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Nome
+        </td>
+        <td>
+          <span>
+            <input type="text" name="nome" value="" class="input-name" [(ngModel)]="usuario.nome" />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Papéis
+        </td>
+        <td>
+          <ng-multiselect-dropdown
+            [placeholder]="'Selecione um ou mais papeis'"
+            [data]="papeisList"
+            [(ngModel)]="selectedPapeis"
+            [settings]="dropdownSettings"
+          ></ng-multiselect-dropdown>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Onboarding?
+        </td>
+        <td>
+          <select [(ngModel)]="usuario.onboarding">
+            <option *ngFor="let obj of listSimNao" [ngValue]="obj.key">
+              {{ obj.value }}
+            </option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <div class="actions">
+      <button *ngIf="!loading" class="btn btn-primary" (click)="save()">
+        Salvar
+      </button>
+      <div *ngIf="loading">
+        <img width="100px" src="assets/icons/spinner.svg" alt="Loading..." />
+      </div>
+    </div>
+  </div>
+  <br />
+  <section *ngIf="usuario.id">
+    <div class="pep-title">
+      <h2>Profissional</h2>
+    </div>
+    <div *ngIf="profissional">
+      <app-profissional
+        (newProfissional)="newProfissional($event)"
+        [(profissional)]="profissional"
+        [(usuarioId)]="usuario.id"
+      ></app-profissional>
+    </div>
+    <div *ngIf="!profissional && usuario.id">
+      <button class="btn btn-primary bg-secondary" (click)="addProfissional()">
+        Adicionar
+      </button>
+    </div>
+    <br />
+    <!-- <div class="pep-title">
+      <h2>Beneficiário</h2>
+    </div>
+    <div class="card" *ngIf="beneficiario"></div>
+    <div *ngIf="!beneficiario">
+      <button disabled class="btn btn-primary bg-secondary">
+        Buscar no AIS...
+      </button>
+    </div> -->
+  </section>
+  <br />
+  <br />
+  <br />
+</section>

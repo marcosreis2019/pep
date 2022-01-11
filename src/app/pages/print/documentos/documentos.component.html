@@ -1,0 +1,79 @@
+<article class="actions">
+  <button
+    *ngIf="documentoAssinado"
+    type="button"
+    class="btn btn-default"
+    (click)="navigateToDocuments()"
+  >
+    Voltar
+  </button>
+
+  <button
+    *ngIf="documentoAssinado == false"
+    type="button"
+    class="btn btn-ass-digital"
+    (click)="signDocument()"
+  >
+    Assinar Documento
+  </button>
+</article>
+
+<article class="wrapper container" id="documentoMedico" [formGroup]="form" class="document">
+  <section class="content">
+    <ng-container [ngSwitch]="doc.modelo_id">
+      <atestado #atestadoMedico *ngSwitchCase="documentoModel[0]" [doc]="doc"></atestado>
+
+      <relatorio-medico
+        #relatorioMedico
+        *ngSwitchCase="documentoModel[1]"
+        [doc]="doc"
+      ></relatorio-medico>
+
+      <solicitacao-exame
+        #solicitacaoExame
+        *ngSwitchCase="documentoModel[2]"
+        [doc]="doc"
+      ></solicitacao-exame>
+    </ng-container>
+  </section>
+
+  <ng-template #signModal let-modal>
+    <ng-container>
+      <section class="modal-header">
+        <h2 class="modal-title">Assinar documento</h2>
+        <button e type="button" class="close" aria-label="Close" (click)="closeSignModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </section>
+      <section class="modal-body">
+        <div class="sign-modal">
+          <iframe
+            style="border:none; margin: 0 auto;"
+            width="600px"
+            height="400px"
+            [src]="signDocumentDownloadUrl"
+          ></iframe>
+        </div>
+      </section>
+      <section class="modal-action">
+        <button type="button" class="btn-modal-pep" aria-label="Salvar" (click)="closeSignModal()">
+          <span aria-hidden="true">Salvar</span>
+        </button>
+      </section>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #loadingModal let-modal>
+    <ng-container>
+      <div class="d-flex justify-content-center loading">
+        <img src="assets/icons/spinner.svg" alt="Loading..." />
+      </div>
+    </ng-container>
+  </ng-template>
+</article>
+<ngb-alert class="print-toast" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>
+<ngb-alert class="print-toast" *ngIf="success" type="success" (click)="resetToast()">
+  {{ success }}
+</ngb-alert>

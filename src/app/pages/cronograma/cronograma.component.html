@@ -1,0 +1,249 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left">
+        <h2>Cronogramas</h2>
+      </div>
+      <div class="searchbar">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <input
+          type="text"
+          placeholder="Buscar e filtrar profissional"
+          [(ngModel)]="search"
+          (ngModelChange)="change(search)"
+        />
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of listProfissional"
+        (click)="setProfissional(item)"
+      >
+        <div class="info">
+          <h3 class="cronograma-item">
+            {{ item.pessoa.nome_completo }}
+          </h3>
+        </div>
+        <div class="secondary-info">
+          <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+          <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+        </div>
+      </div>
+      <img *ngIf="loadingListProfissional" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <section class="pep-center">
+    <div class="content" *ngIf="infoListaCronograma">
+      <h2>
+        {{ title }}
+      </h2>
+      <div class="card" *ngIf="vigenciaList.length">
+        <div class="item pointer" style="position: relative;" *ngFor="let vigencia of vigenciaList">
+          <div class="row info card-interno m-1">
+            <div class="col-8">
+              <h3>
+                {{ 'Local: ' + vigencia.local_razao_social }}
+                <br />
+                {{ ' Inicio: ' + (vigencia.dataInicio | date: 'dd/MM/yyyy') }}
+                <br />
+                {{ ' Fim: ' + (vigencia.dataFim | date: 'dd/MM/yyyy') }}
+              </h3>
+            </div>
+            <div class="2">
+              <button
+                title="Vizualizar Cronograma"
+                class="btn btn-green mr-4"
+                (click)="setVigencia(vigencia)"
+              >
+                Visualizar
+              </button>
+            </div>
+            <div class="2">
+              <button
+                title="Excluir Cronograma"
+                class="btn btn-danger mr-4"
+                (click)="deleteCronograma(vigencia.items)"
+              >
+                Remover
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content" *ngIf="cadastro">
+      <div class="block">
+        <h2>{{ title }}</h2>
+        <div class="inputs">
+          <div class="card">
+            <h2>Novo Cronograma</h2>
+            <div class="row mt-2">
+              <div class="col-12">
+                <label>Local de Atendimento</label>
+                <select [(ngModel)]="cronograma.local_id" class="pep-input">
+                  <option [ngValue]="0" disabled="true">
+                    Selecione um local disponível
+                  </option>
+                  <option [ngValue]="local.id" *ngFor="let local of listLocal">
+                    {{ local.razao_social }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <label for="vigencia_inicio">Data Inicial</label>
+                <calendar id="vigencia_inicio" [(ngModel)]="cronograma.vigencia_inicio"></calendar>
+              </div>
+              <div class="col-4">
+                <label for="vigencia_final">Data Final</label>
+                <calendar id="vigencia_final" [(ngModel)]="cronograma.vigencia_fim"></calendar>
+              </div>
+            </div>
+
+            <div class="card">
+              <span>Períodos</span>
+              <div
+                class="cronograma-item scroll-list-cronogramas"
+                *ngFor="let periodoItem of listPeriodo; let i = index"
+              >
+                <div class="row card-interno">
+                  <div class="col-4">
+                    <label for="dia_semana">Dia da Semana</label>
+                    <select
+                      id="dia_semana"
+                      [(ngModel)]="periodoItem.dia_da_semana"
+                      class="pep-input"
+                    >
+                      <option [selected]="!periodoItem.dia_da_semana" disabled="true">
+                        Selecione um dia da Semana
+                      </option>
+                      <option [ngValue]="diaSemana.key" *ngFor="let diaSemana of listDiaSemana">
+                        {{ diaSemana.value }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="col-2">
+                    <label for="hora_inicio">Hora Início</label>
+                    <input
+                      id="hora_inicio"
+                      [(ngModel)]="periodoItem.hora_inicio"
+                      type="time"
+                      maxlength="80"
+                      max="true"
+                    />
+                  </div>
+                  <div class="col-2">
+                    <label for="hora_fim">Hora Fim</label>
+                    <input
+                      id="hora_fim"
+                      [(ngModel)]="periodoItem.hora_fim"
+                      type="time"
+                      maxlength="80"
+                      max="true"
+                    />
+                  </div>
+                  <div class="col-2">
+                    <button
+                      title="Excluir Período"
+                      class="btn btn-danger mr-4"
+                      (click)="deletePeriodo(periodoItem)"
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="offset-md-8">
+                <button
+                  *ngIf="profissional"
+                  title="Adicionar Período"
+                  class="btn btn-warning mt-2 ml-3 mr-3"
+                  (click)="addCronograma()"
+                >
+                  Adicionar Período
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row actions">
+          <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+          <div class="btns-group" *ngIf="!loading">
+            <button title="Salvar" class="btn btn-primary mt-2 ml-2" (click)="salvar()">
+              Salvar
+            </button>
+
+            <button
+              *ngIf="profissional"
+              title="Voltar"
+              class="btn btn-danger mt-2 ml-3"
+              (click)="back()"
+            >
+              Voltar
+            </button>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="inputs mt-5" *ngIf="!profissional">
+        Selecione um profissional!
+      </div>
+    </div>
+    <div class="row actions" *ngIf="infoListaCronograma">
+      <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+      <div class="btns-group mt-2 ml-3" *ngIf="!loading">
+        <button
+          *ngIf="profissional"
+          title="Adicionar um novo cronograma"
+          class="btn btn-warning mr-4"
+          (click)="ativaCadastro()"
+        >
+          Criar Novo Cronograma
+        </button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<!--informações-->
+<ng-template #modalEvent let-c="close" let-d="dismiss" id="modalEvent">
+  <div class="modal-header">
+    <div class="block">
+      <p class="title mb-1">
+        <i class="fas fa-calendar"></i>
+        {{ vigenciaSelected.dataInicio | date: 'dd/MM/yyyy' }} até
+        {{ vigenciaSelected.dataFim | date: 'dd/MM/yyyy' }}
+      </p>
+
+      <p class="title mb-1">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ vigenciaSelected.local_razao_social }}
+      </p>
+    </div>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <table class="table">
+    <tr *ngFor="let vigenciaItem of sortByDiaDaSemana(vigenciaSelected.items)">
+      <td>
+        {{ formatWeekDay(vigenciaItem.dia_da_semana) }}
+      </td>
+      <td>
+        <p>Início: {{ vigenciaItem.hora_inicio }}</p>
+        <p>Fim: {{ vigenciaItem.hora_fim }}</p>
+      </td>
+    </tr>
+  </table>
+</ng-template>

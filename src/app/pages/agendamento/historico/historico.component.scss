@@ -1,0 +1,41 @@
+.historico {
+  .acoes-bar {
+    padding: 10px;
+    background: #1d3b60;
+    font-size: large;
+    border-radius: 10px;
+    color: aliceblue;
+  }
+
+  .today {
+    margin-left: 4px;
+  }
+
+  .info-data {
+    text-align: center;
+  }
+
+  .header {
+    .col {
+      border-bottom: solid 1px #000;
+    }
+  }
+  .vigencia-info {
+    float: left;
+    margin-bottom: 10px;
+  }
+  .vigencia-actions {
+    float: right;
+  }
+  .vigencia-item {
+    &:hover {
+      background-color: #f0f0f0;
+    }
+    cursor: pointer;
+  }
+}
+
+.max-height {
+  overflow: auto;
+  height: 75vh;
+}

@@ -1,0 +1,369 @@
+* Get Questionarios
+#+BEGIN_SRC restclient
+GET http://aisapihml.qualirede.com.br/ais-integracao/api/v1/questionarios/3192
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "id": 3192,
+  "nome": "NOVA ADESÃO",
+  "capitulos": [
+    {
+      "id": 4250,
+      "nome": "PERFIL DE SAÚDE",
+      "categorias": [
+        {
+          "id": 4297,
+          "nome": "PERFIL DE SAÚDE",
+          "perguntas": [
+            {
+              "id": 731,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "POSSUI MÉDICO DE REFERÊNCIA?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11485,
+                  "opcao": "SIM",
+                  "campo": "Autocuidado",
+                  "valor": "Sim"
+                },
+                {
+                  "id": 11486,
+                  "opcao": "NÃO",
+                  "campo": "Autocuidado",
+                  "valor": "Não"
+                },
+                {
+                  "id": 11487,
+                  "opcao": "NÃO SEI O QUE É",
+                  "campo": "Autocuidado",
+                  "valor": "Não_sei_o_que_é"
+                }
+              ]
+            },
+            {
+              "id": 746,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "VOCÊ ESTÁ SATISFEITO COM A SUA SAÚDE?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11488,
+                  "opcao": "SIM",
+                  "campo": "Autocuidado",
+                  "valor": "Sim"
+                },
+                {
+                  "id": 11489,
+                  "opcao": "NÃO",
+                  "campo": "Autocuidado",
+                  "valor": "Não"
+                }
+              ]
+            },
+            {
+              "id": 747,
+              "tipo": "ABERTA",
+              "requerida": false,
+              "questao": "QUAL SEU PESO ATUAL?",
+              "tipo_input": "STRING",
+              "tamanho_max": "50",
+              "campo": "EXAME FÍSICO"
+            },
+            {
+              "id": 752,
+              "tipo": "ABERTA",
+              "requerida": false,
+              "questao": "SUA ALTURA?",
+              "tipo_input": "REAL",
+              "valor_min": 0,
+              "valor_max": 3,
+              "campo": "Altura"
+            },
+            {
+              "id": 753,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "VOCÊ PRATICA ATIVIDADES FÍSICAS? COM QUAL FREQUÊNCIA? ",
+              "opcoes_pergunta": [
+                {
+                  "id": 11504,
+                  "opcao": "4 VEZES OU MAIS POR SEMANA",
+                  "campo": "Exercício Físico",
+                  "valor": "4_vezes_ou_mais_por_semana"
+                },
+                {
+                  "id": 11505,
+                  "opcao": "2 A 3 VEZES POR SEMANA",
+                  "campo": "Exercício Físico",
+                  "valor": "2_a_3_vezes_por_semana"
+                },
+                {
+                  "id": 11506,
+                  "opcao": "NÃO PRATICO",
+                  "campo": "Exercício Físico",
+                  "valor": "Não_pratico"
+                }
+              ]
+            },
+            {
+              "id": 748,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "VOCÊ FUMA?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11491,
+                  "opcao": "SIM, FREQUENTEMENTE",
+                  "campo": "É Fumante",
+                  "valor": "Sim,_frequentemente"
+                },
+                {
+                  "id": 11492,
+                  "opcao": "SIM, ESPORADICAMENTE",
+                  "campo": "É Fumante",
+                  "valor": "Sim,_frequentemente"
+                },
+                {
+                  "id": 11493,
+                  "opcao": "NÃO FUMA",
+                  "campo": "É Fumante",
+                  "valor": "Não_fuma"
+                }
+              ]
+            },
+            {
+              "id": 749,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "VOCÊ CONSOME BEBIDA ALCOÓLICA?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11494,
+                  "opcao": "SIM, FREQUENTEMENTE",
+                  "campo": "Consome Álcool",
+                  "valor": "Sim,_frequentemente"
+                },
+                {
+                  "id": 11495,
+                  "opcao": "SIM, ESPORADICAMENTE",
+                  "campo": "Consome Álcool",
+                  "valor": "Sim,_esporadicamente"
+                },
+                {
+                  "id": 11496,
+                  "opcao": "NÃO BEBO",
+                  "campo": "Consome Álcool",
+                  "valor": "Não_bebo"
+                }
+              ]
+            },
+            {
+              "id": 750,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "COMO ESTÁ SEU ESTADO EMOCIONAL?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11497,
+                  "opcao": "SEMPRE TRISTE OU ANSIOSO",
+                  "campo": "Situação do equilíbrio emocional",
+                  "valor": "Sempre_triste_ou_ansioso"
+                },
+                {
+                  "id": 11498,
+                  "opcao": "ÀS VEZES TRISTE OU ANSIOSO",
+                  "campo": "Situação do equilíbrio emocional",
+                  "valor": "Às_vezes_triste_ou_ansioso"
+                },
+                {
+                  "id": 11499,
+                  "opcao": "RARAMENTE TRISTE OU ANSIOSO",
+                  "campo": "Situação do equilíbrio emocional",
+                  "valor": "Raramente_triste_ou_ansioso"
+                }
+              ]
+            },
+            {
+              "id": 754,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "VOCÊ TEM CONTATOS COM AMIGOS OU FAMÍLIA?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11507,
+                  "opcao": "SIM",
+                  "campo": "Alguém Conversar",
+                  "valor": "Sim"
+                },
+                {
+                  "id": 11508,
+                  "opcao": "NEM SEMPRE",
+                  "campo": "Alguém Conversar",
+                  "valor": "Nem_sempre"
+                },
+                {
+                  "id": 11509,
+                  "opcao": "NÃO",
+                  "campo": "Alguém Conversar",
+                  "valor": "Não"
+                }
+              ]
+            },
+            {
+              "id": 751,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "COMO ESTÁ SUA ALIMENTAÇÃO?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11500,
+                  "opcao": "ÓTIMA",
+                  "campo": "Alimentação Adequada",
+                  "valor": "Ótima"
+                },
+                {
+                  "id": 11501,
+                  "opcao": "PODE MELHORAR",
+                  "campo": "Alimentação Adequada",
+                  "valor": "Pode_melhorar"
+                },
+                {
+                  "id": 11502,
+                  "opcao": "RUIM",
+                  "campo": "Alimentação Adequada",
+                  "valor": "Ruim"
+                }
+              ]
+            },
+            {
+              "id": 755,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": "COMO ESTÁ SUA PRESSÃO ARTERIAL?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11510,
+                  "opcao": "ALTA (ACIMA DE 140/90 MMHG)",
+                  "campo": "PRESSÃO ARTERIAL",
+                  "valor": "Alta_(acima_de_140/90_mmhg)"
+                },
+                {
+                  "id": 11511,
+                  "opcao": "BAIXA (121/81 A 139/89 MMHG)",
+                  "campo": "PRESSÃO ARTERIAL",
+                  "valor": "Baixa_(121/81_a_139/89_ mmHg)"
+                },
+                {
+                  "id": 11512,
+                  "opcao": "NÃO SEI RESPONDER",
+                  "campo": "PRESSÃO ARTERIAL",
+                  "valor": "Não_sei_responder"
+                }
+              ]
+            },
+            {
+              "id": 756,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": " COMO ESTÁ SUA GLICEMIA EM JEJUM?",
+              "opcoes_pergunta": [
+                {
+                  "id": 11513,
+                  "opcao": "ALTA (ACIMA DE 126 MG/1L) ",
+                  "campo": "Glicemia",
+                  "valor": "Alta_(acima_de_126_mg/1l) "
+                },
+                {
+                  "id": 11514,
+                  "opcao": "REGULAR (100MG A 126MG/1L) ",
+                  "campo": "Glicemia",
+                  "valor": "Regular_(100mg_a_126mg/1l) "
+                },
+                {
+                  "id": 11515,
+                  "opcao": "ÓTIMA (ABAIXO DE 100 MG/1L) ",
+                  "campo": "Glicemia",
+                  "valor": "Ótima_(abaixo_de_100_mg/1l)"
+                },
+                {
+                  "id": 11516,
+                  "opcao": "NÃO SEI RESPONDER ",
+                  "campo": "Glicemia",
+                  "valor": "Não_sei_responder"
+                }
+              ]
+            },
+            {
+              "id": 757,
+              "tipo": "MULTIPLA_ESCOLHA",
+              "requerida": false,
+              "questao": " VOCÊ POSSUI ALGUMA DAS  DOENÇAS DESCRITAS ABAIXO? ",
+              "opcoes_pergunta": [
+                {
+                  "id": 11517,
+                  "opcao": "PRESSÃO ARTERIAL ALTA",
+                  "campo": "Problemas Referidos",
+                  "valor": "pressão_arterial_alta"
+                },
+                {
+                  "id": 11518,
+                  "opcao": "DIABETES",
+                  "campo": "Problemas Referidos",
+                  "valor": "Diabetes"
+                },
+                {
+                  "id": 11519,
+                  "opcao": "PROBLEMAS NO CORAÇÃO",
+                  "campo": "Problemas Referidos",
+                  "valor": "Problemas_no_coração"
+                },
+                {
+                  "id": 11520,
+                  "opcao": "CÂNCER",
+                  "campo": "Problemas Referidos",
+                  "valor": "Problemas_referidos"
+                },
+                {
+                  "id": 11521,
+                  "opcao": "COLESTEROL ALTO",
+                  "campo": "Problemas Referidos",
+                  "valor": "Colesterol_alto"
+                },
+                {
+                  "id": 11522,
+                  "opcao": "NÃO POSSUO NENHUMA",
+                  "campo": "Problemas Referidos",
+                  "valor": "Não_possuo_nenhuma"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+// GET http://aisapihml.qualirede.com.br/ais-integracao/api/v1/questionarios/3192
+// HTTP/1.1 200 OK
+// Date: Thu, 24 Oct 2019 20:06:30 GMT
+// Content-Type: application/json
+// Transfer-Encoding: chunked
+// Connection: keep-alive
+// Access-Control-Allow-Origin: *
+// Access-Control-Request-Method: POST, GET, PUT, OPTIONS
+// Access-Control-Allow-Headers: *
+// Access-Control-Allow-Credentials: true
+// Request duration: 0.032429s
+#+END_SRC
+
+
+
+* Get Beneficiarios by MPI
+#+BEGIN_SRC restclient
+GET http://aisapihml.qualirede.com.br/ais-integracao/api/v1/determinantes/beneficiarios?dsMpi=b2c9aecd-4141-4568-965c-35f3a4b6195e
+#+END_SRC
+
+

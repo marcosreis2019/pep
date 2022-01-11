@@ -1,0 +1,325 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="left">
+    <div *ngIf="local" class="left-container">
+      <div class="header">
+        <div style="height: 28px;">
+          <div class="float-left mt-1">
+            <h1>Beneficiário</h1>
+          </div>
+          <div class="float-right mb-1">
+            <button (click)="resetLocal()" title="Voltar para locais">
+              <img width="16px" src="assets/icons/close-2.svg" alt="" />
+            </button>
+          </div>
+        </div>
+        <div class="searchbar">
+          <img src="assets/icons/search-blue.svg" alt="" />
+          <input
+            type="text"
+            placeholder="Buscar por nome do beneficiário"
+            [(ngModel)]="value"
+            (ngModelChange)="change(value)"
+          />
+        </div>
+      </div>
+
+      <div class="list">
+        <div
+          class="item"
+          style="position: relative;"
+          *ngFor="let item of listPacientes; let i = index"
+          (click)="selectPaciente(item, i)"
+          [ngClass]="{ selected: i === selectedIndex }"
+        >
+          <img [src]="item?.gender?.picture" [ngClass]="item?.css?.border" />
+          <div [ngClass]="'circle-nivel circle-nivel-' + item.nivelComplexidade?.codigoNivel">
+            {{ item.nivelComplexidade?.codigoNivel }}
+          </div>
+          <div class="info">
+            <h3>{{ item.nomeCompleto }}</h3>
+          </div>
+          <div class="secondary-info">
+            <span class="date">{{ item.dataNascimento | date: 'dd/MM/yyyy' }}</span>
+            <span *ngIf="item?.descricaoOperadora" class="name-operadora">
+              {{ item.descricaoOperadora }}
+            </span>
+          </div>
+        </div>
+        <img *ngIf="loadingList" src="assets/icons/spinner.svg" alt="Loading..." />
+      </div>
+    </div>
+    <div *ngIf="!local" class="left-container">
+      <div class="header">
+        <h1>Local do Atendimento</h1>
+        <div class="searchbar">
+          <img src="assets/icons/search-blue.svg" alt="" />
+          <input type="text" placeholder="Buscar por local" [(ngModel)]="searchLocal" />
+        </div>
+      </div>
+      <div class="list">
+        <div class="local-item" (click)="setLocal(item)" *ngFor="let item of filteredLocais()">
+          <span class="title-item">{{ item.razao_social }}</span>
+        </div>
+        <div *ngIf="!filteredLocais().length" class="local-item">
+          <span>Nenhum local encontrado.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="folha-de-rosto">
+    <ng-container *ngIf="selected$ | async as paciente; else emptyOrLoading">
+      <div [ngClass]="paciente?.css?.background" class="selected folha">
+        <ng-container>
+          <ul class="orbit-wrap">
+            <li>
+              <ul class="orbit">
+                <li
+                  class="ring-{{ number }}"
+                  *ngFor="let number of [0, 1, 2]"
+                  [ngClass]="{
+                    inactive: orbs[number].inactive,
+                    active: orbs[number].active
+                  }"
+                ></li>
+              </ul>
+            </li>
+            <li class="orbit-center">
+              <div *ngIf="loadingStart">
+                <div class="loading">
+                  <img src="assets/icons/spinner.svg" alt="" />
+                </div>
+              </div>
+              <div
+                *ngIf="!loadingStart"
+                class="card l-{{ paciente.nivelComplexidade.codigoNivel }}"
+              >
+                <section class="user-profile">
+                  <img [src]="paciente.gender?.picture" />
+                  <h2>{{ paciente.nomeCompleto }}</h2>
+                  <button class="custom-btn level">
+                    <i class="fas fa-angle-up mr-6"></i>
+                    <i class="fas fa-birthday-cake"></i>
+                    {{ paciente.dataNascimento | age }}
+                  </button>
+                  <button class="custom-btn level">
+                    <i class="fas fa-angle-up mr-6"></i>
+                    <i class="fas fa-heart"></i>
+                    Nível {{ paciente.nivelComplexidade?.codigoNivel }}
+                  </button>
+                  <button
+                    title="Histórico"
+                    class="custom-btn level bg-history"
+                    (click)="openModalHistorico()"
+                  >
+                    <i class="fas fa-history"></i>
+                  </button>
+                  <br />
+                  <br />
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="3">
+                        <h4 class="titleCardHome">Matrícula</h4>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="alignLeft" *ngIf="paciente.matricula">
+                          {{ paciente.matricula.replace(' ', '') }}
+                        </h2>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="3">
+                        <h4 class="titleCardHome">Data Nasc</h4>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="alignLeft">
+                          {{ paciente.dataNascimento | date: 'dd/MM/yyyy' }}
+                        </h2>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="3">
+                        <h4 class="titleCardHome">Sexo</h4>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="alignLeft">
+                          {{ paciente.genero }}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-primary"
+                    [disabled]="!isMedico()"
+                    (click)="iniciar(paciente)"
+                  >
+                    Iniciar Atendimento
+                  </button>
+                </section>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+
+        <ng-container>
+          <ul class="orbits-objects orb-0 active">
+            <li class="objects-ring-1 btn-atendimento">
+              <div>
+                <button class="btn btn-primary" (click)="iniciarHistorico(paciente)">
+                  Histórico Atendimento
+                </button>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+
+        <ng-container>
+          <ul class="orbits-objects orb-2 active">
+            <li class="objects-ring-1 btn-agendamento">
+              <div>
+                <button class="btn btn-primary" (click)="openModalHistorico()">
+                  Histórico Agendamento
+                </button>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+
+        <ng-container *ngIf="tags$ | async as tags">
+          <ul
+            class="orbits-objects orb-0"
+            [ngClass]="{ inactive: orbs[0].inactive, active: orbs[0].active }"
+          >
+            <li class="objects-ring-0" *ngFor="let object of tags.health | slice: 0:4">
+              <div class="objects-content">
+                <i
+                  class="orbit-icon fg-white"
+                  [ngClass]="'fas ' + object?.icone"
+                  [color]="object.cor"
+                  (mouseover)="togglePopOver($event, object, 0)"
+                ></i>
+                <span (mouseover)="togglePopOver($event, object, 0)">{{ object.tag }}</span>
+              </div>
+            </li>
+          </ul>
+          <ul
+            class="orbits-objects orb-1"
+            [ngClass]="{ inactive: orbs[1].inactive, active: orbs[1].active }"
+          >
+            <li class="objects-ring-1" *ngFor="let object of tags.auth | slice: 0:4">
+              <div class="objects-content">
+                <i
+                  class="orbit-icon fg-white"
+                  [ngClass]="'fas ' + object?.icone"
+                  [color]="object.cor"
+                  (mouseover)="togglePopOver($event, object, 1)"
+                ></i>
+                <span (mouseover)="togglePopOver($event, object, 1)">{{ object.tag }}</span>
+              </div>
+            </li>
+          </ul>
+          <ul
+            class="orbits-objects orb-2"
+            [ngClass]="{ inactive: orbs[2].inactive, active: orbs[2].active }"
+          >
+            <li class="objects-ring-2" *ngFor="let object of tags.admin | slice: 0:4">
+              <div class="objects-content">
+                <i
+                  class="orbit-icon fg-white"
+                  [ngClass]="'fas ' + object?.icone"
+                  [color]="object.cor"
+                  (mouseover)="togglePopOver($event, object, 2)"
+                ></i>
+                <span (mouseover)="togglePopOver($event, object, 2)">{{ object.tag }}</span>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyOrLoading>
+      <ng-container *ngIf="loading$ | async">
+        <div class="d-flex justify-content-center loading">
+          <img src="assets/icons/spinner.svg" alt="" />
+        </div>
+      </ng-container>
+
+      <ng-template #empty>
+        <div class="empty">
+          <p>Selecione um paciente</p>
+        </div>
+      </ng-template>
+    </ng-template>
+  </section>
+</article>
+
+<!--Historico-->
+<ng-template
+  #modalHistorico
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalHistorico"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Histórico de agendamentos do paciente
+    </h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <historico [pacienteSelecionadoMpi]="pacienteSelecionado.mpi"></historico>
+  </div>
+</ng-template>
+
+<div class="popover" #popover (mouseleave)="togglePopOver($event)">
+  <div class="popover-container" *ngIf="currentTag$ | async">
+    <div *ngFor="let tag of currentTag$ | async | slice: 0:4; let i = index">
+      <div *ngIf="i == 0" class="header">
+        <i class="icon fg-white" [color]="tag?.cor" [ngClass]="'fas ' + tag?.icone"></i>
+        <span class="title">{{ tag.tag }}</span>
+      </div>
+      <div class="pop-content">
+        <p>{{ tag.descricao }}</p>
+      </div>
+      <a button *ngIf="tag?.url" href="{{ tag.url }}">Ver mais</a>
+    </div>
+    <button *ngIf="expandeOrb" class="expandir" (click)="showModal($event)">Expandir</button>
+  </div>
+</div>
+
+<ng-template #fullTagList let-modal>
+  <ng-container>
+    <section class="modal-header">
+      <h3 class="modal-title">{{ headerModal }}</h3>
+      <button
+        e
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </section>
+    <section class="modal-body">
+      <div
+        style="font-size: 14px;color: #43425d;"
+        *ngFor="let tag of currentFullList; let i = index"
+      >
+        {{ tag.descricao }}
+        <a button *ngIf="tag?.url" href="{{ tag.url }}">Ver mais</a>
+      </div>
+    </section>
+  </ng-container>
+</ng-template>
+
+<ngb-alert class="home-toast" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>

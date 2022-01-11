@@ -1,0 +1,504 @@
+.cadastro-paciente {
+  display: flex;
+  height: 100%;
+  .comboOperadoras {
+    margin-top: 31px;
+  }
+
+  .calendar-data-nascimento {
+    margin-top: 32px !important;
+  }
+
+  .required:after {
+    content: ' *';
+
+    color: red;
+  }
+
+  .multiselect {
+    width: auto;
+    height: auto;
+    position: absolute;
+  }
+
+  .label-status {
+    margin-left: 48%;
+    border: 1px solid #0075ff;
+    padding: 3px;
+    margin-top: 2px;
+    z-index: 0;
+    color: #0075ff;
+    margin-left: 171px;
+  }
+
+  .label-checkbox {
+    font-size: 14pt;
+    margin-top: 9px;
+    width: 137px;
+    color: steelblue;
+  }
+
+  .content-list {
+    background-color: #fff;
+    border: 1px solid steelblue;
+    padding-bottom: 32px;
+    border-radius: 6px;
+    width: 100%;
+    margin: 7px;
+    position: relative;
+
+    .row {
+      margin-top: 20px;
+    }
+  }
+
+  .select-container {
+    margin-top: 18px;
+  }
+
+  .endereco-title {
+    background-color: steelblue;
+    border-radius: 5px;
+    padding: 6px;
+    position: absolute;
+    color: #fff;
+    padding-bottom: 10px;
+    margin-left: -56px;
+    z-index: 1;
+    min-width: 100px;
+    margin-top: -19px;
+  }
+
+  .btn-acoes {
+    position: absolute;
+    margin-top: -16px;
+    margin-left: 89%;
+    z-index: 1;
+  }
+
+  .border-acoes {
+    border: none;
+    font-size: 10pt;
+    border-radius: 60px;
+    width: 31px;
+    padding-right: 24px;
+  }
+
+  .toast-error {
+    opacity: 1;
+    z-index: 10000;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 80px 20px 0 0;
+  }
+
+  .floating-label {
+    position: relative;
+    margin-top: 32px;
+    &.select-container {
+      margin-top: 45px;
+    }
+  }
+
+  .floating-label select:required:invalid + label {
+    color: #de3953;
+    background: content-box;
+    z-index: 1;
+    margin-left: 1%;
+  }
+
+  .floating-label select:required:invalid + label:before {
+    content: '*';
+    margin-right: 2px;
+  }
+
+  .floating-select {
+    font-size: 14px;
+    padding: 4px 4px;
+    display: block;
+    width: 88%;
+    margin-left: 5%;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .floating-select:focus {
+    outline: none;
+    border-bottom: 2px solid #5264ae;
+  }
+
+  label {
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 17px;
+    top: 0px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  .loading,
+  .sending {
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 7%;
+    }
+  }
+
+  .date {
+    padding: 0 35px 0 40px;
+  }
+
+  .floating-select:focus ~ label,
+  .floating-select:not([value='']):valid ~ label {
+    top: -18px;
+    font-size: 14px;
+    color: #5264ae;
+  }
+
+  /* active state */
+  .floating-select:focus ~ .floating-select:focus ~ {
+    width: 50%;
+  }
+
+  *,
+  *:before,
+  *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* active state */
+  .floating-select:focus ~ {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+  }
+
+  .downloadBtn {
+    margin-left: 20px;
+  }
+
+  .locais-title {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-left: -302px;
+    height: 100px;
+    margin-top: 97px;
+    max-width: 100%;
+  }
+
+  .paciente-left-content {
+    right: 74.1% !important;
+  }
+
+  .locais-logo {
+    margin-top: 70%;
+  }
+
+  .comboOperadoras {
+    margin-top: 31px;
+  }
+
+  .floating-label {
+    position: relative;
+    margin-top: 32px;
+  }
+
+  .floating-label select:required:invalid + label {
+    color: #de3953;
+  }
+
+  .floating-label select:required:invalid + label:before {
+    content: '*';
+    margin-right: 2px;
+  }
+
+  .floating-select {
+    font-size: 14px;
+    padding: 4px 4px;
+    display: block;
+    width: 88%;
+    margin-left: 5%;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .floating-select:focus {
+    outline: none;
+    border-bottom: 2px solid #5264ae;
+  }
+
+  label {
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 17px;
+    top: 0px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  .floating-select:focus ~ label,
+  .floating-select:not([value='']):valid ~ label {
+    top: -18px;
+    font-size: 14px;
+    color: #5264ae;
+  }
+
+  /* active state */
+  .floating-select:focus ~ .floating-select:focus ~ {
+    width: 50%;
+  }
+
+  *,
+  *:before,
+  *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* active state */
+  .floating-select:focus ~ {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+  }
+
+  .downloadBtn {
+    margin-left: 20px;
+  }
+
+  .title {
+    color: #0071fe !important;
+    font-size: 30px !important;
+    letter-spacing: 4px !important;
+    margin: 0 !important;
+    padding-top: 16px;
+    font-family: WorkBold !important;
+  }
+
+  @mixin flex-center {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .left {
+    @include flex-center;
+    flex-direction: column;
+    background: #0071fe;
+    height: 100%;
+    width: 33%;
+    img {
+      max-width: 250px;
+    }
+  }
+
+  .mt-20 {
+    margin-top: 20px;
+  }
+
+  .fs-14 {
+    font-size: 14px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4682b4;
+    border-radius: 10px;
+    width: 2px !important;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(54, 56, 58);
+    width: 2px;
+  }
+
+  .max-count[_ngcontent-jcd-c4] {
+    margin-top: 0px !important;
+  }
+
+  .content {
+    @include flex-center;
+    background: #f4f8ff;
+    width: 98%;
+
+    .block {
+      min-width: 100%;
+      height: 100%;
+      text-align: center;
+      padding: 5px 25px 10px 25px;
+      border-radius: 10px;
+      background: white;
+
+      h1 {
+        color: #0071fe;
+        font-size: 30px;
+        letter-spacing: 10px;
+        margin: 0 !important;
+        font-family: WorkBold;
+      }
+
+      p {
+        margin: 0;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .inputs {
+        margin-top: 15px;
+        input {
+          font-size: 12px;
+          width: 91%;
+          height: 36px;
+          border: none;
+          margin-bottom: 7px;
+          margin-top: 10px;
+          border-bottom: 0.5px solid #e6e6e6;
+        }
+      }
+
+      .inputs2 {
+        display: flex;
+        margin-top: 10%;
+        justify-content: space-between;
+        border-bottom: 0.5px solid #e6e6e6;
+
+        input {
+          font-size: 12px;
+          width: 300px;
+          border: none;
+          margin-bottom: 1px;
+        }
+        .loading {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .btns-group {
+        margin: 20px 0 20px 0;
+        align-items: center;
+        width: 100%;
+
+        button {
+          font-size: 14px;
+          border-radius: 20px;
+          width: 150px;
+          height: 35px;
+          cursor: pointer;
+
+          &:disabled {
+            background: #6294d1;
+          }
+        }
+      }
+    }
+  }
+
+  .label-float {
+    position: relative;
+    padding-top: 0px;
+  }
+
+  .label-float input {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    outline: none;
+    min-width: 250px;
+    border-bottom: 1px lightgray;
+    padding-top: 21px;
+    padding-left: 9px;
+    padding-bottom: 2px;
+    font-size: 16px;
+    transition: all 0.1s linear;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -webkit-appearance: none;
+  }
+
+  .label-float input:focus {
+    border: 2px solid #3951b2;
+  }
+
+  .label-float input::placeholder {
+    color: transparent;
+  }
+
+  .label-float label {
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - 9px);
+    left: 15px;
+    color: #afafd7;
+    transition: all 0.1s linear;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    background-color: white;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  .label-float input:required:invalid + label {
+    color: #de3953;
+    background: content-box;
+    z-index: 1;
+    margin-left: 1%;
+  }
+  .label-float input:focus:required:invalid {
+    border: 2px solid #de3953;
+  }
+  .label-float input:required:invalid + label:before {
+    content: '*';
+    margin-right: 2px;
+  }
+  .label-float input:focus + label,
+  .label-float input:not(:placeholder-shown) + label {
+    font-size: 13px;
+    top: 0;
+    color: #3951b2;
+    padding-right: 0px;
+    margin-left: 18px;
+  }
+  .toast-error {
+    opacity: 1;
+    z-index: 10000;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 20px 20px 0 0;
+  }
+  .toast-success {
+    opacity: 1;
+    z-index: 10000;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 20px 20px 0 0;
+  }
+}

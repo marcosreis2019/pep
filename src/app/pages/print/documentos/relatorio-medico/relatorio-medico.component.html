@@ -1,0 +1,56 @@
+<div>
+  <h3 class="title">
+    {{ doc.modelo_descricao }}
+  </h3>
+  <div class="box-via-digital">
+    <p class="via-digital-title">VIA DIGITAL</p>
+    VALIDAR EM:
+    <p class="via-digital-url">https://assinaturadigital.iti.gov.br</p>
+  </div>
+  <div class="texto-principal">
+    PACIENTE:
+    <b>{{ doc.beneficiario_nome }}</b>
+    .
+  </div>
+
+  <div class="texto-observacoes">
+    RELATÓRIO:
+    <br />
+    <b [innerHTML]="doc.observacao"></b>
+  </div>
+
+  <div class="texto-info-medico">
+    NOME DO(A) MÉDICO(A):
+    <b>
+      {{ doc.profissional_nome }}
+    </b>
+    <br />
+    {{ doc.profissional_conselho_sigla ? doc.profissional_conselho_sigla : 'Sigla Conselho (Não Definida)' }}:
+    <b>{{ doc.profissional_conselho_numero ? doc.profissional_conselho_numero : '---' }}</b>
+    UF:
+    <b>{{ doc.profissional_conselho_uf ? doc.profissional_conselho_uf : '---' }}</b>
+    <br />
+    LOCAL DE ATENDIMENTO:
+    <b>{{ doc.local_atendimento ? doc.local_atendimento : '---' }}</b>
+    CNES:
+    <b>{{doc.local_cnes}}</b>
+    <br />
+    ENDEREÇO:
+    <b>{{ doc.endereco ? doc.endereco : '---' }}</b>
+    BAIRRO:
+    <b>{{ doc.bairro ? doc.bairro : '---' }}</b>
+    <br />
+    CIDADE:
+    <b>{{ doc.cidade ? doc.cidade : '---' }}</b>
+    UF:
+    <b>{{ doc.uf ? doc.uf : '---' }}</b>
+    TELEFONE:
+    <b>{{ doc.telefone ? doc.telefone : '---' }}</b>
+    <br />
+    DATA DE EMISSÃO:
+    <b>{{ doc.data_emissao ? (doc.data_emissao | date: 'dd/MM/yyyy') : '---' }}</b>
+    <br />
+    <br />
+    <b>ASSINATURAS DIGITAIS ABAIXO:</b>
+  </div>
+</div>

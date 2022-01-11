@@ -1,0 +1,49 @@
+<form class="pep-input-group" [formGroup]="form" (ngSubmit)="send()">
+  <h5>Adicionar Medicamento</h5>
+  <input
+    type="text"
+    placeholder="Qual o medicamento?*"
+    formControlName="medicamento"
+    (keyup.enter)="send()"
+  />
+  <input
+    type="text"
+    placeholder="Principio Ativo*"
+    formControlName="principio_ativo"
+    (keyup.enter)="send()"
+  />
+  <input
+    type="text"
+    placeholder="Dosagem*"
+    formControlName="dosagem"
+    (keyup.enter)="send()"
+  />
+
+  <label class="custom-check">
+    <span class="check-label txt-default">Uso Continuo?</span>
+    <input
+      type="checkbox"
+      formControlName="uso_continuo"
+      (keyup.enter)="send()"
+    />
+    <span class="checkmark"></span>
+  </label>
+
+  <textarea
+    type="text"
+    placeholder="Observações"
+    formControlName="obs"
+    (keyup.enter)="send()"
+  ></textarea>
+
+  <div class="btn-pop-group">
+    <button class="btn-pep btn-choose" (click)="cancelForm()"><i class="fas fa-ban mr-1"></i> Cancelar</button>
+    <button
+      class="btn-pep btn-choose yes"
+      [disabled]="form.invalid"
+      type="submit"
+    >
+      {{ medication ? 'Alterar' : 'Adicionar' }}
+    </button>
+  </div>
+</form>

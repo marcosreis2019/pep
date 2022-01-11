@@ -1,0 +1,123 @@
+<menu-sidebar></menu-sidebar>
+
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left">
+        <h2>Operadoras</h2>
+      </div>
+      <div class="float-right mb-1">
+        <button (click)="reset()" title="Nova Operadora">
+          <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+        </button>
+      </div>
+      <div class="searchbar mb-2">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <input
+          type="text"
+          placeholder="Buscar e filtrar operadoras"
+          [(ngModel)]="search"
+          (ngModelChange)="change(search)"
+        />
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of list; let i = index"
+        (click)="selectOperadora(item)"
+      >
+        <div class="info">
+          <h3>{{ item.descricao }}</h3>
+        </div>
+      </div>
+      <img *ngIf="loadingList" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <div class="pep-center content-container">
+    <div class="content">
+      <div class="block">
+        <div class="content-title">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="inputs">
+          <div class="card">
+            <div class="row">
+              <div class="col-12">
+                <label for="descricao">Descrição</label>
+                <input
+                  id="descricao"
+                  [(ngModel)]="operadora.descricao"
+                  type="text"
+                  maxlength="80"
+                  max="true"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="codigo">Código</label>
+                <input
+                  id="codigo"
+                  [(ngModel)]="operadora.codigo"
+                  type="number"
+                  maxlength="80"
+                  max="true"
+                />
+                <img
+                  width="20px"
+                  src="assets/icons/info-circle-solid.svg"
+                  [ngbTooltip]="
+                    'O código da operadora é a referência às operadoras cadastradas no AIS, ao qual são vinculadas ao Beneficiário.'
+                  "
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="registro">Registro ANS</label>
+                <input
+                  id="registro"
+                  [(ngModel)]="operadora.registro_ans"
+                  type="number"
+                  maxlength="80"
+                  max="true"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <span>
+                  <label for="registro">Tipos de Serviço</label>
+                  <br />
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Selecione um ou mais tipos de serviço'"
+                    [data]="tipoServicoList"
+                    [(ngModel)]="selectedTipoServico"
+                    [settings]="dropdownSettings"
+                  ></ng-multiselect-dropdown>
+                </span>
+              </div>
+            </div>
+            <br />
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group col-12" *ngIf="!loading">
+              <button
+                title="Salvar"
+                [disabled]="isDisabled()"
+                class="btn btn-primary"
+                (click)="save()"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

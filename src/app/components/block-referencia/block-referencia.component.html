@@ -1,0 +1,134 @@
+<div class="referencias categoria-bg">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="title-h2">Referências e Contrarreferências</h2>
+    </div>
+
+    <div class="col-2">
+      <button class="btn btn-primary" (click)="reset(); toggleAddRefForm()">
+        Nova
+      </button>
+    </div>
+
+    <div class="col-2">
+      <button class="btn btn-primary bg-secondary" (click)="toggleRefHistory()">
+        Histórico
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- add referencias form -->
+<ng-template #addRefForm let-modal>
+  <ng-container>
+    <div class="modal-header">
+      <h3 class="modal-title">Adicionar Nova Referência</h3>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click'); reset()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="add-ref" *ngIf="!refSelected || refSelected.dataRealizacaoContraReferencia">
+        <form-referencias
+          (printEvent)="addRefAndPrint($event, modal)"
+          (saveEvent)="addReferencia($event)"
+        ></form-referencias>
+
+        <ng-container
+          *ngIf="isLoading$ | async"
+          [ngTemplateOutlet]="loading"
+          [ngTemplateOutletContext]="{ msg: 'Registrando Referencia...' }"
+        ></ng-container>
+
+        <ng-container
+          *ngIf="success$ | async as success"
+          [ngTemplateOutlet]="successMsg"
+          [ngTemplateOutletContext]="{ msg: success }"
+        ></ng-container>
+
+        <ng-container
+          *ngIf="error$ | async as error"
+          [ngTemplateOutlet]="errorMsg"
+          [ngTemplateOutletContext]="{ msg: error }"
+        ></ng-container>
+
+        <ng-container
+          *ngIf="msgAlert"
+          [ngTemplateOutlet]="alertMsg"
+          [ngTemplateOutletContext]="{ msg: msgAlert }"
+        ></ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<!-- add xref form -->
+<ng-template #addXRef>
+  <div
+    class="add-xref"
+    *ngIf="
+      !(success$ | async) &&
+      isAddingXRef &&
+      refSelected &&
+      !refSelected.dataRealizacaoContraReferencia
+    "
+  >
+    <div class="child-content">
+      <form-referencias-contra (event)="addContraReferencia($event)"></form-referencias-contra>
+    </div>
+
+    <ng-container
+      *ngIf="isLoading$ | async"
+      [ngTemplateOutlet]="loading"
+      [ngTemplateOutletContext]="{
+        msg: 'Registrando Contra Referencia...'
+      }"
+    ></ng-container>
+  </div>
+</ng-template>
+<!-- end form-xref -->
+
+<!-- modal para histórico de referencias -->
+<ng-template #refHistory let-modal>
+  <modal-historico (close)="closeHistory()"></modal-historico>
+</ng-template>
+
+<ng-template #noRefs>
+  <div *ngIf="!(refs$ | async) && !(isLoading$ | async); else loading" class="history-empty">
+    <p>Nenhuma referência registrada até o momento</p>
+  </div>
+</ng-template>
+
+<ng-template #loading let-message="msg">
+  <div class="d-flex justify-content-center loading">
+    <img src="assets/icons/spinner.svg" alt="Loading..." />
+    <p>{{ message }}</p>
+  </div>
+</ng-template>
+
+<ng-template #successMsg let-message="msg">
+  <ngb-alert type="success" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #errorMsg let-message="msg">
+  <ngb-alert type="danger" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #alertMsg let-message="msg">
+  <div *ngIf="msgAlert" class="warning">
+    <img src="assets/icons/warning-2.svg" alt="" class="warning" />
+    <p class="fs-text">{{ message }}</p>
+    <button class="btn-pep" (click)="reload()">Tentar novamente</button>
+  </div>
+</ng-template>

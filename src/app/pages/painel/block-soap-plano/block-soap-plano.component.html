@@ -1,0 +1,70 @@
+<div class="soap-item" [ngClass]="{ 'not-focused': !hasFocus }">
+  <div class="header">
+    <span class="description" [color]="item.color" (click)="emitFocus()">{{ item.letter }}</span>
+    <div class="input">
+      <textarea
+        type="text"
+        placeholder="Campo de texto"
+        (blur)="toggleFocus()"
+        (focus)="toggleFocus()"
+        [(ngModel)]="value"
+        (ngModelChange)="send(value)"
+        [value]="descricao$ | async"
+      ></textarea>
+      <span *ngIf="hasFocus">{{ value.length }}/4000</span>
+    </div>
+  </div>
+
+  <br />
+  <div class="content">
+    <div class="document">
+      <h2>Documentos</h2>
+      <h3>Elaboração de documentos</h3>
+      <div class="doc-options">
+        <button class="doc-plan" (click)="navigateToDocuments()">
+          clique para elaborar documentos no prontuário
+        </button>
+      </div>
+      <hr />
+      <br />
+    </div>
+
+    <div class="return">
+      <h2>Retorno</h2>
+      <h3>Retornar em</h3>
+      <form-retorno (event)="listenerRetorno($event)" [data]="retorno$ | async"></form-retorno>
+      <br />
+    </div>
+    <hr />
+
+    <div class="recipe">
+      <ng-container>
+        <block-docs-ass-digital
+          [sequencialAtendimento]="sequencialAtendimento"
+        ></block-docs-ass-digital>
+        <hr />
+      </ng-container>
+    </div>
+
+    <div class="exam">
+      <ng-container>
+        <block-exame (toggleExamResultsToParent)="toggleExamResults()"></block-exame>
+        <hr />
+      </ng-container>
+    </div>
+
+    <div class="recipe">
+      <ng-container>
+        <block-prescricao></block-prescricao>
+        <hr />
+      </ng-container>
+    </div>
+
+    <div class="referencia">
+      <ng-container>
+        <block-referencia></block-referencia>
+        <br />
+      </ng-container>
+    </div>
+  </div>
+</div>

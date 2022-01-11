@@ -1,0 +1,147 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+
+.referencias {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.m-left {
+  margin-left: -12px;
+}
+
+.active-filter {
+  background: lightgray;
+  border: solid 2px darkgrey;
+  border-radius: 25px;
+  padding-left: 17px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  i > img {
+    width: 20px;
+    margin-left: 10px;
+  }
+}
+
+.content {
+  display: flex;
+  max-height: fit-content;
+  overflow: visible;
+  transition: overflow 2s linear;
+}
+
+.add-ref {
+  padding-top: 25px;
+}
+.add-xref {
+  padding-top: 25px;
+}
+.right {
+  width: 40%;
+  padding: 0 20px;
+}
+
+.history-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.warning {
+  text-align: center;
+  img {
+    width: 40px;
+    margin-bottom: 10px;
+  }
+  p {
+    margin-bottom: 10px;
+  }
+  button {
+    @include font-size(0.6rem);
+    display: inline;
+    border: 1px solid map-get($theme, warning);
+  }
+}
+
+.loading,
+.sending {
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 7%;
+  }
+}
+
+.item-hide {
+  height: 0 !important;
+}
+
+.item-show {
+  height: fit-content !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.txt-center {
+  text-align: center;
+}
+
+.btn-search-ref {
+  width: 87%;
+  display: flex;
+  color: white;
+  border: 1px solid #dde3ff;
+  justify-content: center;
+  font-family: LatoBold;
+  background-color: #7cd218;
+}
+
+.bg-red {
+  background-color: #d21818;
+}
+
+.search {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  color: lightgray !important;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid map-get($light-style, border);
+  border-radius: 15px;
+  padding: 0 5px 0 15px;
+
+  input {
+    color: map-get($light-style, input);
+    font-family: LatoRegular;
+    border: none;
+    width: 70%;
+
+    &::placeholder {
+      color: map-get($light-style, placeholder);
+      font-family: LatoRegular;
+    }
+  }
+
+  .btn-group {
+    text-align: left;
+
+    button {
+      border: none !important;
+      font-size: 12px;
+    }
+  }
+}

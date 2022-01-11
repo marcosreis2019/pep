@@ -1,0 +1,98 @@
+
+//  Dynamic Forms
+.dynamic-form {
+  padding: 10px;
+  display: flex;
+  width  : 100%;
+  flex-direction : column;
+  justify-content: space-between;
+
+  .form-item {
+    background-color: #F7F9FC;
+    margin-bottom   : 10px;
+    border-radius   : 9px;
+    min-height      : 60px;
+    display         : flex;
+    justify-content : space-between;
+    padding         : 10px 20px;
+    box-sizing      : border-box;
+    align-items     : center;
+
+    &.form-col {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    span, label {
+      color: #595e6db0;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    input, select, .form-input {
+      border       : 2px solid #8798AD;
+      border-radius: 9px;
+      padding      : 0 4px;
+      font-size    : 16px;
+      background: #fff;
+      &:focus {
+        border-color: #0071FE;
+      }
+    }
+    select {
+      color : #707070;
+      height: 34px;
+      width : 100%;
+    }
+
+
+    textarea {
+      width: 100%;
+      resize: none;
+      background: transparent;
+      border: none;
+      font-size: 12px;
+      border-radius: 7px;
+      border: 1px solid #808ba8;
+      margin: 10px 0;
+      min-height: 70px;
+    }
+  }
+
+  .footer {
+    display        : flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 55px;
+  }
+
+  .steps {
+    display        : flex;
+    justify-content: space-between;
+    width          : 18%;
+    align-items    : center;
+
+    span.bullet {
+      width        : 10px;
+      height       : 10px;
+      background   : #DDE3FF;
+      border-radius: 50%;
+      
+      &.active {
+        background: #0071FE;
+      }
+    }
+  }
+}
+
+.select-check-button {
+  background   : white;
+  width        : 100%;
+  text-align   : left;
+  padding      : 5px;
+  border-radius: 9px;
+  font-size    : 16px;
+  border       : 2px solid #8798AD;
+  color        : #707070
+}

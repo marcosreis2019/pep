@@ -1,0 +1,31 @@
+<div class="condition">
+  <div class="header">
+    <button (click)="changeSwitch('conduta')" class="switcher" [ngClass]="{actived: current === 'conduta'}" >
+      <label>Conduta</label>
+      <i class="icon">
+        <img src="assets/icons/symbol-condition.svg" alt="" class="circle" />
+      </i>
+    </button>
+
+    <button
+      (click)="changeSwitch('metas')"
+      class="switcher"
+      [ngClass]="{actived: current === 'metas'}"
+    >
+      <label>Metas</label>
+      <i class="icon">
+        <img src="assets/icons/symbol-goals.svg" alt="" class="goal" />
+      </i>
+    </button>
+  </div>
+
+  <div [ngSwitch]="current" class="changeable">
+    <div *ngSwitchCase="'metas'" class="changeable-container">
+      <!-- metas -->
+    </div>
+
+    <div *ngSwitchDefault class="changeable-container">
+      <!-- <dynamic-form-genarator *ngIf="form" [data]="form" bulletLen="3" bulletActive="2" (export)="transform($event)"></dynamic-form-genarator> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<perfect-scrollbar
+  [config]="config"
+  class="block-conditions-info scroller perfect-scrollbar"
+>
+  <div class="header bg-p">
+    <h3 class="txt-light">Plano</h3>
+    <!-- <button class="btn-close" (click)="close()">
+      <i><img src="assets/icons/close.svg" alt=""/></i>
+    </button> -->
+  </div>
+
+  <div class="content">
+    <ng-container *ngIf="goals$ | async as goals">
+      <ng-container *ngIf="goals.enableToShow; else empty">
+        <div class="section" *ngIf="goals.actives.length">
+          <p>Metas ativas</p>
+        </div>
+        <div *ngFor="let item of goals.actives" class="meta">
+          <span class="title">{{ item.descricao }}</span>
+          <div class="options">
+            <button (click)="complete(item)">
+              <img src="assets/icons/trophy.svg" alt="" />
+            </button>
+
+            <button (click)="delete(item)">
+              <img src="assets/icons/remove.svg" alt="" />
+            </button>
+          </div>
+        </div>
+
+        <div class="section" *ngIf="goals.suggests.length">
+          <p>Metas Sugeridas</p>
+        </div>
+        <div *ngFor="let item of goals.suggests" class="meta">
+          <span class="title">{{ item.descricao }}</span>
+          <span class="aux">Sugestão da linha de cuidado</span>
+
+          <div class="options">
+            <button (click)="active(item)">
+              <img src="assets/icons/confirm.svg" alt="" />
+            </button>
+
+            <!-- <button (click)="delete(item)">
+            <img src="assets/icons/remove.svg" alt="">
+          </button> -->
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #empty>
+        <div class="empty">
+          <p>
+            Não foram encontradas Orientações para o campo Análise deste
+            paciente.
+          </p>
+        </div>
+      </ng-template>
+
+      <div class="new">
+        <input
+          type="text"
+          placeholder="Nova meta"
+          class="pep-input"
+          [(ngModel)]="meta"
+          (keyup.enter)="add(meta)"
+        />
+        <div class="add">
+          <button class="btn btn-primary green" (click)="add(meta)">Adicionar</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</perfect-scrollbar>

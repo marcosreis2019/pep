@@ -1,0 +1,92 @@
+<article class="wrapper a4-paper flex columns">
+  <!-- <img alt="watermark" class="watermark" src="assets/imgs/aps-watermark.png"/> -->
+
+  <button class="btn btn-success btn-print" (click)="print()">Imprimir</button>
+
+  <header class="header flex columns">
+    <img class="logo position-end" src="assets/imgs/logos/clinica-aps-white-bg-sm.png" />
+  </header>
+
+  <section class="metadata">
+    <!-- nome -->
+    <div class="row">
+      <label class="bold" for="nome">Nome do beneficiário:</label>
+      <span class="value">
+        {{ beneficiario.nomeCompleto }}
+      </span>
+    </div>
+
+    <!-- Matricula -->
+    <div class="row">
+      <label class="bold media" for="matricula">Matrícula ou código da carteirinha:</label>
+      <span class="value">
+        {{ beneficiario.matricula }}
+      </span>
+    </div>
+
+    <!-- data -->
+    <div class="row">
+      <label class="bold" for="data">Data:</label>
+      <span *ngIf="documento.data" class="value">
+        {{ documento.data }}
+      </span>
+    </div>
+
+    <!-- profissional referenciado -->
+    <div class="row">
+      <label for="medico" class="bold">Especialidade:</label>
+      <span class="value">{{ ref?.especialidade.descricao }}</span>
+
+      <span class="separator">|</span>
+
+      <label for="profissional" class="bold">Profissional Referênciado:</label>
+      <span class="value">
+        {{ ref?.profissionalReferenciado ? ref?.profissionalReferenciado : 'Não especificado' }}
+      </span>
+    </div>
+  </section>
+
+  <section class="content rows" [formGroup]="form">
+    <!-- referência -->
+    <div class="input">
+      <label class="bold" for="ref-descricao">Referência:</label>
+      <textarea
+        type="text"
+        name="ref-descricao"
+        [value]="ref.descricao"
+        class="ref-texto"
+      ></textarea>
+    </div>
+
+    <div>
+      <p class="assinatura">Assinatura:</p>
+      <p class="carimbo">Carimbo:</p>
+      <p class="data">Data:</p>
+    </div>
+  </section>
+
+  <!-- <hr class="separator-line"> -->
+
+  <!-- contrareferência -->
+  <section class="content rows" [formGroup]="form">
+    <div class="input">
+      <label class="bold" for="ref-descricao">Contra Referência:</label>
+      <textarea
+        type="text"
+        name="ref-descricao"
+        [value]="ref.textoContraReferencia"
+        class="ref-texto"
+      ></textarea>
+    </div>
+
+    <div>
+      <p class="assinatura">Assinatura:</p>
+      <p class="carimbo">Carimbo:</p>
+      <p class="data">Data:</p>
+    </div>
+  </section>
+
+  <footer class="flex rows footer">
+    <img class="img-footer" src="assets/imgs/aps-ref-footer.png" />
+  </footer>
+</article>

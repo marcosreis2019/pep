@@ -1,0 +1,35 @@
+.form-cadastro {
+  select {
+    word-wrap: normal;
+    padding: 5px;
+    background: white;
+    width: 100%;
+    color: #7d7975;
+    border: 1px solid darkgrey;
+  }
+
+  .btn-add-paciente {
+    width: 49px;
+    height: 35px;
+    margin-left: 7px;
+  }
+}
+
+.info-paciente-cadastro-data-nasc {
+  margin-left: 90px;
+  margin-top: 20px;
+}
+
+.info-paciente-cadastro-matricula {
+  margin-left: 101px;
+  margin-top: 20px;
+}
+
+.text-pag-realizado {
+  margin-top: 5px;
+}
+
+.full-width {
+  width: 100%;
+  min-width: 100%;
+}

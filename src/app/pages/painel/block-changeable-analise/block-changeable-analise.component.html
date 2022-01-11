@@ -1,0 +1,32 @@
+<perfect-scrollbar
+  [config]="config"
+  class="block-conditions-info scroller perfect-scrollbar"
+>
+  <div class="header bg-a">
+    <h3 class="txt-light">Análise</h3>
+
+    <!-- <button class="btn-close" (click)="close()">
+      <i><img src="assets/icons/close.svg" alt=""/></i>
+    </button> -->
+  </div>
+
+  <div class="content">
+    <ng-container *ngIf="$loading | async; else contentOrError">
+      <div class="loading">
+        <img src="assets/icons/spinner.svg" alt="" />
+      </div>
+    </ng-container>
+
+    <ng-template #contentOrError>
+      <div *ngIf="$orientacoes | async as orientacoes">
+        <ng-container *ngIf="!orientacoes.length">
+          Não foram encontradas Orientações para o campo Análise deste paciente.
+        </ng-container>
+
+        <div *ngFor="let orientacao of orientacoes" class="orientacao">
+          <p>{{ orientacao }}</p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</perfect-scrollbar>

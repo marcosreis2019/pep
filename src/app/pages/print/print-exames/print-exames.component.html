@@ -1,0 +1,158 @@
+<div class="wrapper">
+    <button class="btn btn-success btn-print" (click)="print()">Imprimir</button>
+  
+    <!-- exames de laboratorio (primeira página)-->
+    <article *ngIf="examesLaboratorio.length" class="page pagina-exames-lab">
+      <!-- <img alt="watermark" class="watermark" src="assets/imgs/aps-watermark.png"/> -->
+  
+      <header class="header flex columns">
+        <img class="logo" src="assets/imgs/logos/clinica-aps-white-bg-sm.png" />
+      </header>
+  
+      <h1 class="doc-title">SOLICITAÇÃO DE EXAMES LABORATORIAIS</h1>
+  
+      <section class="metadata">
+        <!-- nome -->
+        <div class="row">
+          <label class="bold" for="nome">Nome do beneficiário:</label>
+          <span *ngIf="beneficiario$ | async as beneficiario" class="value">
+            {{ beneficiario?.nomeCompleto }}
+          </span>
+        </div>
+  
+        <!-- Matricula -->
+        <div class="row">
+          <label class="bold media" for="matricula">Matrícula ou código da carteirinha:</label>
+          <span *ngIf="beneficiario$ | async as beneficiario" class="value">
+            {{ beneficiario?.mpi }}
+          </span>
+        </div>
+  
+        <!-- data -->
+        <div class="row">
+          <label class="bold" for="data">Data:</label>
+          <span *ngIf="documento.data" class="value">
+            {{ documento.data }}
+          </span>
+        </div>
+  
+        <!-- profissional referenciado -->
+        <div class="row">
+          <label for="profissional" class="bold">Solicitado por:</label>
+          <span *ngIf="profissional$ | async as profissional" class="value">
+            {{ profissional?.pessoa?.nomeCompleto }}
+          </span>
+        </div>
+      </section>
+  
+      <section class="content">
+        <div class="exames">
+          <!-- referência -->
+          <div class="input">
+            <label class="bold exames-title" for="ref-descricao">Exames Solicitados:</label>
+            <ul *ngFor="let exame of examesLaboratorio">
+              <li class="row-exame">{{ exame.descricao }}</li>
+            </ul>
+          </div>
+        </div>
+  
+        <hr class="separator-line" />
+  
+        <div class="assinatura-e-carimbo">
+          <p class="assinatura">Assinatura:</p>
+          <p class="carimbo">Carimbo:</p>
+          <p class="data">
+            Data:
+            <span>{{ documento.data }}</span>
+          </p>
+        </div>
+      </section>
+  
+      <footer class="footer">
+        <img class="img-footer" src="assets/imgs/aps-ref-footer.png" />
+      </footer>
+    </article>
+  
+    <!-- ############################################# -->
+    <!-- exames de imagem - (cada exame uma pagina separada) -->
+  
+    <ng-container *ngIf="examesImagem.length">
+      <ng-container *ngFor="let exame of examesImagem">
+        <article class="page pagina-exames-imagem">
+          <!-- <img alt="watermark" class="watermark" src="assets/imgs/aps-watermark.png"/> -->
+  
+          <header class="header flex columns">
+            <img class="logo" src="assets/imgs/logos/clinica-aps-white-bg-sm.png" />
+          </header>
+  
+          <h1 class="doc-title">SOLICITAÇÃO DE EXAMES POR IMAGEM</h1>
+  
+          <section class="metadata">
+            <!-- nome -->
+            <div class="row">
+              <label class="bold" for="nome">Nome do beneficiário:</label>
+              <span *ngIf="beneficiario$ | async as beneficiario" class="value">
+                {{ beneficiario?.nomeCompleto }}
+              </span>
+            </div>
+  
+            <!-- Matricula -->
+            <div class="row">
+              <label class="bold media" for="matricula">Matrícula ou código da carteirinha:</label>
+              <span *ngIf="beneficiario$ | async as beneficiario" class="value">
+                {{ beneficiario?.mpi }}
+              </span>
+            </div>
+  
+            <!-- data -->
+            <div class="row">
+              <label class="bold" for="data">Data:</label>
+              <span *ngIf="documento.data" class="value">
+                {{ documento.data }}
+              </span>
+            </div>
+  
+            <!-- profissional solicitante -->
+            <div class="row">
+              <label for="profissional" class="bold">Solicitado por:</label>
+              <span *ngIf="profissional$ | async as profissional" class="value">
+                {{ profissional?.pessoa?.nomeCompleto }}
+              </span>
+            </div>
+          </section>
+  
+          <section class="content">
+            <div class="exames">
+              <!-- exame -->
+              <div class="input">
+                <label class="bold exames-title" for="ref-descricao">Exames Solicitados:</label>
+                <ul>
+                  <li>{{ exame.descricao }}</li>
+                </ul>
+              </div>
+            </div>
+  
+            <div class="exame-obs" *ngIf="exame.observacoes">
+              Observações: {{ exame.observacoes }}
+            </div>
+            <hr class="separator-line" />
+  
+            <div class="assinatura-e-carimbo rows">
+              <p class="assinatura">Assinatura:</p>
+              <p class="carimbo">Carimbo:</p>
+              <p class="data">
+                Data:
+                <span>{{ documento.data }}</span>
+              </p>
+            </div>
+          </section>
+  
+          <footer class="footer">
+            <img class="img-footer" src="assets/imgs/aps-ref-footer.png" />
+          </footer>
+        </article>
+      </ng-container>
+    </ng-container>
+  </div>
+  <!-- end wrapper -->
+  

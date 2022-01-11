@@ -1,0 +1,112 @@
+{
+  "data": {
+    "type": "prescricoes",
+    "attributes": {
+      "medicos_id": 27164,
+      "prescricao_editada_id": null,
+      "lme": false,
+      "opcoes_receituario_id": 1,
+      "nome_medico": "Diego Leonardo Urban",
+      "endereco_medico": "Blumenau",
+      "cidade_medico": "São Paulo - SP",
+      "telefone_medico": "(55) 4799-65692",
+      "checksum": null,
+      "screening": "{\"total\":\"0\",\"status\":\"success\",\"problems\":\"0\"}",
+      "source": "",
+      "data": "30/09/2019",
+      "horario": "13:17:16",
+      "additionalData": [],
+      "prescriptionDate": "30/09/2019",
+      "medicamentos": [
+        {
+          "id": "a523713080029204",
+          "nome": "Tarfic 0mg/g, Pomada (10g)",
+          "descricao": "Tacrolimo 0mg/g",
+          "posologia": "<p></p>",
+          "quantidade": 1,
+          "unit": "embalagem",
+          "formas_fisicas_unidades_id": null,
+          "composicao": "",
+          "fabricante": "Libbs",
+          "titularidade": "Similar",
+          "controle_especial": false,
+          "alto_custo": false,
+          "quantidade_mes_1": null,
+          "quantidade_mes_2": null,
+          "quantidade_mes_3": null,
+          "anamnese": "",
+          "tratamento_previo": false,
+          "descricao_tratamento": "",
+          "data_solicitacao": null,
+          "cid_id": 0,
+          "receituario": "Simples",
+          "exames_sus_codigo": "",
+          "exames_tuss_codigo": "",
+          "tipo_exame_selecionado": "",
+          "catmat_codigo_br": "",
+          "catmat_descricao": "",
+          "cid_descricao": "",
+          "cid_numero": "",
+          "preco": 51,
+          "tarja": "Vermelho",
+          "tipo": "alopático",
+          "exames": [],
+          "fabricante_id": "f185",
+          "sanitized_posology": "",
+          "form_units": [
+            {
+              "id": 141,
+              "singular": "Tubo",
+              "plural": "Tubos",
+              "type": "formas-fisicas-unidades"
+            }
+          ]
+        }
+      ],
+      "paciente": {
+        "id": 94209,
+        "external_id": null,
+        "nome": "Diego",
+        "nome_completo": null,
+        "peso": null,
+        "altura": null,
+        "rg": null,
+        "nome_mae": null,
+        "dificuldade_locomocao": false,
+        "nome_responsavel": null,
+        "email": null,
+        "telefone": "74999062822",
+        "cidade": null,
+        "endereco": null,
+        "accept_terms": 0,
+        "total": 16,
+        "type": "pacientes",
+        "_relationships": {
+          "allergy": []
+        },
+        "ultima": "30/09/2019 13:17:16",
+        "allergy": []
+      },
+      "clinica": null
+    },
+    "links": {
+      "self": "http://integracao.api.memed.com.br/v1/prescricoes/7915"
+    },
+    "relationships": {
+      "clinica": null,
+      "paciente": {
+        "data": {
+          "id": 94209,
+          "type": "pacientes"
+        },
+        "links": {
+          "self": "http://integracao.api.memed.com.br/v1/prescricoes/7915/relationships/paciente"
+        }
+      }
+    },
+    "id": 7915
+  },
+  "links": {
+    "self": "http://integracao.api.memed.com.br/prescricoes/7915"
+  }
+}

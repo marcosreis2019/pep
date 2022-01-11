@@ -1,0 +1,23 @@
+<section>
+  <div class="ml-2">
+    <h3 style="color: brown;">Tem certeza que deseja cancelar este agendamento?</h3>
+    <p class="card-text mb-1">
+      <b>Nome:</b>
+      {{ formatText(detalhesAgenda.event.paciente.nomeCompleto) }}
+    </p>
+    <p class="card-text mb-1">
+      <b>Data Nasc:</b>
+      {{ detalhesAgenda.event.paciente.dataNascimento | date: 'dd/MM/yyyy' }}
+    </p>
+    <p class="card-text mb-1">
+      <b>Sexo:</b>
+      {{ formatText(detalhesAgenda.event.paciente.genero) }}
+    </p>
+    <p class="card-text mb-1">
+      <b>Dia:</b>
+      {{ detalhesAgenda.event.dataInicio | date: 'dd/MM/yyyy' }} Das
+      {{ detalhesAgenda.event.start | date: 'HH:mm' }} às
+      {{ detalhesAgenda.event.end | date: 'HH:mm' }}
+    </p>
+  </div>
+</section>

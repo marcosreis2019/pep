@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60.984" height="60.984" viewBox="0 0 60.984 60.984">
+  <g id="play" transform="translate(-46.246)">
+    <g id="O" transform="translate(46.246)" fill="#fff" stroke="#dde3ff" stroke-width="1">
+      <circle cx="30.492" cy="30.492" r="30.492" stroke="none"/>
+      <circle cx="30.492" cy="30.492" r="29.992" fill="none"/>
+    </g>
+    <path id="Path_260" data-name="Path 260" d="M1793.5,2203.866v18.926l9.54-9.54Z" transform="translate(-1721.755 -2182.958)" fill="#b4b4c6"/>
+  </g>
+</svg>

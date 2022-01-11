@@ -1,0 +1,27 @@
+<div class="dynamic-form" [formGroup]="form" (ngSubmit)="send()" *ngIf="isLoaded">
+  <div
+    class="content-grow perfect-scrollbar"
+    [perfectScrollbar]="config"
+    (ps-scroll-y)="monitory($event)"
+  >
+    <dynamic-form-input
+      *ngFor="let input of $inputs | async"
+      [formControlName]="input.id"
+      [input]="input"
+      [parent]="parent"
+      [forceCloseSelectCheck$]="getOsbFromForceClose()"
+    ></dynamic-form-input>
+  </div>
+
+  <div class="content-fixed dynamic-form-bottom">
+    <div class="bullets"></div>
+    <button
+      type="submit"
+      (click)="send()"
+      style="background: cornflowerblue;"
+      [disabled]="form.invalid || !touched"
+    >
+      Proximo
+    </button>
+  </div>
+</div>

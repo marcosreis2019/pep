@@ -1,0 +1,448 @@
+<div class="time-container" *ngIf="isLoaded; else loading">
+  <div class="sup">
+    <div class="left">
+      <div class="one">
+        <div class="filters">
+          <button
+            class="btn-filter"
+            triggers="manual"
+            #form="ngbPopover"
+            [ngbPopover]="popFormFilter"
+            [autoClose]="'outside'"
+            placement="bottom-left"
+            popoverClass="pop-input"
+            (click)="form.open()"
+          >
+            Filtrar
+            <img src="assets/icons/arrow-down-gray.svg" alt="" />
+          </button>
+        </div>
+      </div>
+      <div class="two"></div>
+    </div>
+
+    <div class="right ps">
+      <div class="one"></div>
+      <div class="two">
+        <div *ngIf="!listErrorMsg">
+          <div
+            class="timeline scroller perfect-scrollbar"
+            (scroll)="onScrollEvent($event)"
+            [perfectScrollbar]="config"
+            (psXReachEnd)="onScrollEvent($event)"
+            (psYReachEnd)="onScrollEvent($event)"
+            (psXReachStart)="onScrollEvent($event)"
+            (psYReachStart)="onScrollEvent($event)"
+            #timeline
+          >
+            <div *ngFor="let item of list" class="col-{{ item.type }}">
+              <div class="content">
+                <ng-container *ngIf="item.type === 'event'">
+                  <div class="info">
+                    <img
+                      [src]="item.icon"
+                      alt=""
+                      (mouseenter)="openPopover($event, item)"
+                      (mouseleave)="closePopover($event)"
+                    />
+                  </div>
+                  <div class="date">
+                    <span>{{ item.date | date: 'dd/MM' }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <div class="footer">
+                <ng-container *ngIf="item.type === 'year'">
+                  <div class="year">
+                    <span class="line-v"></span>
+                    <p class="data">{{ item.date | date: 'yyyy' }}</p>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="item.type === 'month'">
+                  <div class="month">
+                    <span class="data">{{ item.date | date: 'MMM' }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-empty" *ngIf="listErrorMsg">
+          <p>{{ listErrorMsg }}</p>
+        </div>
+      </div>
+
+      <div class="inf">
+        <p class="filter" *ngIf="!listErrorMsg">{{ filterActived }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #popFormFilter>
+  <form-timeline-filter
+    class="timeline-filter"
+    (apply)="trigApplyFilter($event)"
+  ></form-timeline-filter>
+</ng-template>
+
+<article
+  class="popover"
+  #eventPopover
+  (mouseenter)="enterPopover($event)"
+  (mouseleave)="leavePopover($event)"
+>
+  <section class="event-popover">
+    <div class="container">
+      <div class="pop-header">
+        <div>
+          <div class="pop-header-info">
+            <div class="row">
+              <div class="col-4">
+                <img [src]="currentItem?.icon" />
+              </div>
+              <div class="col-8">
+                <p class="pop-title">{{ currentItem?.event.tipo }}</p>
+                <p class="pop-date">
+                  {{ currentItem?.event.dataInicio | date }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pop-content">
+        <p>
+          Atendimento:
+          <b>
+            {{ currentItem && currentItem.event.sequencial ? currentItem.event.sequencial : '' }}
+          </b>
+        </p>
+        <p>
+          Profissional:
+          <b>
+            {{
+              currentItem && currentItem.event.profissional && currentItem.event.profissional.pessoa
+                ? toCamelCase(currentItem.event.profissional.pessoa.nome_completo)
+                : ''
+            }}
+          </b>
+        </p>
+        <p class="retract-content mr-1">
+          Especialidades:
+          <b
+            *ngIf="
+              currentItem &&
+              currentItem.event.profissional &&
+              currentItem.event.profissional.especialidades
+            "
+          >
+            <b *ngFor="let especialidade of currentItem.event.profissional.especialidades">
+              {{ especialidade.descricao }}
+            </b>
+            <br />
+          </b>
+        </p>
+        <p>
+          Subjetivo:
+          <b>{{ currentItem?.event.subjetivo ? currentItem?.event.subjetivo : '' }}</b>
+        </p>
+      </div>
+
+      <div class="pop-footer">
+        <button (click)="expand()" class="show-more">ver mais</button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<ng-template #eventDetails let-modal>
+  <section class="modal-header">
+    <h3 class="modal-title">Detalhes do Evento</h3>
+    <button e type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </section>
+
+  <!-- modal body -->
+  <section class="modal-body">
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Atendimento
+        {{ currentItem && currentItem.event.sequencial ? currentItem.event.sequencial : '' }}
+      </div>
+      <div class="card-body content-event-detail">
+        <p class="pop-date">Data: {{ currentItem?.event.dataInicio | date }}</p>
+        <p class="card-text">
+          Tipo Serviço:
+          {{
+            currentItem && currentItem.event.tipo_servico
+              ? getTipoServicoDescription(currentItem.event.tipo_servico.id)
+              : ''
+          }}
+        </p>
+        <p class="card-text">
+          Classificação:
+          {{
+            currentItem && currentItem.event.classificacao
+              ? getClassificacaoDescription(currentItem.event.classificacao.id)
+              : ''
+          }}
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Profissional
+      </div>
+      <div class="card-body content-event-detail">
+        <p class="card-text">
+          Nome:
+          {{ currentItem ? toCamelCase(currentItem.event.profissional.pessoa.nome_completo) : '' }}
+        </p>
+        <p class="card-text">
+          Epecialidades:
+          <span
+            *ngIf="
+              currentItem &&
+              currentItem.event.profissional &&
+              currentItem.event.profissional.especialidades
+            "
+          >
+            <span *ngFor="let especialidade of currentItem.event.profissional.especialidades">
+              {{ especialidade.descricao }}
+            </span>
+            <br />
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Subjetivo
+      </div>
+      <div class="card-body content-event-detail">
+        <p class="card-text">
+          {{ currentItem?.event.subjetivo }}
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Objetivo
+      </div>
+      <div class="card-body content-event-detail">
+        <p class="card-text">
+          {{ currentItem?.event.objetivo }}
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Analise
+      </div>
+      <div class="card-body content-event-detail">
+        <div *ngIf="currentItem.event.avaliacao && currentItem.event.avaliacao.cidPrincipal">
+          <div class="row">
+            <div class="col-md-12">
+              <span>CID Principal</span>
+            </div>
+          </div>
+          <p class="card-text">
+            {{ currentItem.event.avaliacao.cidPrincipal.codigo }}:
+            {{ currentItem.event.avaliacao.cidPrincipal.descricao }}
+            {{
+              currentItem.event.avaliacao.cidPrincipal.confirmado ? '(Confirmado)' : '(Suspeito)'
+            }}
+          </p>
+          <p class="card-text">
+            {{ currentItem?.event.avaliacao.descricao }}
+          </p>
+          <br />
+        </div>
+        <div
+          *ngIf="
+            currentItem.event.avaliacao.cidSecundariosConfirmados &&
+            currentItem.event.avaliacao.cidSecundariosConfirmados.length
+          "
+          style="margin-top: 1px solid #000;"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <span>CID Secundários Confirmados</span>
+            </div>
+          </div>
+          <div
+            class="row"
+            *ngFor="let item of currentItem.event.avaliacao.cidSecundariosConfirmados"
+          >
+            <div class="col-md-12">
+              <p class="card-text">{{ item.codigo }}: {{ item.descricao }}</p>
+            </div>
+          </div>
+          <br />
+        </div>
+        <div
+          *ngIf="
+            currentItem.event.avaliacao.cidSecundariosSuspeitos &&
+            currentItem.event.avaliacao.cidSecundariosSuspeitos.length
+          "
+          style="margin-top: 1px solid #000;"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <span>CID Secundários Suspeitos</span>
+            </div>
+          </div>
+          <div class="row" *ngFor="let item of currentItem.event.avaliacao.cidSecundariosSuspeitos">
+            <div class="col-md-12">
+              <p class="card-text">{{ item.codigo }}: {{ item.descricao }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Plano
+      </div>
+      <div class="card-body content-event-detail">
+        <p class="card-text">
+          {{ currentItem?.event.plano.descricao }}
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Documentos
+      </div>
+      <div class="card-body content-event-detail">
+        <div
+          class="card-text"
+          *ngIf="currentItem.event.documentos && currentItem.event.documentos.length"
+        >
+          <div class="row" *ngFor="let item of currentItem.event.documentos; let i = index">
+            <div class="col-md-3">
+              <span>Documento {{ i + 1 }}</span>
+            </div>
+            <div class="col-md-3">
+              {{ item.CreatedAt ? (item.CreatedAt | date: 'dd/MM/yyyy') : '' }}
+            </div>
+            <div class="col-md-3">
+              <a class="btn-icon-only" [href]="getDownloadLink(item.link_assinado)" type="download">
+                Download
+              </a>
+            </div>
+          </div>
+        </div>
+        <p class="card-text" *ngIf="!currentItem.event.documentos.length">
+          Não há documentos
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Documentos de Exames Laboratoriais
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="card-text" *ngIf="examesLaboratorial.length">
+          <div *ngFor="let exame of examesLaboratorial; let i = index">
+            <div class="row" *ngFor="let item of exame.resultados.arquivos; let i = index">
+              <div class="col-md-3">
+                <span>Documento {{ i + 1 }}</span>
+              </div>
+              <div class="col-md-3">
+                {{ exame.dataExecucao }}
+              </div>
+              <div class="col-md-3">
+                <a class="btn-icon-only" [href]="getDownloadLink(item)" type="download">
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="card-text" *ngIf="!haveArquivoLaboratorial()">
+          Não há documentos
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Documentos de Exames de Imagens
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="card-text" *ngIf="examesImagem.length">
+          <div class="row" *ngFor="let exame of examesImagem; let i = index">
+            <div class="row" *ngFor="let item of exame.resultados.arquivos; let i = index">
+              <div class="col-md-3">
+                <span>Documento {{ i + 1 }}</span>
+              </div>
+              <div class="col-md-3">
+                {{ exame.dataExecucao }}
+              </div>
+              <div class="col-md-3">
+                <a class="btn-icon-only" [href]="getDownloadLink(item)" type="download">
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="card-text" *ngIf="!haveArquivoImagem()">
+          Não há documentos
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row justify-content-md-center">
+      <div class="col-md-3 block-btn">
+        <button
+          class="btn btn-primary gerar-relatorio"
+          (click)="print(currentItem.event.sequencial)"
+        >
+          <i class="far fa-file-alt icon-menu mr-1"></i>
+          Gerar relatório
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading">
+    <img src="assets/icons/spinner.svg" alt="" />
+  </div>
+</ng-template>
+<ngb-alert class="print-toast" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>

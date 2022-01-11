@@ -1,0 +1,253 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/borders';
+
+@mixin flex-col($min, $default) {
+  display: flex;
+  flex-direction: column;
+  min-width: $min;
+  width: $default;
+}
+
+$height: 96%;
+.main {
+  display: flex;
+  height: calc(100% - 60px);
+  /* margin-top: 30px; */ // para usar com a navbbar
+  scrollbar-width: none;
+  .pep-left {
+    @include flex-col(250px, 30%);
+    box-sizing: border-box;
+    padding: 10px 10px 0 10px;
+    border-right: 1px solid #f0f0f0;
+
+    .list {
+      flex: 1;
+      overflow: scroll;
+    }
+    .item {
+      cursor: pointer;
+      padding: 15px 15px;
+      display: flex;
+      border-bottom: 0.5px solid #f1f1f3;
+      justify-content: space-between;
+
+      &.selected {
+        background: #e3edff;
+      }
+
+      img {
+        position: relative;
+        top: -5px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border-width: 2px;
+        border-style: solid;
+      }
+
+      .info {
+        width: 60%;
+        h3 {
+          font-family: WorkBold;
+          font-size: 13px;
+          color: #808ba8;
+          margin: 0;
+        }
+
+        span {
+          font-size: 12px;
+          color: rgb(121, 121, 143);
+        }
+      }
+
+      .secondary-info {
+        display: flex;
+        flex-direction: column;
+        font-size: 11px;
+        position: relative;
+
+        .date {
+          color: #43425d;
+        }
+        .name-operadora {
+          color: #0071fee8;
+          font-family: WorkBold;
+        }
+      }
+    }
+  }
+
+  .pep-center {
+    @include flex-col(600px, 70%);
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 10px 10px 0 10px;
+    overflow-y: scroll;
+  }
+}
+
+.cronograma-item {
+  color: #d2d4d8;
+}
+
+.searchbar {
+  margin-top: 15px;
+  border-radius: 15px;
+  width: 100%;
+  border: 2px solid #dde3ff;
+  display: flex;
+  padding: 5px 10px;
+
+  img {
+    width: 25px;
+    margin-right: 10px;
+  }
+
+  input {
+    font-weight: 400;
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+  }
+}
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+
+.left {
+  width: 33%;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+
+  .header {
+    padding: 20px;
+    h1 {
+      font-family: WorkBold;
+      font-size: 22px;
+      color: #808ba8;
+      margin: 0;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  .searchbar {
+    margin-top: 15px;
+    border-radius: 15px;
+    width: 100%;
+    border: 2px solid #dde3ff;
+    display: flex;
+    padding: 5px 10px;
+
+    img {
+      width: 25px;
+      margin-right: 10px;
+    }
+
+    input {
+      font-weight: 400;
+      font-size: 14px;
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 15px;
+    }
+  }
+}
+
+.pep-title {
+  width: 100%;
+  padding: 0 0 10px 10px;
+  h2 {
+    font-size: 24px;
+    span {
+      font-size: 14px;
+    }
+  }
+}
+.card {
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.card-interno {
+  padding: 8px;
+  margin: 1px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #d2d4d8;
+  color: #ffffff;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.actions {
+  width: 100%;
+  .btn {
+    float: right;
+  }
+  margin-bottom: 5px;
+}
+.pep-content {
+  padding-left: 10px;
+  h3 {
+    color: #000;
+  }
+  color: #000;
+  .modelo-list {
+    list-style-type: none;
+    padding-inline-start: 0.5rem;
+    ul {
+      margin: 12px 0 12px 0;
+    }
+    ul,
+    li {
+      list-style-type: none;
+      padding-inline-start: 0.5rem;
+      input[type='radio'] {
+        min-height: 10px;
+      }
+      label {
+        margin-left: 15px;
+      }
+    }
+  }
+}
+.ativo {
+  margin: 10px;
+  width: 1px;
+  height: 1px;
+  background-color: lime; /* for the 1px in the center */
+  border-radius: 50%;
+  box-shadow: 0 0 5px 5px lime;
+}
+
+.inativo {
+  margin: 10px;
+  width: 1px;
+  height: 1px;
+  background-color: rgb(255, 0, 34); /* for the 1px in the center */
+  border-radius: 50%;
+  box-shadow: 0 0 5px 5px rgb(255, 0, 34);
+}
+
+.title {
+  color: #0071fe !important;
+  font-size: 20px !important;
+  margin: 0 !important;
+  font-family: WorkBold !important;
+}
+
+h2 {
+  font-size: 24px;
+}

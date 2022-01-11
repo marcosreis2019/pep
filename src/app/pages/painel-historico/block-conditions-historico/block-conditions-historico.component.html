@@ -1,0 +1,71 @@
+<div class="scrollbar-wrapper">
+  <perfect-scrollbar
+    [config]="config"
+    class="block-conditions-info scroller perfect-scrollbar"
+  >
+    <ng-container>
+      <block-list
+        *ngIf="condicao"
+        [info]="condicao"
+        (event)="eventTriggerCondicao($event)"
+        [ngbPopover]="popFormCondicao"
+        triggers="manual"
+        #formC="ngbPopover"
+        placement="right"
+        popoverClass="pop-input"
+        [autoClose]="'outside'"
+        [acoes]="acoes"
+      >
+      </block-list>
+
+      <block-list
+        *ngIf="medicamento"
+        [info]="medicamento"
+        (event)="eventTriggerMedicamento($event)"
+        [ngbPopover]="popFormMedicamento"
+        triggers="manual"
+        #formM="ngbPopover"
+        placement="right"
+        popoverClass="pop-input"
+        [autoClose]="'outside'"
+        [acoes]="acoes"
+      ></block-list>
+
+      <block-list
+        *ngIf="alergia"
+        [info]="alergia"
+        (event)="eventTriggerAlergia($event)"
+        [ngbPopover]="popFormAlergia"
+        triggers="manual"
+        #formA="ngbPopover"
+        placement="right"
+        popoverClass="pop-input"
+        [autoClose]="'outside'"
+        [acoes]="acoes"
+      >
+      </block-list>
+    </ng-container>
+  </perfect-scrollbar>
+</div>
+
+<ng-template #popFormCondicao>
+  <form-condicao
+    [mpiPaciente]="mpi"
+    (cancel)="cancelAddFormC()"
+    (add)="trigAddCondicao($event)"
+  ></form-condicao>
+</ng-template>
+
+<ng-template #popFormMedicamento>
+  <form-medicamento
+    (cancel)="cancelAddFormM()"
+    (add)="trigAddMedicamento($event)"
+  ></form-medicamento>
+</ng-template>
+
+<ng-template #popFormAlergia>
+  <form-alergia
+    (cancel)="cancelAddFormA()"
+    (add)="trigAddAlergia($event)"
+  ></form-alergia>
+</ng-template>

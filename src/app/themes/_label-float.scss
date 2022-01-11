@@ -1,0 +1,61 @@
+
+.label-float{
+    position: relative;
+    padding-top: 0px;
+  }
+  
+  .label-float input{
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    outline: none;
+    min-width: 250px;
+    padding: 15px 20px;
+    font-size: 16px;
+    transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    -webkit-appearance:none;
+  }
+  
+  .label-float input:focus{
+    border: 2px solid #3951b2;
+  }
+  
+  .label-float input::placeholder{
+    color:transparent;
+  }
+  
+  .label-float label{
+      user-select: none;
+      pointer-events: none;
+      position: absolute;
+      top: calc(50% - 9px);
+      margin-left: 7%;
+      left: 15px;
+      color: #afafd7;
+      transition: all 0.1s linear;
+      -webkit-transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      padding: 5px;
+      box-sizing: border-box;
+  }
+  
+  .label-float input:required:invalid + label{
+    color: #de3953;
+  }
+  .label-float input:focus:required:invalid{
+    border: 2px solid #de3953;
+  }
+  .label-float input:required:invalid + label:before{
+    content: '*';
+    margin-right: 2px;
+  }
+  .label-float input:focus + label,
+  .label-float input:not(:placeholder-shown) + label{
+    font-size: 13px;
+    top: 5px;
+    margin-left: 7%;
+    color: #3951b2;
+  }
+  
+  

@@ -1,0 +1,114 @@
+<div class="prescricoes categoria-bg">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="title-h2">Prescrições</h2>
+    </div>
+
+    <div class="col-2" *ngIf="hasMemedToken">
+      <button class="btn btn-primary" id="memed-prescricao" (click)="addPaciente()">
+        Nova
+      </button>
+    </div>
+
+    <div class="col-2">
+      <button class="btn btn-primary bg-secondary" (click)="showPrescHistory()">
+        Histórico
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <span class="error-msg" *ngIf="showError">
+        Não foi possível iniciar o módulo MEMED. Usuário inativo ou Token inválido.
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- modal para histórico de referencias -->
+<ng-template #prescHistory let-modal>
+  <!-- NOTE HISTÓRICO  -->
+  <article class="history">
+    <ng-template #loading>
+      <div class="d-flex justify-content-center loading">
+        <img src="assets/icons/spinner.svg" alt="" />
+        <p>Carregando Histórico</p>
+      </div>
+    </ng-template>
+
+    <!-- modal header -->
+    <section class="modal-header">
+      <h3 class="modal-title">Histórico de Prescrições</h3>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </section>
+
+    <!-- modal body -->
+    <section class="modal-body">
+      <div
+        *ngIf="
+          ((prescricoes && !prescricoes.length) || !prescricoes) &&
+          isLoaded &&
+          !msgAlert &&
+          !sendingRef
+        "
+        class="history-empty"
+      >
+        <p>Nenhuma prescrição registrada até o momento</p>
+      </div>
+
+      <div *ngIf="prescricoes && prescricoes.length" class="history-table">
+        <section class="h-title">
+          <div class="row">
+            <div class="id-col">Prescrição</div>
+            <div class="date-col">Data</div>
+            <div class="medication-ammount-col">Medicamentos</div>
+            <div class="doctor-col">Médico</div>
+          </div>
+        </section>
+        <section class="h-content">
+          <div class="row" *ngFor="let item of prescricoes; let i = index">
+            <!-- item retracted -->
+            <div
+              class="item cursor"
+              (click)="toggleItemVisibility(i, item)"
+              [ngClass]="{ 'item-hide': toggleItem === i }"
+            >
+              <div class="id-col">
+                <span>{{ item.data.id }}</span>
+              </div>
+
+              <div class="date-col">
+                <span>{{ item.dataCriacao | date: 'shortDate' }}</span>
+              </div>
+
+              <div class="medication-ammount-col">
+                <span>
+                  {{ item.data.attributes.medicamentos.length }}
+                </span>
+                <button *ngIf="!item.dataCriacao" class="btn-icon-only">
+                  <i><img src="assets/icons/add.svg" alt="" /></i>
+                </button>
+              </div>
+
+              <div class="doctor-col">
+                {{ item.data.attributes.medicos.nome_completo }}
+              </div>
+            </div>
+            <!-- expanded item -->
+            <div
+              class="item-expanded"
+              [ngClass]="{ 'item-show': toggleItem === i }"
+              (click)="toggleItemVisibility(i, item)"
+            >
+              <div class="item-ref" class="cursor">
+                <prescricao [prescricao]="item"></prescricao>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </article>
+</ng-template>

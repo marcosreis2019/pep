@@ -1,0 +1,835 @@
+<menu-sidebar></menu-sidebar>
+
+<ng-template
+  #customCellTemplate
+  let-day="day"
+  let-openDay="openDay"
+  let-locale="locale"
+  let-tooltipPlacement="tooltipPlacement"
+  let-highlightDay="highlightDay"
+  let-unhighlightDay="unhighlightDay"
+  let-eventClicked="eventClicked"
+  let-tooltipTemplate="tooltipTemplate"
+  let-tooltipAppendToBody="tooltipAppendToBody"
+  let-tooltipDelay="tooltipDelay"
+  let-trackByEventId="trackByEventId"
+  let-validateDrag="validateDrag"
+>
+  <div class="cal-cell-top">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+    <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+  </div>
+  <div class="cal-events" *ngIf="day.events.length > 0">
+    <div
+      class="cal-event"
+      *ngFor="let event of day.events | slice: 0:(true ? undefined : 3); trackBy: trackByEventId"
+      [ngStyle]="{ backgroundColor: event.color?.primary }"
+      [ngClass]="event?.cssClass"
+      (mouseenter)="highlightDay.emit({ event: event })"
+      (mouseleave)="unhighlightDay.emit({ event: event })"
+      [mwlCalendarTooltip]="event.title | calendarEventTitle: 'monthTooltip':event"
+      [tooltipPlacement]="tooltipPlacement"
+      [tooltipEvent]="event"
+      [tooltipTemplate]="tooltipTemplate"
+      [tooltipAppendToBody]="tooltipAppendToBody"
+      [tooltipDelay]="tooltipDelay"
+      mwlDraggable
+      [class.cal-draggable]="event.draggable"
+      dragActiveClass="cal-drag-active"
+      [dropData]="{ event: event, draggedFrom: day }"
+      [dragAxis]="{ x: event.draggable, y: event.draggable }"
+      [validateDrag]="validateDrag"
+      (mwlClick)="eventClicked.emit({ event: event })"
+    ></div>
+  </div>
+</ng-template>
+
+
+<article class="main">
+<!-------------------------------------------------------
+              Lista de atendimento
+-------------------------------------------------------->
+  <div class="sidebar" autosize>
+
+    <div class="chevron">
+      <i class="fa fa-chevron-right chevron-buttom" (click)="isExpanded = !isExpanded" [ngClass]="{'rotated': !isExpanded}" ></i>
+    </div>
+    <div *ngIf="!isExpanded">
+      <span class="fila-especialidade"> <b>Fila</b> </span>
+      <span class="agenda-especialidade"> <b>Agenda</b> </span>
+    </div>
+    <br>
+<!-------------------------------------------------------
+              Fila Especialidade
+-------------------------------------------------------->
+    <div class="especialidade" *ngIf="!isExpanded">
+      <div ngbDropdown class="dropdown-especialidade" >
+        <a  ngbDropdownToggle class="dropdown-title">Selecione Uma Fila</a>
+        <div ngbDropdownMenu class="dropdown-menu" >
+            <div *ngFor="let especialidade of grupoEspecialidades">
+              <div class="dropdown-divider"></div>
+              <a ngbDropdownItem class="nav-link">{{especialidade.descricao}}</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+<!-------------------------------------------------------
+              Fila Atendimento
+-------------------------------------------------------->
+      <div class="asq-atendimento"  >
+        <div *ngFor="let paciente of pacientes;  let i=index ">
+          <ng-template #popContent class="popover" >
+            <div class="row informacao-popover" >
+              <div class="circle-popover">
+                <img _ngcontent-xvf-c4="" class="circle-user-popover" ng-reflect-ng-class="circle-user" src="./../../../assets/imgs/avatarPopover.svg"/>
+              </div>
+              <div class="informacao-paciente-popover">
+                <span class="id-paciente">#{{paciente.id}}</span>
+                <br>
+                <span class="nome-paciente"><b>{{paciente.nome}}</b></span>
+                <br>
+                <span class="hora-chegada"> Aguadando a:
+                  {{calcTempoEspera(paciente.datIni)}}
+                </span>
+              </div>
+            </div>
+            <div class="row informacoes-gerais" >
+              <div class="informacao-geral-popover">
+                <span class="id-operadora"><b> Operadora:</b></span>
+                <br>
+                <label class="nome-idade"><b>idade:</b> 'XX' anos</label>
+                <br>
+              <span class="hora-telefone"><b>Telefone:</b> 000000000</span>
+            </div>
+            <div class="play-popover">
+              <a class="img-ppv"  (click)="iniciarAtendimento(paciente.id)">
+                <img class="play-img-popover" ng-reflect-ng-class="play-img" src="./../../../assets/imgs/play.svg"fill="red" />
+              </a>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #popTimer class="pop-timer">
+          <span class="tempo-espera"> Aguardando a {{calcTempoEspera(paciente.datIni)}} </span>
+        </ng-template>
+
+        <div class="atendimento-ativo" *ngIf="!isExpanded" >
+          <div class="row fila-asq" *ngIf="paciente.status == 'F'">
+            <a class="row popover-paciente" [ngbPopover]="popContent" placement="right">
+              <div class="circle" title="User">
+                <img _ngcontent-xvf-c4="" class="circle-user" ng-reflect-ng-class="circle-user" src="./../../../assets/imgs/avatar.svg"/>
+              </div>
+              <div  class="atendimento"   >
+                <span class="id-paciente" >#{{paciente.id}}</span>
+                <br >
+                <span class="nome-paciente"><b>{{paciente.nome}}</b></span>
+                <br >
+                <span class="hora-chegada">Hora da chegada: {{paciente.datIni | date: 'shortTime' }}</span>
+                <span class="timer-paciente">
+                  <a [ngbPopover]="popTimer" class="popTimer" placement="top"  triggers="mouseenter:mouseleave">
+                    <img class="arrow-img" ng-reflect-ng-class="arrow-img" src="./../../../assets/imgs/timer.svg" />
+                  </a>
+                </span>
+                <span class="play-paciente">
+                  <a  (click)="iniciarAtendimento(paciente.id)">
+                    <img class="play-img" ng-reflect-ng-class="play-img" src="./../../../assets/imgs/play-fill.svg"  />
+                  </a>
+                </span>
+                <span
+                class="clock" ><b>{{calcTempoEspera(paciente.datIni)}}</b></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Agenda -->
+    <section class="container-left filtro-agenda">
+      <div class="header">
+        <div class="row">
+          <div class="col-12">
+            <h1>
+              Agenda
+              <i
+              class="fa fa-info-circle info-title-agenda"
+              title="Horários desabilitados (em cinza) estão fora do cronograma.&#013;Horários disponíveis estão em azul."
+            ></i>
+          </h1>
+        </div>
+      </div>
+      <div class="searchbar mb-2" *ngIf="!profissional && isAgendador && !loadingAgendamentos">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <div class="input-container">
+          <input
+            [(ngModel)]="searchProfissional"
+            style="width: 100%;"
+            type="text"
+            (ngModelChange)="onSearchInputChange($event)"
+            placeholder="Pesquisar profissional..."
+          />
+        </div>
+      </div>
+      <div class="searchbar mb-2" *ngIf="profissional && !localSelected && !loadingAgendamentos">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <div class="input-container">
+          <input
+            [(ngModel)]="searchLocal"
+            style="width: 100%;"
+            type="text"
+            placeholder="Pesquisar local..."
+          />
+        </div>
+      </div>
+    </div>
+    <img *ngIf="loadingAgendamentos" src="assets/icons/spinner.svg" alt="Loading..." />
+    <div class="body">
+      <div *ngIf="!profissional && !loadingAgendamentos" class="list">
+        <div
+          class="profissional-item"
+          *ngFor="let item of profissionalList"
+          (click)="selectProfissional(item)"
+        >
+          <span class="title-item">{{ item.nome }}</span>
+          <br />
+          <span>{{ item.especialidadesDescricao }}</span>
+        </div>
+        <div *ngIf="profissionalList.length === 0" class="profissional-item">
+          <span>Nenhum profissional encontrado.</span>
+        </div>
+      </div>
+
+      <div *ngIf="profissional && !localSelected && !loadingAgendamentos" class="list">
+        <div
+          class="profissional-item"
+          *ngFor="let item of locaisFiltered()"
+          (click)="selectLocal(item)"
+        >
+          <span class="title-item">{{ item.razao_social }}</span>
+        </div>
+        <div *ngIf="localList.length === 0" class="profissional-item">
+          <span>Nenhum local com cronograma encontrado.</span>
+        </div>
+      </div>
+      <div
+        *ngIf="profissional && isAgendador && !localSelected && !loadingAgendamentos"
+        class="actions"
+      >
+        <button
+          class="btn btn-outline-secondary btn-clear"
+          (click)="clearProfissional()"
+          title="Voltar"
+        >
+          <i class="fas fa-back"></i>
+          Voltar
+        </button>
+      </div>
+
+      <div *ngIf="profissional && localSelected && !loadingAgendamentos">
+        <div>
+          <span class="filtro-agenda-label">Tipo Serviço:</span>
+          <select class="pep-input select-local" [(ngModel)]="tipo_servicoFiltro">
+            <option [ngValue]="0" selected>
+              Selecione um Tipo Serviço
+            </option>
+            <option [ngValue]="tipo_servico.id" *ngFor="let tipo_servico of listTipoServico">
+              {{ tipo_servico.descricao }}
+            </option>
+          </select>
+
+          <span class="filtro-agenda-label mt-2">Ir para o dia:</span>
+          <calendar [(ngModel)]="dateFilter"></calendar>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button
+              class="btn btn-outline-secondary btn-clear-profisional btn-filtro"
+              (click)="clearLocal()"
+              title="Voltar"
+            >
+              <i class="fas fa-back"></i>
+              Voltar
+            </button>
+          </div>
+          <div class="col-6">
+            <button
+              class="btn btn-primary btn-filtro"
+              (click)="applyFilter()"
+              title="Filtrar agendamentos"
+            >
+              <i class="fas fa-search"></i>
+              Filtrar
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-12">
+            <button
+              class="btn btn-filtro"
+              (click)="openMoveAgendamentos()"
+              title="Transferir agendamentos"
+            >
+              <i class="fas fa-share-square "></i>
+              Transferir agendamentos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" *ngIf="profissional && localSelected">
+    <div class="row calendar-header-actions">
+      <div class="col-md-7 mt-2">
+        <button
+          title="Mês anterior"
+          class="btn today btn-outline-secondary"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          (click)="prevMonth()"
+          [disabled]="loadingAgendamentos"
+        >
+          <i class="fas fa-chevron-left"></i>
+          Retroceder
+        </button>
+
+        <button
+          title="Próximo mês"
+          class="btn today btn-outline-secondary"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          (click)="nextMonth()"
+          [disabled]="loadingAgendamentos"
+        >
+          <i class="fas fa-chevron-right"></i>
+          Avançar
+        </button>
+
+        <button
+          title="Hoje"
+          class="btn today btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+          (click)="today()"
+          [disabled]="loadingAgendamentos"
+        >
+          <i class="fas fa-calendar-day"></i>
+          hoje
+        </button>
+        &nbsp;&nbsp;
+        <span>
+          <input type="checkbox" class="no-min-height" [(ngModel)]="isRetroativo" />
+          Retroativo
+        </span>
+      </div>
+
+      <div class="col-md-5 mt-1">
+        <div class="row justify-content-end">
+          <div
+            [ngClass]="!isAgendador ? 'col-md-2 bg-sair-agenda-disable' : 'col-md-2 bg-sair-agenda'"
+          >
+            <button
+              *ngIf="isAgendador"
+              class="btn btn-outline-secondary btn-clear-profisional btn-sair-agenda disable-x"
+              (click)="clearProfissional()"
+              title="Sair da agenda do profissional"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="col-md-auto bg-nome-profissional">
+            <span class="nome-profissional">
+              Agendamento de:
+              <b title="{{formatText(this.profissional.nome)}}">{{ formatText(this.profissional.nome) }} </b>
+              <br />
+              Local:
+              <b title="{{formatText(this.localSelected.razao_social)}}">{{ formatText(this.localSelected.razao_social) }} </b>
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12" *ngIf="cronograma.length">
+        <agenda-semanal
+          [isAvailable]="isAvailable"
+          [isRetroativo]="isRetroativo"
+          [cronograma]="cronograma"
+          [localSelected]="localSelected"
+          [utilsService]="utilsService"
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          (activeDayIsOpen)="(activeDayIsOpen)"
+          (dayClicked)="dayClicked($event)"
+          (dayHeaderClicked)="selectDate($event)"
+          (hourSegmentClicked)="selectDateAndCadastro($event)"
+          (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)"
+          (viewDateChange)="activeDayIsOpen = false"
+          (beforeViewRender)="beforeViewRender($event)"
+        ></agenda-semanal>
+      </div>
+    </div>
+    <div class="row">
+      &nbsp;
+    </div>
+  </section>
+  <section class="content" *ngIf="!profissional">
+    <h3 class="msg-no-profissional">Selecione um profissional e um local para começar!</h3>
+  </section>
+</article>
+
+<ng-template #modalagendaEvent let-close="close">
+  <div class="modal-header">
+    <div class="row" *ngIf="!agendaEvent.id">
+      <div class="col-7">
+        <h5 class="modal-title">
+          Cadastrar Agendamento&nbsp;
+          <span class="diaSelecionado">Dia: {{ diaSelecionado | date: 'dd/MM' }}</span>
+          &nbsp;
+          <b *ngIf="isRetroativo">Retroativo</b>
+        </h5>
+      </div>
+
+      <div class="col-3">
+        <button
+          title="Histórico"
+          *ngIf="agendaEvent.paciente"
+          class="btn today btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+          (click)="openModalHistorico()"
+          [disabled]="loadingAgendamentos"
+        >
+          <i class="fas fa-history"></i>
+          Histórico do Paciente
+        </button>
+      </div>
+    </div>
+    <div *ngIf="agendaEvent.id">
+      <h5 class="modal-title">Editar Agendamento</h5>
+    </div>
+
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- Cadastrar -->
+    <div *ngIf="!agendaEvent.id">
+      <app-agenda-form-cadastro
+        [localSelected]="localSelected"
+        [agendamento]="agendaEvent"
+        [locaisComboList]="locaisComboList"
+        [listTipoServico]="listTipoServico"
+        [listClassificacao]="listClassificacao"
+        [listTipoAgendamento]="listTipoAgendamento"
+      ></app-agenda-form-cadastro>
+    </div>
+
+    <!-- Editar -->
+    <div *ngIf="agendaEvent.id">
+      <app-agenda-form-editar
+        [agendamento]="agendaEvent"
+        [listTipoServico]="listTipoServico"
+        [listClassificacao]="listClassificacao"
+        [listTipoAgendamento]="listTipoAgendamento"
+        [listStatusAgendamento]="listStatusAgendamento"
+      ></app-agenda-form-editar>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="!loadingSave" type="button" class="btn btn-outline-secondary" (click)="close()">
+      Cancelar
+    </button>
+
+    <button
+      *ngIf="!loadingSave"
+      class="btn btn-primary float-right"
+      [disabled]="disableBtnSaveAgendamento()"
+      (click)="saveAgendamento()"
+    >
+      Salvar
+    </button>
+    <img *ngIf="loadingSave" src="assets/icons/spinner.svg" alt="Loading..." width="80px" />
+  </div>
+</ng-template>
+
+<ng-template #modalContent let-c="close" let-d="dismiss" id="modalContent">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Agendamento Marcado
+      <b *ngIf="modalDetalhesAgenda.event.retroativo">Retroativo</b>
+    </h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="modalDetalhesAgenda">
+    <app-agenda-detalhes
+      [isAgendador]="isAgendador"
+      [agendamento]="modalDetalhesAgenda.event"
+      [listTipoAgendamento]="listTipoAgendamento"
+      [listStatusAgendamento]="listStatusAgendamento"
+    ></app-agenda-detalhes>
+    <br />
+  </div>
+  <div class="modal-body" *ngIf="!modalDetalhesAgenda">
+    <span>Não foi possível carregar os dados cadastrados!</span>
+  </div>
+  <div class="modal-footer" *ngIf="!isBlockedTypeItem(modalDetalhesAgenda.event)">
+    <button
+      [disabled]="disableBtnsModalInfo(modalDetalhesAgenda.event)"
+      type="button"
+      class="btn btn-danger"
+      *ngIf="modalDetalhesAgenda && statusDiferenteCanceladoERealizado(modalDetalhesAgenda.event)"
+      (click)="abrirModalConfirmCancelar(modalDetalhesAgenda.event)"
+    >
+      <i class="far fa-calendar-times"></i>
+      Cancelar Agendamento
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning"
+      [disabled]="disableBtnsModalInfo(modalDetalhesAgenda.event)"
+      (click)="c('Close click'); openModalEditar(modalDetalhesAgenda.event)"
+    >
+      <i class="fas fa-pencil-alt"></i>
+      Editar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      *ngIf="modalDetalhesAgenda"
+      [disabled]="disableBtnsModalInfo(modalDetalhesAgenda.event) || !isMedico()"
+      (click)="iniciar(modalDetalhesAgenda.event); close()"
+    >
+      <i class="fas fa-user-md"></i>
+      Iniciar Atendimento
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      *ngIf="isBlockedTypeItem(modalDetalhesAgenda.event)"
+      class="btn btn-danger"
+      (click)="deleteEvent(modalDetalhesAgenda.event)"
+    >
+      <i class="far fa-calendar-times"></i>
+      Excluir Bloqueio
+    </button>
+
+    <button type="button" class="btn" (click)="close()">
+      Fechar
+    </button>
+  </div>
+</ng-template>
+
+<!-- cancelar -->
+<ng-template
+  #modalContentConfirmCancelar
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalContent"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">Cancelar Agendamento</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-agenda-cancelar [detalhesAgenda]="modalDetalhesAgendaCancelar"></app-agenda-cancelar>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="c('Close click')">
+      <i class="fas fa-ban"></i>
+      Fechar
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="setStatusCanceladoAgendamento(modalDetalhesAgendaCancelar.event)"
+    >
+      <i class="far fa-calendar-times"></i>
+      Efetuar o Cancelamento
+    </button>
+  </div>
+</ng-template>
+
+<!--excluir-->
+<ng-template
+  #modalContentConfirmDelete
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalContent"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">Excluir Agendamento</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="ml-2">
+      <h3 style="color: brown;">Tem certeza que deseja excluir este agendamento?</h3>
+      <p class="card-text mb-1" *ngIf="!isBlockedTypeItem(modalDetalhesAgendaDelete.event)">
+        <b>Nome:</b>
+        {{ formatText(modalDetalhesAgendaDelete.event.paciente.nomeCompleto) }}
+      </p>
+      <p class="card-text mb-1" *ngIf="!isBlockedTypeItem(modalDetalhesAgendaDelete.event)">
+        <b>Data Nasc:</b>
+        {{ modalDetalhesAgendaDelete.event.paciente.dataNascimento | date: 'dd/MM/yyyy' }}
+      </p>
+      <p class="card-text mb-1" *ngIf="!isBlockedTypeItem(modalDetalhesAgendaDelete.event)">
+        <b>Sexo:</b>
+        {{ formatText(modalDetalhesAgendaDelete.event.paciente.genero) }}
+      </p>
+      <p class="card-text mb-1">
+        <b>Dia:</b>
+        {{ modalDetalhesAgendaDelete.event.dataInicio | date: 'dd/MM/yyyy' }} Das
+        {{ modalDetalhesAgendaDelete.event.start | date: 'HH:mm' }} às
+        {{ modalDetalhesAgendaDelete.event.end | date: 'HH:mm' }}
+      </p>
+      <p class="card-text mb-1">
+        <b>Motivo:</b>
+        {{ formatText(modalDetalhesAgendaDelete.event.motivo) }}
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="close()">
+      <i class="fas"></i>
+      Fechar
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteEvent(modalDetalhesAgendaDelete.event)"
+    >
+      <i class="far fa-trash-alt"></i>
+      Excluir
+    </button>
+  </div>
+</ng-template>
+
+<!--informações-->
+<ng-template #modalEvent let-c="close" let-d="dismiss" id="modalEvent">
+  <div class="modal-header">
+    <h5 class="modal-title">Informações do Atendimento</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="modalDetalhesAgenda">
+    <div class="card card-event-detail">
+      <div
+        [ngClass]="
+          'nivel-' +
+          modalDetalhesAgenda.event.paciente.nivelComplexidade?.codigoNivel +
+          ' card-header title-event-detail'
+        "
+      >
+        Paciente
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="row">
+          <div class="w-auto min-width-50">
+            <p class="card-text mb-1">
+              <b>Nome:</b>
+              {{ formatText(modalDetalhesAgenda.event.paciente.nomeCompleto) }}
+            </p>
+            <p class="card-text mb-1">
+              <b>Data Nasc:</b>
+              {{ modalDetalhesAgenda.event.paciente.dataNascimento | date: 'dd/MM/yyyy' }}
+            </p>
+            <p class="card-text mb-1">
+              <b>Sexo:</b>
+              {{ formatText(modalDetalhesAgenda.event.paciente.genero) }}
+            </p>
+          </div>
+          <div>
+            <p class="card-text mb-1">
+              <b>Telefone:</b>
+              {{ modalDetalhesAgenda.event.telefone }}
+            </p>
+            <p class="card-text mb-1">
+              <b>Matrícula:</b>
+              {{ modalDetalhesAgenda.event.paciente.matricula }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="w-auto min-width-50">
+            <p class="card-text mb-1">
+              <b>Email:</b>
+              {{ modalDetalhesAgenda.event.email }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Subjetivo
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="row">
+          <div class="col-12 ml-2">
+            <p class="card-text mb-1">
+              {{ evento.subjetivo }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Objetivo
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="row">
+          <div class="col-12 ml-2">
+            <p class="card-text mb-1">
+              {{ evento.objetivo }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Análise
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="row">
+          <div class="col-12 ml-2">
+            <p class="card-text mb-1">
+              {{ evento.avaliacao.descricao }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 ml-2">
+            <p class="card-text mb-1">
+              <b>CID:</b>
+              {{
+                evento.avaliacao.cidPrincipal && evento.avaliacao.cidPrincipal.descricao
+                  ? evento.avaliacao.cidPrincipal.descricao
+                  : ''
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-event-detail">
+      <div class="card-header title-event-detail">
+        Plano
+      </div>
+      <div class="card-body content-event-detail">
+        <div class="row">
+          <div class="col-12 ml-2">
+            <p class="card-text mb-1">
+              {{ evento.plano.descricao ? evento.plano.descricao : '' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Historico-->
+<ng-template
+  #modalHistorico
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalHistorico"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Histórico de agendamentos do paciente
+    </h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <historico [pacienteSelecionadoMpi]="agendaEvent.paciente.mpi"></historico>
+  </div>
+</ng-template>
+
+<!--Cronograma-->
+<ng-template
+  #modalCronograma
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalCronograma"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Cronograma do profissional de saúde
+    </h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <cronograma [profissionalId]="profissional.id"></cronograma>
+  </div>
+</ng-template>
+<!--Transferir-->
+<ng-template
+  #modalTransferir
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalTransferir"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Transferência de agendamentos
+    </h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <agendamento-transferencia
+      [profissionalDestino]="profissional"
+      [local]="localSelected"
+      (reload)="reload()"
+    ></agendamento-transferencia>
+  </div>
+</ng-template>
+<ngb-alert
+  class="toast-error"
+  type="danger"
+  (close)="resetToast()"
+  *ngIf="(error$ | async)?.msg as msg"
+>
+  {{ msg }}
+</ngb-alert>

@@ -1,0 +1,111 @@
+<menu-sidebar></menu-sidebar>
+<article class="main">
+  <section class="pep-left">
+    <div class="pep-title">
+      <div class="float-left mt-1">
+        <h2>Tipos de Serviço</h2>
+      </div>
+      <div class="float-right mb-1">
+        <button (click)="reset()" title="Novo Tipo de serviço">
+          <img width="28px" src="assets/imgs/new.png" width="42px" alt="" class="new-button" />
+        </button>
+      </div>
+      <div class="searchbar">
+        <img src="assets/icons/search-blue.svg" alt="" />
+        <input
+          type="text"
+          placeholder="Buscar e filtrar tipos de serviço"
+          [(ngModel)]="search"
+          (ngModelChange)="change(search)"
+        />
+      </div>
+    </div>
+    <div class="list">
+      <div
+        class="item"
+        style="position: relative;"
+        *ngFor="let item of listTipoServico; let i = index"
+        (click)="setTipoServico(item)"
+      >
+        <div class="info">
+          <h3>{{ item.descricao }}</h3>
+          <span>Tempo: {{ item.tempo_atendimento }}</span>
+        </div>
+        <div class="secondary-info">
+          <div *ngIf="item.ativo" title="ativo" class="ativo ml-4"></div>
+          <div *ngIf="!item.ativo" title="inativo" class="inativo ml-4"></div>
+        </div>
+      </div>
+      <img *ngIf="loadingListTipoServico" src="assets/icons/spinner.svg" alt="Loading..." />
+    </div>
+  </section>
+
+  <div class="pep-center content-container">
+    <div class="content">
+      <div class="block">
+        <div class="content-title">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="inputs">
+          <div class="card">
+            <div class="row">
+              <div class="col-6">
+                <label for="descricao">Descrição</label>
+                <input
+                  id="descricao"
+                  [(ngModel)]="tipoServico.descricao"
+                  type="text"
+                  maxlength="80"
+                  max="true"
+                />
+              </div>
+              <div class="col-6">
+                <label for="descricao">Tempo Atend (Min)</label>
+                <input
+                  id="tempoAtendimento"
+                  [(ngModel)]="tipoServico.tempo_atendimento"
+                  type="number"
+                  maxlength="3"
+                  max="true"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="tipoServico.ativo" />
+                  Ativo
+                </span>
+              </div>
+              <div class="col-3">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="tipoServico.chatbot" />
+                  Chatbot
+                </span>
+              </div>
+              <div class="col-3">
+                <span>
+                  <input type="checkbox" class="w-2" [(ngModel)]="tipoServico.app" />
+                  App
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row actions">
+            <img *ngIf="loading" [src]="imgLoading" alt="Loading..." />
+            <div class="btns-group" *ngIf="!loading">
+              <button
+                title="Salvar"
+                [disabled]="tipoServico.descricao == ''"
+                class="btn btn-primary"
+                (click)="salvar()"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

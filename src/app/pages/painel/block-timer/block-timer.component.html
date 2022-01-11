@@ -1,0 +1,103 @@
+<div class="block-timer" [openDelay]="300" #tooltip="ngbTooltip" [ngbTooltip]="tooltipContent">
+  <ng-container>
+    <div class="row">
+      <div class="col block-btn">
+        <button class="btn btn-primary gerar-relatorio" (click)="print()">
+          <i class="far fa-file-alt icon-menu mr-1"></i>
+          Gerar relatório
+        </button>
+      </div>
+      <div class="col block-btn">
+        <button class="btn btn-primary finish" (click)="openModalConfirmFinish()">
+          <i class="fab fa-telegram-plane mr-1"></i>
+          Finalizar
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #tooltipContent>
+  <div *ngIf="!error; then thenBlock; else elseBlock"></div>
+</ng-template>
+<ng-template #thenBlock>
+  <p *ngIf="!answeredRequiredQuestionsSubjetivo" class="txt-light">
+    O questionário subjetivo não está preenchido
+  </p>
+  <p *ngIf="!answeredRequiredQuestionsObjetivo" class="txt-light">
+    O questionário objetivo não está preenchido
+  </p>
+  <p
+    *ngIf="answeredRequiredQuestionsSubjetivo && answeredRequiredQuestionsObjetivo"
+    class="txt-light"
+  >
+    Questionários preenchidos
+  </p>
+</ng-template>
+<ng-template #elseBlock>
+  <p class="txt-light">
+    {{ error }}
+  </p>
+</ng-template>
+
+<ngb-alert class="block-timer-toast" *ngIf="error" type="danger" (click)="resetToast()">
+  {{ error }}
+</ngb-alert>
+
+<ng-template
+  #modalContentConfirmFinish
+  let-c="close"
+  data-uk-modal="{center:true}"
+  let-d="dismiss"
+  id="modalContent"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">Finalizar Atendimento</h5>
+    <button type="button" class="close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="mt-2 ml-2 mb-4">
+      <h3 style="color: brown;">{{ message }}</h3>
+      <div class="row mt-3">
+        <div class="col-1 mt-1">
+          <h3>Status de atendimento:</h3>
+        </div>
+        <div class="col-4">
+          <ng-container>
+            <select class="pep-input tipo" [(ngModel)]="atendimento.status">
+              <option selected="showPlacehold" ngValue=" " disabled="true">
+                Selecione um status de atendimento *
+              </option>
+              <option [ngValue]="tipo" *ngFor="let tipo of listTipo">
+                {{ tipo }}
+              </option>
+            </select>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div *ngIf="!loading; else elseBlock">
+        <button type="button" class="btn btn-warning" (click)="close()">
+          <i class="fas fa-ban"></i>
+          Cancelar
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="atendimento.status == ' '"
+          (click)="finish()"
+        >
+          <i class="fas fa-check-circle"></i>
+          Finalizar
+        </button>
+      </div>
+      <ng-template #elseBlock>
+        <img width="100px" src="assets/icons/spinner.svg" alt="Loading..." />
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

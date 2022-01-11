@@ -1,0 +1,63 @@
+$border-color: #ccc;
+.select-check-container {
+  border: 1px solid;
+  border-top: none;
+  width: 400px;
+  box-sizing: border-box;
+  max-height: 0;
+  border-color: transparent;
+  background: transparent;
+  transition: all 300ms linear;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  position: fixed;
+  z-index: 10;
+}
+
+.select-check-content {
+  overflow-y: scroll;
+  max-height: 0;
+  transition: all 300ms linear;
+}
+
+.select-check-option {
+  margin: 10px 0;
+}
+
+.select-check-footer {
+  max-height: 0;
+  overflow-y: scroll;
+  transition: all 300ms linear;
+}
+
+.show-select {
+  border-color: $border-color;
+  max-height: 270px;
+  background: white;
+}
+
+.show-content {
+  padding: 0 10px;
+  padding-top: 10px;
+  max-height: 220px;
+}
+
+.show-footer {
+  padding: 5px 10px;
+  max-height: 40px;
+}
+
+.select-btn-apply {
+  background: #0071fe;
+  height: 15px;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  height: 20px;
+  font-size: 14px;
+  // margin: 5px 0;
+}
+.select-btn-close {
+  @extend .select-btn-apply;
+  background: #c0c0c0;
+}

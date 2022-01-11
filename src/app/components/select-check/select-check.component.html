@@ -1,0 +1,20 @@
+<button [class]="addClass" #generatorHolder (click)="onClick()">
+  {{ plcHolder }}
+</button>
+
+<div class="select-check-container" [ngClass]="{ 'show-select': toShow }" #pop>
+  <div class="select-check-content" [ngClass]="{ 'show-content': toShow }">
+    <div class="select-check-option" *ngFor="let item of optionsToShow; let i = index">
+      <checkbox-custom [label]="item.label" (update)="transform($event, i)"></checkbox-custom>
+    </div>
+  </div>
+  <div class="select-check-footer" [ngClass]="{ 'show-footer': toShow }">
+    <button (click)="apply()" class="select-btn-apply" [disabled]="!selecteds.length">
+      Aplicar
+    </button>
+    &nbsp;&nbsp;
+    <button (click)="onClick()" class="select-btn-close">
+      Fechar
+    </button>
+  </div>
+</div>

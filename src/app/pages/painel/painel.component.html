@@ -1,0 +1,114 @@
+<ng-container>
+  <menu-sidebar></menu-sidebar>
+  <article class="main">
+    <section class="pep-left">
+      <div class="patient">
+        <block-personal-info [sequential]="sequential"></block-personal-info>
+      </div>
+      <div class="conditions">
+        <block-conditions></block-conditions>
+      </div>
+    </section>
+
+    <section class="pep-center" *ngIf="!pepRightExpandido">
+      <div class="timeline">
+        <block-timeline
+          *ngIf="tiposServicos.length && classificacoes.length"
+          [tiposServicos]="tiposServicos"
+          [classificacoes]="classificacoes"
+        ></block-timeline>
+      </div>
+      <div class="scrollbar-wrapper">
+        <perfect-scrollbar class="perfect-scrollbar" [config]="config">
+          <div class="soa">
+            <block-soap
+              [item]="subjetivo"
+              (event)="handlerToggleInSoap($event)"
+              [collapse]="collapse"
+            ></block-soap>
+            <block-soap
+              [item]="objetivo"
+              (event)="handlerToggleInSoap($event)"
+              [collapse]="collapse"
+            ></block-soap>
+            <block-soap
+              [item]="avaliacao"
+              (event)="handlerToggleInSoap($event)"
+              [collapse]="collapse"
+            ></block-soap>
+          </div>
+          <div #soapPlano>
+            <block-soap-plano
+              [item]="plano"
+              (event)="handlerToggleInSoap($event)"
+              (requestExamResults)="handlerToggleInSoap($event)"
+            ></block-soap-plano>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </section>
+
+    <section
+      class="pep-right"
+      [ngClass]="pepRightExpandido ? 'pep-right pep-right-100' : 'pep-right'"
+    >
+      <button
+        [ngClass]="pepRightExpandido ? 'btn-expandido' : 'btn-expandir'"
+        type="button"
+        (click)="expandirPepRight()"
+      >
+        <img src="assets/icons/expand.svg" alt="" />
+      </button>
+
+      <div class="changeable">
+        <ng-container [ngSwitch]="currentFocus">
+          <block-changeable-subjetivo
+            *ngSwitchCase="'subjetivo'"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-changeable-subjetivo>
+          <block-changeable-objetivo
+            *ngSwitchCase="'objetivo'"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-changeable-objetivo>
+          <block-changeable-analise
+            *ngSwitchCase="'avaliacao'"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-changeable-analise>
+          <block-changeable-plano
+            *ngSwitchCase="'plano'"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-changeable-plano>
+          <block-changeable-resultados-exames
+            *ngSwitchCase="'resultados-exames'"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-changeable-resultados-exames>
+
+          <block-changeable-default *ngSwitchDefault></block-changeable-default>
+        </ng-container>
+      </div>
+
+      <div class="timer" *ngIf="!pepRightExpandido">
+        <block-timer></block-timer>
+      </div>
+    </section>
+  </article>
+</ng-container>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Opss!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ msgError }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
+      Estou ciente!
+    </button>
+  </div>
+</ng-template>
+
+<loading *ngIf="loading"></loading>

@@ -1,0 +1,138 @@
+<div *ngFor="let historico of list">
+  <div class="soap-item subjetivo">
+    <div class="card principal">
+      <div class="card-header title-atendimento">Atendimento {{ historico?.sequencial }}</div>
+
+      <div class="descricao">
+        <div class="row">
+          <span>
+            Data:
+            <b>{{ historico?.dataInicio | date: 'dd/MM/yyyy' }}</b>
+          </span>
+        </div>
+        <div class="row">
+          <span>
+            Tipo de Serviço:
+            <b>{{ historico?.tipo_servico?.descricao }}</b>
+          </span>
+        </div>
+        <div class="row">
+          <span>
+            Classificação:
+            <b>{{ historico?.classificacao?.descricao }}</b>
+          </span>
+        </div>
+        <div class="row">
+          <span>
+            Profissional:
+            <b>{{ historico?.profissional?.pessoa.nome_completo }}</b>
+          </span>
+        </div>
+        <div class="row">
+          <div>
+            <span>
+              Especialidades:
+              <b>{{ showEspecialidades(historico?.profissional.especialidades) }}</b>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header">Subjetivo</div>
+          <div class="card-body">
+            {{ historico?.subjetivo ? historico?.subjetivo : 'Não informado' }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Objetivo</div>
+          <div class="card-body">
+            {{ historico?.objetivo ? historico?.objetivo : 'Não informado' }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Análise</div>
+          <div class="card-body">
+            <div class="row d-flex justify-content-center">
+              <div class="col-12">
+                <div class="row cid-title">CID Principal</div>
+                <div class="row cid-descricao" *ngIf="historico?.avaliacao.cidPrincipal">
+                  {{ historico?.avaliacao?.cidPrincipal?.codigo }}:
+                  {{ historico?.avaliacao?.cidPrincipal?.descricao }}
+                </div>
+                <div class="row cid-descricao" *ngIf="!historico?.avaliacao.cidPrincipal">
+                  Não informado
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row d-flex justify-content-center">
+              <div class="col-12">
+                <div class="row cid-title">CIDs Confirmados</div>
+                <div
+                  *ngFor="
+                    let cidSecundarioConfirmado of historico?.avaliacao?.cidSecundariosConfirmados
+                  "
+                >
+                  <div class="row cid-descricao">
+                    {{ cidSecundarioConfirmado?.codigo }}: {{ cidSecundarioConfirmado?.descricao }}
+                  </div>
+                </div>
+                <div
+                  class="row cid-descricao"
+                  *ngIf="!historico?.avaliacao?.cidSecundariosConfirmados?.length"
+                >
+                  Não informado
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row d-flex justify-content-center">
+              <div class="col-12">
+                <div class="row cid-title">CIDs Suspeitos</div>
+                <div
+                  *ngFor="let cidSecundarioSuspeito of historico?.avaliacao?.cidSecundariosSuspeitos"
+                >
+                  <div class="row cid-descricao">
+                    {{ cidSecundarioSuspeito?.codigo }}: {{ cidSecundarioSuspeito?.descricao }}
+                  </div>
+                </div>
+                <div
+                  class="row cid-descricao"
+                  *ngIf="!historico?.avaliacao?.cidSecundariosSuspeitos?.length"
+                >
+                  Não informado
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Plano</div>
+          <div class="card-body">
+            <div class="row" *ngIf="historico.plano.descricao">
+              <div class="col-12">
+                {{ historico?.plano.descricao }}
+              </div>
+            </div>
+            <br />
+            <div class="row cid-title">Metas</div>
+            <div class="row" *ngIf="historico?.plano.metas">
+              <div class="col-12">
+                <ul>
+                  <li *ngFor="let meta of historico?.plano.metas">
+                    {{ meta?.descricao }}
+                    <img *ngIf="meta?.foiRealizada" src="assets/icons/confirm.svg" alt="" />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

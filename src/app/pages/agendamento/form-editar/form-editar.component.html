@@ -1,0 +1,148 @@
+<section>
+  <div class="row row-paciente">
+    <div class="col-2">
+      Paciente*:
+    </div>
+    <div class="col-6">
+      <div *ngIf="agendamento.paciente">
+        <p>{{ agendamento.paciente.nomeCompleto }}</p>
+      </div>
+    </div>
+    <div class="col-4" *ngIf="agendamento.paciente">
+      Idade: {{ agendamento.paciente.dataNascimento | age }} Nível:
+      {{ agendamento.paciente.nivelComplexidade?.codigoNivel }}
+    </div>
+  </div>
+  <div class="row mt-1">
+    <div class="col-2">
+      Data*:
+    </div>
+
+    <!-- editar data agendamento -->
+    <div class="col-4">
+      <calendar
+        *ngIf="agendamento.paciente"
+        placeholder="Fim"
+        initValue="{{ agendamento.dataInicio }}"
+        (value)="setDataEdit($event)"
+        min="true"
+      ></calendar>
+    </div>
+    <div class="col-2">
+      Local*:
+    </div>
+    <div class="col-4">
+      {{ agendamento.localDescricao }}
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-2">
+      Hora Início*:
+    </div>
+    <div class="col-4">
+      <input type="time" [(ngModel)]="agendamento.start" />
+    </div>
+    <div class="col-2">
+      Hora Fim*:
+    </div>
+    <div class="col-4">
+      <input type="time" [(ngModel)]="agendamento.end" />
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-2">
+      E-mail:
+    </div>
+    <div class="col-4">
+      <input type="text" [(ngModel)]="agendamento.email" />
+    </div>
+
+    <div class="col-2 tel-size">
+      Tel Paciente (envio SMS):
+    </div>
+    <div class="col-4">
+      <input type="text" mask="phone" max="15" maxlength="15" [(ngModel)]="agendamento.telefone" />
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-2">
+      Tipo:
+    </div>
+    <div class="col-4">
+      {{ getTipo() }}
+    </div>
+
+    <div class="col-2">
+      Status*:
+    </div>
+    <div class="col-4">
+      <select [(ngModel)]="agendamento.agendamento_status_id">
+        <option [ngValue]="status.id" *ngFor="let status of getSelectStatus()">
+          {{ status.descricao }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-2">
+      Tipo Serviço*:
+    </div>
+    <div class="col-4">
+      <select [(ngModel)]="agendamento.tipo_servico">
+        <option [selected]="!agendamento.tipo_servico" disabled="true">
+          Selecione um tipo
+        </option>
+        <option [ngValue]="tipo.id" *ngFor="let tipo of listTipoServico">
+          {{ tipo.descricao }}
+        </option>
+      </select>
+    </div>
+    <div class="col-2">
+      Classificação*:
+    </div>
+    <div class="col-4">
+      <select [(ngModel)]="agendamento.classificacao">
+        <option [selected]="!agendamento.classificacao" disabled="true">
+          Selecione uma classificação
+        </option>
+        <option [ngValue]="class.id" *ngFor="let class of listClassificacao">
+          {{ class.descricao }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-2">
+      Motivo*:
+    </div>
+    <div class="col-6">
+      <textarea
+        class="full-width"
+        [placeholder]="'Escreva o Motivo do Atendimento....'"
+        [(ngModel)]="agendamento.motivo"
+      ></textarea>
+    </div>
+    <div class="col-4">
+      <span>
+        <input type="checkbox" [(ngModel)]="agendamento.pago" />
+        Pagamento realizado
+      </span>
+    </div>
+  </div>
+
+
+  <div class="row mt-1">
+    <div class="col-2">
+      Reagendamento:
+    </div>
+    <div class="col-4">
+      <span>
+        <input type="checkbox" [(ngModel)]="agendamento.reagendamento" />
+      </span>
+    </div>
+  </div>
+
+</section>

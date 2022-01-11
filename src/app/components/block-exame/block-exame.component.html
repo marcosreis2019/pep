@@ -1,0 +1,273 @@
+<div class="exames categoria-bg">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="title-h2">Exames</h2>
+    </div>
+
+    <div class="col-2">
+      <button class="btn btn-primary" (click)="toggleAddExamForm()">
+        Novo
+      </button>
+    </div>
+
+    <div class="col-2">
+      <button class="btn btn-primary bg-secondary" (click)="toggleExamResults()">
+        Resultados
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #addExamForm let-modal>
+  <ng-container class="exames-modal">
+    <section class="modal-header">
+      <h2 class="modal-title">Adicionar Exames</h2>
+      <button
+        e
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </section>
+
+    <section class="modal-body">
+      <div class="add-exame">
+        <!-- exames laboratoriais -->
+        <div class="block-exame-laboratorial">
+          <h3>Exames Laboratoriais</h3>
+
+          <!-- Lista de exames ja adicionados-->
+          <ng-container
+            [ngTemplateOutlet]="examesLabList"
+            [ngTemplateOutletContext]="{ tipo: 'laboratorial' }"
+          ></ng-container>
+
+          <!-- Form exames laboratóriais -->
+          <ng-container
+            [ngTemplateOutlet]="addExameLabForm"
+            [ngTemplateOutletContext]="{ tipo: 'laboratorial' }"
+          ></ng-container>
+        </div>
+
+        <!-- exames de imagem -->
+        <div class="block-exame-imagem">
+          <h3>Exames de Imagem</h3>
+
+          <!-- Lista de exames de imagem ja adicionados-->
+          <ng-container
+            [ngTemplateOutlet]="examesImagemList"
+            [ngTemplateOutletContext]="{ tipo: 'imagem' }"
+          ></ng-container>
+
+          <ng-container
+            [ngTemplateOutlet]="addExameImagemForm"
+            [ngTemplateOutletContext]="{ tipo: 'imagem' }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <ng-container
+        *ngIf="isLoading$ | async"
+        [ngTemplateOutlet]="loading"
+        [ngTemplateOutletContext]="{ msg: 'Registrando Exame...' }"
+      ></ng-container>
+
+      <ng-container
+        *ngIf="success$ | async as success"
+        [ngTemplateOutlet]="successMsg"
+        [ngTemplateOutletContext]="{ msg: success }"
+      ></ng-container>
+
+      <ng-container
+        *ngIf="error$ | async as error"
+        [ngTemplateOutlet]="errorMsg"
+        [ngTemplateOutletContext]="{ msg: error }"
+      ></ng-container>
+
+      <ng-container
+        *ngIf="msgAlert"
+        [ngTemplateOutlet]="alertMsg"
+        [ngTemplateOutletContext]="{ msg: msgAlert }"
+      ></ng-container>
+    </section>
+  </ng-container>
+</ng-template>
+
+<!-- Formularios para adicionar exames -->
+<ng-template #addExameLabForm let-tipo="tipo">
+  <form class="add-exames-form" [formGroup]="formLab">
+    <!-- <h3>Adicionar referência</h3> -->
+
+    <input
+      type="text"
+      placeholder="Digite o exame aqui..."
+      class="pep-input"
+      formControlName="descricao"
+      (keyup.enter)="addExame(tipo)"
+    />
+
+    <div class="btn-group d-flex justify-content-end">
+      <button
+        class="btn btn-primary green"
+        (click)="addExame(tipo)"
+        type="submit"
+        [disabled]="formLab.invalid"
+      >
+        Adicionar
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Formularios para adicionar exames de imagem -->
+<ng-template #addExameImagemForm let-tipo="tipo">
+  <form class="add-exames-form" [formGroup]="formImagem">
+    <!-- <h3>Adicionar referência</h3> -->
+
+    <input
+      type="text"
+      placeholder="Digite o exame aqui..."
+      class="pep-input"
+      formControlName="descricao"
+      (keyup.enter)="addExame(tipo)"
+    />
+
+    <label>Observações</label>
+    <textarea
+      *ngIf="tipo === 'imagem' && !isEditingObservation"
+      formControlName="observacoes"
+      name="exam-notes"
+      id="exam-notes"
+      rows="2"
+      cols="30"
+      tabindex=""
+    ></textarea>
+
+    <div class="btn-group d-flex justify-content-end">
+      <button
+        class="btn btn-primary green"
+        (click)="addExame(tipo)"
+        type="submit"
+        [disabled]="formImagem.invalid"
+      >
+        Adicionar
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Lista de exames laboratoriais -->
+<ng-template #examesLabList>
+  <ng-container *ngFor="let exame of exames$ | async">
+    <article class="exams-list" *ngIf="exame.tipo === 'laboratorial'">
+      <div class="exame exame-lab">
+        <span class="exame-descricao">{{ exame.descricao }}</span>
+        <button class="btn-close" (click)="removeExame(exame)">
+          <img src="assets/icons/delete-40x40.png" alt="Remover" />
+        </button>
+      </div>
+    </article>
+  </ng-container>
+</ng-template>
+
+<!-- Lista de exames de imagem -->
+<ng-template #examesImagemList>
+  <ng-container *ngFor="let exame of exames$ | async; let i = index">
+    <article
+      class="exame-list"
+      *ngIf="exame.tipo === 'imagem'"
+      [ngClass]="{ highlight: activeItem === i }"
+    >
+      <section class="exame exame-img " [ngClass]="{ highlight: activeItem === i }">
+        <span class="clickable exame-descricao" (click)="toggleItemDetails(i, exame)">
+          {{ exame.descricao }}
+        </span>
+        <button class="btn-close" (click)="removeExame(exame)">
+          <img src="assets/icons/delete-40x40.png" alt="Remover" />
+        </button>
+      </section>
+
+      <!-- expanded item details -->
+      <section
+        class="exame-details"
+        [ngClass]="{ hidden: activeItem !== i, visible: activeItem === i }"
+      >
+        <p class="exam-observations" *ngIf="exame.observacoes && !isEditingObservation">
+          Observações:
+
+          <span class="clickable">
+            {{ exame.observacoes }}
+          </span>
+
+          <button class="btn" (click)="editObservation(exame, i)">
+            <i class="fas fa-pencil-alt mr-1"></i>
+            Editar
+          </button>
+
+          <!-- Lista de exames de imagem ja adicionados-->
+        </p>
+
+        <ng-container
+          *ngIf="!exame.observacoes || isEditingObservation"
+          [ngTemplateOutlet]="editObservationForm"
+          [ngTemplateOutletContext]="{ exam: exame, index: i }"
+        ></ng-container>
+      </section>
+    </article>
+  </ng-container>
+</ng-template>
+
+<!-- Textarea para adicionar observacoes a exames já adicionados -->
+<ng-template #editObservationForm let-exame="exam" let-i="index">
+  <form [formGroup]="formImagem">
+    <label>Observações</label>
+    <textarea
+      class="edit-observation"
+      formControlName="existingObservations"
+      (keydown.meta.s)="saveObservation(exame, i)"
+    >
+          {{ exame.observacoes ? exame.observacoes : '' }}
+      </textarea
+    >
+
+    <button class="btn" (click)="saveObservation(exame, i)">
+      Salvar
+    </button>
+  </form>
+</ng-template>
+
+<ng-template #loading let-message="msg">
+  <div class="d-flex justify-content-center loading">
+    <img src="assets/icons/spinner.svg" alt="Loading..." />
+    <p>{{ message }}</p>
+  </div>
+</ng-template>
+
+<ng-template #successMsg let-message="msg">
+  <ngb-alert type="success" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #errorMsg let-message="msg">
+  <ngb-alert type="danger" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #alertMsg let-message="msg">
+  <div *ngIf="msgAlert" class="warning">
+    <img src="assets/icons/warning-2.svg" alt="" class="warning" />
+    <p class="fs-text">{{ message }}</p>
+    <button class="btn-pep" (click)="reload()">Tentar novamente</button>
+  </div>
+</ng-template>
+
+<ng-template #noExams>
+  <div *ngIf="!(exames$ | async); else loading" class="history-empty">
+    <p>Nenhum exame registrado até o momento</p>
+  </div>
+</ng-template>

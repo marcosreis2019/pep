@@ -1,0 +1,400 @@
+<div class="condition perfect-scrollbar" [perfectScrollbar]="perfectScrollbarConfig">
+  <div class="header bg-s">
+    <h3 class="block-title txt-light">Exames Pendentes</h3>
+  </div>
+
+  <div class="changeable perfect-scrollbar" [perfectScrollbar]="perfectScrollbarConfig">
+    <div class="resultados-exames">
+      <!-- exames laboratoriais -->
+      <div
+        class="block-exame-laboratorial"
+        *ngIf="examesLabList && examesLabList.length > 0 && !isEditingExam"
+      >
+        <h3>Exames Laboratoriais</h3>
+
+        <ng-container
+          [ngTemplateOutlet]="examesLabListTemplate"
+          [ngTemplateOutletContext]="{ tipo: 'laboratorial' }"
+        ></ng-container>
+      </div>
+
+      <!-- exames de imagem -->
+      <div
+        class="block-exame-imagem"
+        *ngIf="examesImagemList && examesImagemList.length > 0 && !isEditingExam"
+      >
+        <h3>Exames de Imagem</h3>
+
+        <ng-container
+          [ngTemplateOutlet]="examesImagemListTemplate"
+          [ngTemplateOutletContext]="{ tipo: 'imagem' }"
+        ></ng-container>
+      </div>
+
+      <!-- resultados dos exames -->
+      <div class="block-exame-imagem" *ngIf="examesList && isEditingExam">
+        <h3>Adicionar Resultados de Exame</h3>
+
+        <ng-container
+          [ngTemplateOutlet]="editExameForm"
+          [ngTemplateOutletContext]="{ tipo: 'imagem' }"
+        ></ng-container>
+      </div>
+
+      <!-- em caso de não haver exames registrados, mostra template de Sem Exames -->
+      <ng-container
+        *ngIf="examesList && examesList.length === 0"
+        [ngTemplateOutlet]="noExams"
+        [ngTemplateOutletContext]="{ msg: 'Nenhum exame foi adicionado.' }"
+      ></ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Lista de exames laboratoriais -->
+<ng-template #examesLabListTemplate>
+  <ng-container *ngFor="let exame of examesList; let i = index">
+    <article class="exams-list" *ngIf="exame.tipo === 'laboratorial'">
+      <div class="exame exame-lab">
+        <span class="clickable exame-descricao" (click)="toggleItemDetails(i, exame)">
+          {{ exame.descricao }}
+        </span>
+
+        <button class="btn-close" (click)="removeExame(exame)">
+          <img src="assets/icons/delete-40x40.png" alt="Remover" />
+        </button>
+      </div>
+    </article>
+  </ng-container>
+</ng-template>
+
+<!-- Lista de exames de imagem -->
+<ng-template #examesImagemListTemplate>
+  <ng-container *ngFor="let exame of examesList; let i = index">
+    <article
+      class="exame-list"
+      *ngIf="exame.tipo === 'imagem'"
+      [ngClass]="{ highlight: activeItem === i }"
+    >
+      <section class="exame exame-img " [ngClass]="{ highlight: activeItem === i }">
+        <span class="clickable exame-descricao" (click)="toggleItemDetails(i, exame)">
+          {{ exame.descricao }}
+        </span>
+        <button class="btn-close" (click)="removeExame(exame)">
+          <img src="assets/icons/delete-40x40.png" alt="Remover" />
+        </button>
+      </section>
+    </article>
+  </ng-container>
+</ng-template>
+
+<!-- Textarea para adicionar resultados a exames já adicionados -->
+<ng-template #editExameForm let-exame="exam" let-i="index">
+  <div class="perfect-scrollbar" [perfectScrollbar]="perfectScrollbarConfig">
+    <form [formGroup]="formResults">
+      <div class="form-item">
+        <label class="exame-result-text" for="description">Descricao</label>
+        <input
+          formControlName="descricao"
+          class=" exame-descricao bg-light"
+          name="description"
+          type="text"
+          readonly
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="exame-observations">Observações</label>
+        <textarea
+          formControlName="observacoes"
+          class=" edit-observation bg-light"
+          name="exame-observations"
+          readonly
+        ></textarea>
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="request-date">Data da Solicitação</label>
+        <input
+          formControlName="dataSolicitacao"
+          mask="date"
+          class=" exame-data-solicitacao bg-light"
+          name="request-date"
+          type="text"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="execution-date">Data da Realização</label>
+        <input
+          formControlName="dataExecucao"
+          mask="date"
+          class=" exame-data-execucao"
+          [ngClass]="dataExecucao.invalid && dataExecucao.dirty ? 'invalid-value' : ''"
+          name="execution-date"
+          type="text"
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="dataExecucao.invalid && dataExecucao.dirty ? dataExecucaoError : ''"
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="results-unit">Unidade:</label>
+        <input
+          formControlName="unidade"
+          class="exame-results-unit"
+          [ngClass]="unidade.invalid && unidade.dirty ? 'invalid-value' : ''"
+          name="results-unit"
+          type="text"
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="unidade.invalid && unidade.dirty ? unidadeError : ''"
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="results-clinic">Clínica executante:</label>
+        <input
+          formControlName="clinica"
+          class=" exame-results-clinic"
+          [ngClass]="clinica.invalid && clinica.dirty ? 'invalid-value' : ''"
+          name="results-clinic"
+          type="text"
+          required
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="clinica.invalid && clinica.dirty ? clinicaError : ''"
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="description">Valor Ref. Mínimo</label>
+        <input
+          formControlName="valorReferenciaMinimo"
+          class="exame-results-min-ref-value"
+          [ngClass]="
+            valorReferenciaMinimo.invalid && valorReferenciaMinimo.dirty ? 'invalid-value' : ''
+          "
+          name="results-min-ref-value"
+          type="text"
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="
+            valorReferenciaMinimo.invalid && valorReferenciaMinimo.dirty
+              ? valorReferenciaMinimoError
+              : ''
+          "
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="results-max-ref-value">Valor Ref. Máximo</label>
+        <input
+          formControlName="valorReferenciaMaximo"
+          class=" exame-results-max-ref-value"
+          [ngClass]="
+            valorReferenciaMaximo.invalid && valorReferenciaMaximo.dirty ? 'invalid-value' : ''
+          "
+          name="results-max-ref-value"
+          type="text"
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="
+            valorReferenciaMaximo.invalid && valorReferenciaMaximo.dirty
+              ? valorReferenciaMaximoError
+              : ''
+          "
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="results-value">Valor</label>
+        <input
+          formControlName="valor"
+          class="exame-results-value"
+          [ngClass]="valor.invalid && valor.dirty ? 'invalid-value' : ''"
+          name="results-value"
+          type="text"
+          required
+          #tooltipCPF="ngbTooltip"
+          [ngbTooltip]="valor.invalid && valor.dirty ? valorError : ''"
+          triggers="blur:focus"
+          tooltipClass="tooltip"
+          [autoClose]="true"
+        />
+      </div>
+      <div class="form-item">
+        <label class="exame-result-text" for="description">Arquivos anexos</label>
+        <img *ngIf="loadingFile" src="assets/icons/spinner.svg" alt="Loading..." />
+        <input
+          formControlName="arquivo"
+          [(ngModel)]="examFile"
+          class="exame-files"
+          name="exame-file"
+          type="file"
+          accept=".pdf"
+          (change)="uploadFile($event.target.files)"
+        />
+      </div>
+      <div class="listOfSelectedFiles" *ngIf="!loadingFile">
+        <ul *ngFor="let file of uploadedFiles">
+          <li>
+            <a [href]="file.downloadUrl" target="_blank">
+              {{ file.fileName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="form-item form-col">
+        <label class="exame-result-text" for="description">Interpretação</label>
+        <textarea
+          formControlName="interpretacao"
+          class=" exame-interpretation"
+          name="exame-interpretation"
+        ></textarea>
+      </div>
+
+      <ng-container
+        *ngIf="isLoading$ | async"
+        [ngTemplateOutlet]="loading"
+        [ngTemplateOutletContext]="{ msg: 'Salvando Exame...' }"
+      ></ng-container>
+
+      <ng-container
+        *ngIf="success$ | async as successMsg"
+        [ngTemplateOutlet]="successMsgTemplate"
+        [ngTemplateOutletContext]="{ msg: successMsg }"
+      ></ng-container>
+
+      <ng-container
+        *ngIf="error$ | async as errorMsg"
+        [ngTemplateOutlet]="errorMsgTemplate"
+        [ngTemplateOutletContext]="{ msg: errorMsg }"
+      ></ng-container>
+
+      <div>
+        <!-- div para mostrar tooltip pro botao disabled (que nao aceita tooltips enquanto esta disabled) -->
+        <span
+          class="submit-button-container"
+          #tooltipSubmit="ngbTooltip"
+          [ngbTooltip]="formResults.invalid ? formInvalidTemplate : ''"
+          tooltipClass="form-invalid-tooltip"
+        >
+          <button
+            class="btn btn-primary"
+            [ngClass]="formResults.invalid ? 'not-allowed btn btn-warning' : 'btn btn-primary'"
+            [disabled]="formResults.invalid"
+            (click)="saveResults(selectedExame, selectedExameIndex)"
+          >
+            Salvar
+          </button>
+        </span>
+
+        <span>
+          <button class="btn btn-light" (click)="cancelEdit()">
+            <i class="fas fa-ban mr-1"></i>
+            Cancelar
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #loading let-message="msg">
+  <div class="d-flex justify-content-center loading">
+    <img src="assets/icons/spinner.svg" alt="Loading..." />
+    <p>{{ message }}</p>
+  </div>
+</ng-template>
+
+<ng-template #successMsgTemplate let-message="msg">
+  <ngb-alert type="success" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #errorMsgTemplate let-message="msg">
+  <ngb-alert type="danger" (close)="reset()">
+    {{ message }}
+  </ngb-alert>
+</ng-template>
+
+<ng-template #noExams>
+  <div *ngIf="examesList && examesList.length === 0; else loading" class="history-empty">
+    <p>Nenhum exame registrado até o momento</p>
+  </div>
+</ng-template>
+
+<ng-template #formInvalidTemplate>
+  <span class="text-danger form-invalid-tooltip">
+    Você precisa preencher todos os campos com valores válidos para salvar os resultados.
+  </span>
+</ng-template>
+<!-- ------------------------- -->
+<!-- form validation templates -->
+
+<!-- dataExecucao validation  -->
+<ng-template #dataExecucaoError>
+  <span class="text-danger" *ngIf="dataExecucao.hasError('required')">
+    Você precisa preencher a data de execução do exame.
+  </span>
+  <span class="text-danger" *ngIf="dataExecucao.hasError('pattern')">
+    A data de execução do exame é inválida.
+  </span>
+</ng-template>
+
+<!-- unidade validation  -->
+<ng-template #unidadeError>
+  <span class="text-danger" *ngIf="unidade.hasError('required')">
+    Você precisa colocar a unidade utilizada.
+  </span>
+  <span class="text-danger" *ngIf="unidade.hasError('pattern')">
+    A unidade digita está em formato inválido
+  </span>
+</ng-template>
+
+<!-- clinica validation  -->
+<ng-template #clinicaError>
+  <span class="text-danger" *ngIf="clinica.hasError('required')">
+    Você precisa colocar a clinica que realizou o exame.
+  </span>
+</ng-template>
+
+<!-- valorReferenciaMinimo validation  -->
+<ng-template #valorReferenciaMinimoError>
+  <span class="text-danger" *ngIf="valorReferenciaMinimo.hasError('required')">
+    Você precisa colocar o valor de referência mínimo.
+  </span>
+  <span class="text-danger" *ngIf="valorReferenciaMinimo.hasError('pattern')">
+    O valor de referencia mínimo precisa ser um número.
+  </span>
+</ng-template>
+
+<!-- valorReferenciaMinimo validation  -->
+<ng-template #valorReferenciaMaximoError>
+  <span class="text-danger" *ngIf="valorReferenciaMaximo.hasError('required')">
+    Você precisa colocar o valor de referência máximo.
+  </span>
+  <span class="text-danger" *ngIf="valorReferenciaMaximo.hasError('pattern')">
+    O valor de referencia máximo precisa ser um número.
+  </span>
+</ng-template>
+
+<!-- valor validation  -->
+<ng-template #valorError>
+  <span class="text-danger" *ngIf="valor.hasError('required')">
+    Você precisa colocar o valor.
+  </span>
+  <span class="text-danger" *ngIf="valor.hasError('pattern')">
+    O valor precisa ser um número.
+  </span>
+</ng-template>

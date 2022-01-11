@@ -1,0 +1,31 @@
+<div
+  class="soap-item"
+  [ngClass]="{
+    subjetivo: item.type === 'subjetivo',
+    avaliacao: item.type === 'avaliacao',
+    'not-focused': !hasFocus
+  }"
+>
+  <span class="description" [color]="item.color" (click)="emitFocus()">
+    {{ item.letter }}
+  </span>
+
+  <div class="input">
+    <block-motivo-atendimento
+      *ngIf="item.type === 'avaliacao'"
+      (event)="send($event)"
+      class="motivo-atendimento"
+    ></block-motivo-atendimento>
+
+    <textarea
+      type="text"
+      placeholder="Campo de texto"
+      (blur)="toggleFocus()"
+      (focus)="toggleFocus()"
+      [(ngModel)]="value"
+      (ngModelChange)="send(value)"
+      class="text-plano"
+    ></textarea>
+    <span class="counter" *ngIf="hasFocus">{{ value.length }}/4000</span>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+@import 'src/app/themes/borders';
+@import 'src/app/themes/colors';
+@import 'src/app/themes/fonts';
+@import 'src/app/themes/helpers/print-helpers';
+@import 'src/app/themes/helpers/text-helpers';
+@import 'src/app/themes/helpers/flex-helpers';
+
+body {
+  display: flex;
+  background: url('src/assets/imgs/aps-watermark.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+article.wrapper {
+  flex: 1;
+  position: relative;
+  height: 29.7cm;
+
+  // font-size: 12px;
+  @media screen {
+    width: 60%;
+    height: 100vh;
+    margin: 0 auto;
+  }
+}
+
+header.header {
+  height: auto;
+  > .logo {
+    margin: 20px;
+  }
+}
+.row {
+  // row from flex-helpers was inheriting negative margins, this fixes it
+  margin: 10px 0;
+}
+
+section.content {
+  justify-content: space-between;
+  border-radius: 15px;
+  margin-top: 40px;
+  padding: 20px;
+  flex: 1;
+}
+
+.row {
+  border-bottom: 1px solid black;
+  min-height: 2.5cm;
+  margin-top: 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+p {
+  font-size: 14px;
+  color: rgb(46, 46, 46);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  align-self: flex-end;
+  .assn {
+    margin-top: 80px;
+    width: 50%;
+    text-align: center;
+    line-height: 40px;
+    color: red;
+    border-bottom: 0.55px solid black;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,34 @@
+@import 'src/app/themes/blocks';
+@import 'src/app/themes/colors';
+
+.header {
+  @include block-changeable-header;
+}
+
+.content {
+  @include block-changeable-content;
+
+  scrollbar-width: none;
+  padding: 0 20px;
+}
+
+.orientacao {
+  position: relative;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 10px;
+  background: #00b8fe;
+  p {
+    color: white;
+  }
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 100px;
+  }
+}

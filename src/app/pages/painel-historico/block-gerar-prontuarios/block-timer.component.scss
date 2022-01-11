@@ -1,0 +1,80 @@
+@import 'src/app/themes/borders';
+@import 'src/app/themes/colors';
+
+.tipo {
+  width: 350px;
+}
+.block-timer {
+  @include border-top-radius(14px);
+  background-color: map-get($theme, light);
+  max-height: 60px;
+  height: 60px;
+  padding: 10px 10px;
+}
+.display {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.clock {
+  width: 50%;
+  font-family: MontserratRegular;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 10px;
+  }
+}
+
+.btn-action {
+  img {
+    width: 50px;
+  }
+}
+
+.finish {
+  width: 100%;
+  color: #fff;
+  height: 40px;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  &:disabled {
+    background-color: map-get($theme, success-disabled);
+    opacity: 0.3;
+  }
+}
+
+.gerar-relatorio {
+  width: 100%;
+  background: #f99302;
+  color: #fff;
+  height: 40px;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.block-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    font-size: 14px;
+    max-height: 40px;
+  }
+}
+
+.block-timer-toast {
+  opacity: 1;
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 20px 20px 0 0;
+}

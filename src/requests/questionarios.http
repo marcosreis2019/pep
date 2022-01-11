@@ -1,0 +1,37 @@
+# -*- mode: restclient; restclient-same-buffer-response: t -*-
+
+:base_res = http://reshml.qualirede.com.br/v1
+:quest_0 = 3192
+:mpi_0 = b2c9aecd-4141-4568-965c-35f3a4b6195e
+:mpi_1 = 085d6c7c-c867-4cee-994b-df3f54e0f37f
+:mpi_2 = 33583d03-3564-4775-a1a2-6f0561b26410
+:mpi_3 = 9ddae1ec-bd50-4ff9-bf18-814d717ac5c4
+:mpi_4 = 0e6df135-be78-4515-a180-851d12e5cdaf
+:ref_id_1 = 5dd3032facc9a800152db221
+
+:headers = <<
+Content-Type: application/json
+User-Agent: Emacs/26.0
+Base-ETag: 0
+#
+
+# GET questionarios
+GET http://aisapihml.qualirede.com.br/ais-integracao/api/v1/questionarios/:questionario0
+User-Agent: Emacs Restclient
+#
+
+# GET determinantes dos beneficiarios
+GET http://aisapihml.qualirede.com.br/ais-integracao/api/v1/determinantes/beneficiarios?dsMpi=:mpi0
+
+#
+# PUT / Referências
+PUT :base_res/pessoas/:mpi_1/referencias/:ref_id_1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibG9naW4iOiJkb2UiLCJyb2xlcyI6WyJBRE1JTiJdfQ.B83AXv3yQ80Rca0_cZlQML63yEqo-afNzwUHgIDhucI
+Base-ETag: 1
+
+{
+  "dataRealizacaoContraReferencia": "2019-11-28T00:00:00-03:00",
+  "textoContraReferencia": "gfhfghfg",
+  "localAtendimento": "5c802a3540e5d935640ddd46"
+}

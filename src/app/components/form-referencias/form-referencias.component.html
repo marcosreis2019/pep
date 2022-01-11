@@ -1,0 +1,67 @@
+<form [formGroup]="form">
+  <!-- <h3>Adicionar referência</h3> -->
+
+  <div class="row">
+    <div class="col-12">
+      <select formControlName="especialidade" [(ngModel)]="especialidadeSelectedCombo" (ngModelChange)="setEspecialidadeSelectedCombo($event)" class="pep-input">
+        <option *ngIf="!especialidadeSelectedCombo" [ngValue]="undefined" >Selecione uma Especialidade</option>
+        <option [ngValue]="especialidade" *ngFor="let especialidade of listEspecialidadeCombo">
+          {{ especialidade.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+ 
+  <calendar formControlName="dataValidade" placeholder="Data de validade" min="true"></calendar>
+
+  <input
+    type="text"
+    class="pep-input"
+    placeholder="Profissional"
+    formControlName="profissionalReferenciado"
+  />
+
+  <textarea
+    type="text"
+    placeholder="Descrição *"
+    class="pep-text"
+    formControlName="descricao"
+  ></textarea>
+
+  <div class="btn-group d-flex justify-content-end">
+    <div class="row">
+      <div class="col-md-6">
+          <button
+          class="btn btn-primary green"
+          (click)="save()"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Adicionar
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button
+        class="btn btn-primary"
+        type="submit"
+        (click)="saveAndPrint()"
+        [disabled]="form.invalid"
+      >
+        Adicionar e Imprimir
+      </button>
+      </div>
+    </div>    
+  </div>
+</form>
+
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="formatterProToShow(r)" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ng-template #rts let-r="result" let-t="term">
+  <ngb-highlight [result]="formatterEspecToShow(r)" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ng-container *ngIf="msgAlert">
+  <ngb-alert type="warning" [dismissible]="false">{{ msgAlert }}</ngb-alert>
+</ng-container>

@@ -1,0 +1,72 @@
+<ng-container>
+  <menu-sidebar></menu-sidebar>
+  <article class="main">
+    <section class="pep-left">
+      <div class="patient">
+        <block-personal-info-historico [sequential]="sequential"></block-personal-info-historico>
+      </div>
+      <div class="conditions">
+        <block-conditions-historico [acoes]="false"></block-conditions-historico>
+      </div>
+    </section>
+
+    <section class="pep-center">
+      <div class="filter-box">
+        <block-filter
+          (filtrarLista)="filtrarLista($event)"
+          [tiposServicos]="tiposServicos"
+          [classificacoes]="classificacoes"
+        ></block-filter>
+      </div>
+      <div class="scrollbar-wrapper">
+        <perfect-scrollbar class="perfect-scrollbar" [config]="config">
+          <div class="soa">
+            <block-historico-central
+              [item]="subjetivo"
+              (event)="handlerToggleInSoap($event)"
+              [list]="list"
+              [collapse]="collapse"
+            ></block-historico-central>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </section>
+
+    <section class="pep-right">
+      <div class="changeable">
+        <ng-container>
+          <block-list-lateral
+            [list]="list"
+            (eventListProntuario)="setListProntuario($event)"
+            (closeEvent)="handlerToggleInSoap({ action: 'focus' })"
+          ></block-list-lateral>
+        </ng-container>
+      </div>
+
+      <div class="timer">
+        <block-timer-historico
+          [listProntuariosSelecionados]="listProntuariosSelecionados"
+        ></block-timer-historico>
+      </div>
+    </section>
+  </article>
+</ng-container>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Opss!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ msgError }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">
+      Estou ciente!
+    </button>
+  </div>
+</ng-template>
+
+<loading *ngIf="loading"></loading>

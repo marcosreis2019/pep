@@ -1,0 +1,74 @@
+@import 'src/app/themes/colors';
+@import 'src/app/themes/borders';
+@import 'src/app/themes/fonts';
+
+@mixin flex-col($min, $default) {
+  display: flex;
+  flex-direction: column;
+  min-width: $min;
+  width: $default;
+}
+
+$height: 96%;
+.main {
+  display: flex;
+  height: calc(100% - 60px);
+  /* margin-top: 30px; */ // para usar com a navbbar
+  scrollbar-width: none;
+  .pep-left {
+    @include flex-col(320px, 35%);
+    box-sizing: border-box;
+    padding: 10px 10px 0 10px;
+  }
+
+  .pep-center {
+    @include flex-col(600px, 65%);
+    box-sizing: border-box;
+    padding: 10px 10px 0 10px;
+    overflow-y: scroll;
+  }
+}
+.pep-title {
+  width: 100%;
+  padding: 0 0 10px 10px;
+  h2 {
+    font-size: 24px;
+    span {
+      font-size: 14px;
+    }
+  }
+}
+.pep-content {
+  padding-left: 10px;
+  h3 {
+    color: #000;
+  }
+  color: #000;
+  .modelo-list {
+    list-style-type: none;
+    padding-inline-start: 0.5rem;
+    ul {
+      margin: 12px 0 12px 0;
+    }
+    ul,
+    li {
+      list-style-type: none;
+      padding-inline-start: 0.5rem;
+      input[type='radio'] {
+        min-height: 10px;
+      }
+      label {
+        margin-left: 15px;
+      }
+    }
+  }
+}
+.toast-error {
+  opacity: 1;
+  z-index: 10000;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 20px 20px 0 0;
+}
+
